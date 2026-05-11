@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Controlia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --marine: #0D1B2A;
+    --bleu: #2C5F8A;
+    --bleu-clair: #7BA7D4;
+    --blanc-casse: #F5F7FA;
+    --gris: #888780;
+    --blanc: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanc-casse); color: var(--marine); }
+
+  nav { background: var(--marine); padding: 0 5%; height: 70px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-icon { width: 38px; height: 38px; background: var(--bleu); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--bleu-clair); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--blanc); }
+  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; }
+
+  .page-hero { background: var(--marine); padding: 60px 5% 50px; text-align: center; }
+  .page-hero .tag { display: inline-block; background: rgba(44,95,138,0.2); color: var(--bleu-clair); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px); color: var(--blanc); margin-bottom: 12px; }
+  .page-hero p { font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 300; }
+  .hero-bar { height: 3px; background: var(--bleu); }
+
+  .contact-section { padding: 80px 5%; display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; max-width: 1000px; margin: 0 auto; align-items: start; }
+
+  .contact-info h2 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--marine); margin-bottom: 16px; }
+  .contact-info p { font-size: 15px; color: var(--gris); line-height: 1.7; margin-bottom: 32px; font-weight: 300; }
+
+  .contact-detail { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .contact-detail-icon { width: 36px; height: 36px; background: rgba(44,95,138,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-detail-icon svg { width: 18px; height: 18px; }
+  .contact-detail-text { font-size: 14px; color: var(--marine); }
+  .contact-detail-text a { color: var(--bleu); text-decoration: none; }
+  .contact-detail-text a:hover { text-decoration: underline; }
+
+  .form-card { background: var(--blanc); border-radius: 16px; padding: 40px; border: 1px solid rgba(0,0,0,0.06); }
+
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; color: var(--marine); margin-bottom: 6px; letter-spacing: 0.3px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--marine);
+    background: var(--blanc-casse);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--bleu); background: var(--blanc); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .btn-submit { width: 100%; background: var(--bleu); color: var(--blanc); padding: 14px; border-radius: 8px; border: none; font-size: 15px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s; margin-top: 8px; }
+  .btn-submit:hover { opacity: 0.85; }
+
+  .form-note { font-size: 12px; color: var(--gris); text-align: center; margin-top: 12px; font-weight: 300; }
+
+  footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-copy { font-size: 12px; color: var(--gris); width: 100%; text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: #F5F7FA; border-radius: 2px; }
+  .mobile-menu { display: none; flex-direction: column; background: #0D1B2A; padding: 16px 5%; gap: 4px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .mobile-menu a { color: #7BA7D4; text-decoration: none; font-size: 15px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: DM Sans, sans-serif; }
+  .mobile-menu a:last-child { border-bottom: none; color: #fff; }
+  .mobile-menu.open { display: flex; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .contact-section { grid-template-columns: 1fr; gap: 40px; padding: 50px 5%; }
+    .form-row { grid-template-columns: 1fr; }
+    .page-hero { padding: 40px 5%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="10" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="14" cy="14" r="4" fill="white"/>
+        <line x1="14" y1="4" x2="14" y2="8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="20" x2="14" y2="24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4" y1="14" x2="8" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="14" x2="24" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-name">Controlia</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="offre.html">Notre offre</a></li>
+    <li><a href="contact.html" class="nav-cta">Nous contacter</a></li>
+  </ul>
+  <button class="hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Accueil</a>
+  <a href="offre.html">Notre offre</a>
+  <a href="contact.html">Nous contacter</a>
+</div>
+
+<div class="hero-bar" style="height:0"></div>
+<section class="page-hero">
+  <span class="tag">Échangeons</span>
+  <h1>Parlons de votre<br>visibilité en ligne</h1>
+  <p>Un échange de 15 minutes suffit pour faire le point.</p>
+</section>
+<div class="hero-bar"></div>
+
+<section class="contact-section">
+
+  <div class="contact-info">
+    <h2>Vous faites le premier pas,<br>on fait le reste.</h2>
+    <p>Vous êtes bon dans votre métier — c'est pour ça que vos clients reviennent. Mais combien de futurs clients ne vous ont pas encore trouvé en ligne ?</p>
+    <p style="margin-top: 12px;">Remplissez le formulaire. On revient vers vous sous 24h pour un premier échange simple, sans jargon et sans engagement.</p>
+
+    <div class="contact-detail">
+      <div class="contact-detail-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <div class="contact-detail-text">
+        <a href="mailto:enzo@controlia.agency">enzo@controlia.agency</a>
+      </div>
+    </div>
+
+    <div class="contact-detail">
+      <div class="contact-detail-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+          <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+        </svg>
+      </div>
+      <div class="contact-detail-text">
+        <a href="https://www.linkedin.com/in/enzo-midon-0a5867361/" target="_blank">LinkedIn — Enzo Midon</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <form action="https://formspree.io/f/xkoyywjo" method="POST">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="prenom">Prénom *</label>
+          <input type="text" id="prenom" name="prenom" placeholder="Jean" required>
+        </div>
+        <div class="form-group">
+          <label for="nom">Nom *</label>
+          <input type="text" id="nom" name="nom" placeholder="Dupont" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" placeholder="jean.dupont@gmail.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone</label>
+        <input type="tel" id="telephone" name="telephone" placeholder="06 XX XX XX XX">
+      </div>
+
+      <div class="form-group">
+        <label for="metier">Votre métier *</label>
+        <input type="text" id="metier" name="metier" placeholder="Plombier, électricien, peintre..." required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Votre situation en quelques mots</label>
+        <textarea id="message" name="message" placeholder="Dites-nous où vous en êtes avec votre présence en ligne..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Envoyer ma demande</button>
+      <p class="form-note">Sans engagement — on vous répond sous 24h</p>
+    </form>
+  </div>
+
+</section>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="nav-icon" style="width:32px;height:32px;">
+      <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="10" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="14" cy="14" r="4" fill="white"/>
+        <line x1="14" y1="4" x2="14" y2="8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="20" x2="14" y2="24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4" y1="14" x2="8" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="14" x2="24" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#fff;">Controlia</div>
+      <div style="font-size:12px;font-style:italic;color:#7BA7D4;font-family:'Playfair Display',serif;">Votre métier mérite d'être vu.</div>
+    </div>
+  </div>
+  <nav style="display:flex;gap:24px;">
+    <a href="index.html" style="color:#888780;text-decoration:none;font-size:13px;">Accueil</a>
+    <a href="offre.html" style="color:#888780;text-decoration:none;font-size:13px;">Notre offre</a>
+    <a href="contact.html" style="color:#888780;text-decoration:none;font-size:13px;">Contact</a>
+  </nav>
+  <p class="footer-copy">© 2026 Controlia — enzo@controlia.agency</p>
+</footer>
+
+</body>
+</html>

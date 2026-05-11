@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notre offre — Controlia</title>
+<meta name="description" content="Découvrez l'offre Controlia pour les artisans et TPE locales. Gestion complète de votre visibilité en ligne.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --marine: #0D1B2A;
+    --bleu: #2C5F8A;
+    --bleu-clair: #7BA7D4;
+    --blanc-casse: #F5F7FA;
+    --gris: #888780;
+    --blanc: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanc-casse); color: var(--marine); }
+
+  nav {
+    background: var(--marine);
+    padding: 0 5%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-icon { width: 38px; height: 38px; background: var(--bleu); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--bleu-clair); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--blanc); }
+  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; }
+
+  .page-hero {
+    background: var(--marine);
+    padding: 60px 5% 50px;
+    text-align: center;
+  }
+  .page-hero .tag { display: inline-block; background: rgba(44,95,138,0.2); color: var(--bleu-clair); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px); color: var(--blanc); margin-bottom: 12px; }
+  .page-hero p { font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 300; }
+  .hero-bar { height: 3px; background: var(--bleu); }
+
+  .offre-section { padding: 80px 5%; max-width: 900px; margin: 0 auto; }
+
+  .inclus-title { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--bleu); margin-bottom: 24px; }
+
+  .inclus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+
+  .inclus-item { background: var(--blanc); border-radius: 10px; padding: 20px 24px; border: 1px solid rgba(0,0,0,0.06); display: flex; gap: 14px; align-items: flex-start; }
+  .inclus-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bleu); flex-shrink: 0; margin-top: 6px; }
+  .inclus-item h3 { font-size: 14px; font-weight: 500; color: var(--marine); margin-bottom: 4px; }
+  .inclus-item p { font-size: 13px; color: var(--gris); line-height: 1.5; font-weight: 300; }
+
+  .options-section { background: var(--blanc); border-radius: 12px; padding: 32px; margin-bottom: 32px; border: 1px solid rgba(0,0,0,0.06); }
+  .options-section h3 { font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gris); margin-bottom: 16px; }
+  .option-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 14px; color: var(--marine); }
+  .option-item:last-child { border-bottom: none; }
+  .option-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bleu-clair); flex-shrink: 0; }
+
+  .oneshot-section { background: var(--marine); border-radius: 12px; padding: 32px; margin-bottom: 48px; }
+  .oneshot-section h3 { font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--bleu-clair); margin-bottom: 16px; }
+  .oneshot-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; color: rgba(255,255,255,0.8); }
+  .oneshot-item:last-child { border-bottom: none; }
+  .oneshot-price { color: var(--bleu-clair); font-weight: 500; }
+
+  .cta-offre { background: var(--bleu); border-radius: 12px; padding: 40px; text-align: center; }
+  .cta-offre h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--blanc); margin-bottom: 12px; }
+  .cta-offre p { color: rgba(255,255,255,0.65); margin-bottom: 24px; font-size: 15px; font-weight: 300; }
+  .btn-white { background: var(--blanc); color: var(--bleu); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block; transition: opacity 0.2s; }
+  .btn-white:hover { opacity: 0.9; }
+
+  footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-copy { font-size: 12px; color: var(--gris); width: 100%; text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: #F5F7FA; border-radius: 2px; }
+  .mobile-menu { display: none; flex-direction: column; background: #0D1B2A; padding: 16px 5%; gap: 4px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .mobile-menu a { color: #7BA7D4; text-decoration: none; font-size: 15px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: DM Sans, sans-serif; }
+  .mobile-menu a:last-child { border-bottom: none; color: #fff; }
+  .mobile-menu.open { display: flex; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .inclus-grid { grid-template-columns: 1fr; }
+    .offre-section { padding: 50px 5%; }
+    .page-hero { padding: 40px 5%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-icon">
+      <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="10" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="14" cy="14" r="4" fill="white"/>
+        <line x1="14" y1="4" x2="14" y2="8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="20" x2="14" y2="24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4" y1="14" x2="8" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="14" x2="24" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="nav-name">Controlia</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="offre.html">Notre offre</a></li>
+    <li><a href="contact.html" class="nav-cta">Nous contacter</a></li>
+  </ul>
+  <button class="hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Accueil</a>
+  <a href="offre.html">Notre offre</a>
+  <a href="contact.html">Nous contacter</a>
+</div>
+
+<div class="hero-bar" style="height:0"></div>
+<section class="page-hero">
+  <span class="tag">Transparence totale</span>
+  <h1>Une offre simple,<br>sans surprise</h1>
+  <p>Tout ce qui est inclus, clairement détaillé.</p>
+</section>
+<div class="hero-bar"></div>
+
+<section class="offre-section">
+
+  <p class="inclus-title">Ce qui est inclus chaque mois</p>
+
+  <div class="inclus-grid">
+    <div class="inclus-item">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>Audit initial de présence en ligne</h3>
+        <p>On fait le point sur ce qui existe et ce qui manque.</p>
+      </div>
+    </div>
+    <div class="inclus-item">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>Optimisation fiche Google Business</h3>
+        <p>Votre fiche Google est complète, soignée et visible.</p>
+      </div>
+    </div>
+    <div class="inclus-item">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>Gestion et réponses aux avis Google</h3>
+        <p>Les bons comme les mauvais, avec le bon ton.</p>
+      </div>
+    </div>
+    <div class="inclus-item">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>Stratégie de collecte d'avis</h3>
+        <p>Un système simple pour que vos clients laissent des avis.</p>
+      </div>
+    </div>
+    <div class="inclus-item">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>SEO local</h3>
+        <p>On travaille votre visibilité sur les recherches dans votre zone.</p>
+      </div>
+    </div>
+    <div class="inclus-item">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>4 publications / mois</h3>
+        <p>Vos photos de chantier par WhatsApp, on s'occupe du reste.</p>
+      </div>
+    </div>
+    <div class="inclus-item" style="grid-column: 1 / -1;">
+      <div class="inclus-dot"></div>
+      <div>
+        <h3>Rapport mensuel clair</h3>
+        <p>Vous voyez exactement ce qui a été fait et les résultats chaque mois.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="options-section">
+    <h3>Options sur demande</h3>
+    <div class="option-item"><div class="option-dot"></div>Référencement sur les annuaires locaux (Pages Jaunes, Houzz...)</div>
+    <div class="option-item"><div class="option-dot"></div>Présence sur Bing Places et Apple Maps</div>
+    <div class="option-item"><div class="option-dot"></div>Modèles de réponse aux demandes de devis</div>
+  </div>
+
+  <div class="oneshot-section">
+    <h3>Prestations one-shot</h3>
+    <div class="oneshot-item"><span>Création site WordPress vitrine</span><span class="oneshot-price">Sur devis</span></div>
+    <div class="oneshot-item"><span>Refonte site existant</span><span class="oneshot-price">Sur devis</span></div>
+  </div>
+
+  <div class="cta-offre">
+    <h2>Vous voulez en savoir plus ?</h2>
+    <p>Un échange de 15 minutes suffit pour faire le point sur votre situation.</p>
+    <a href="contact.html" class="btn-white">Prendre contact</a>
+  </div>
+
+</section>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="nav-icon" style="width:32px;height:32px;">
+      <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="10" stroke="white" stroke-width="2" fill="none"/>
+        <circle cx="14" cy="14" r="4" fill="white"/>
+        <line x1="14" y1="4" x2="14" y2="8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="20" x2="14" y2="24" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="4" y1="14" x2="8" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="14" x2="24" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#fff;">Controlia</div>
+      <div style="font-size:12px;font-style:italic;color:#7BA7D4;font-family:'Playfair Display',serif;">Votre métier mérite d'être vu.</div>
+    </div>
+  </div>
+  <nav style="display:flex;gap:24px;">
+    <a href="index.html" style="color:#888780;text-decoration:none;font-size:13px;">Accueil</a>
+    <a href="offre.html" style="color:#888780;text-decoration:none;font-size:13px;">Notre offre</a>
+    <a href="contact.html" style="color:#888780;text-decoration:none;font-size:13px;">Contact</a>
+  </nav>
+  <p class="footer-copy">© 2026 Controlia — enzo@controlia.agency</p>
+</footer>
+
+</body>
+</html>
