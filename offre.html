@@ -117,11 +117,11 @@
     <li><a href="offre.html">Notre offre</a></li>
     <li><a href="contact.html" class="nav-cta">Nous contacter</a></li>
   </ul>
-  <button class="hamburger" onclick="this.nextElementSibling.classList.toggle('open')" aria-label="Menu">
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
-<div class="mobile-menu">
+<div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Accueil</a>
   <a href="offre.html">Notre offre</a>
   <a href="contact.html">Nous contacter</a>
