@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentions légales — Controlia</title>
+<meta name="description" content="Mentions légales du site controlia.agency — Controlia, visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --marine: #0D1B2A;
+    --bleu: #2C5F8A;
+    --bleu-clair: #7BA7D4;
+    --blanc-casse: #F5F7FA;
+    --gris: #888780;
+    --blanc: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanc-casse); color: var(--marine); }
+
+  nav { background: var(--marine); padding: 0 5%; height: 70px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-icon { width: 38px; height: 38px; background: rgba(44, 95, 138, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); }
+  .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--bleu-clair); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--blanc); }
+  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; }
+
+  .page-hero { background: var(--marine); padding: 60px 5% 50px; text-align: center; position: relative; overflow: hidden; }
+  .page-hero::before { content: ''; position: absolute; right: -100px; top: -100px; width: 400px; height: 400px; border-radius: 50%; background: rgba(44,95,138,0.08); pointer-events: none; }
+  .page-hero::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(44,95,138,0.06); pointer-events: none; }
+  .page-hero .tag { display: inline-block; background: rgba(44,95,138,0.2); color: var(--bleu-clair); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; position: relative; z-index: 1; }
+  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px); color: var(--blanc); margin-bottom: 12px; position: relative; z-index: 1; }
+  .page-hero p { font-size: 15px; color: rgba(255,255,255,0.55); font-weight: 300; position: relative; z-index: 1; }
+  .hero-bar { height: 3px; background: var(--bleu); }
+
+  .mentions-section { max-width: 800px; margin: 0 auto; padding: 60px 5%; }
+
+  .mentions-block { background: var(--blanc); border-radius: 12px; padding: 32px; border: 1px solid rgba(0,0,0,0.06); margin-bottom: 20px; }
+
+  .mentions-block h2 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--marine); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--bleu); display: inline-block; }
+
+  .mentions-block p { font-size: 14px; color: var(--gris); line-height: 1.8; margin-bottom: 10px; font-weight: 300; }
+  .mentions-block p:last-child { margin-bottom: 0; }
+
+  .mentions-block strong { color: var(--marine); font-weight: 500; }
+
+  .mentions-block a { color: var(--bleu); text-decoration: none; }
+  .mentions-block a:hover { text-decoration: underline; }
+
+  .mentions-block ul { margin: 10px 0 10px 20px; }
+  .mentions-block ul li { font-size: 14px; color: var(--gris); line-height: 1.8; font-weight: 300; margin-bottom: 4px; }
+
+  footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-copy { font-size: 12px; color: var(--gris); width: 100%; text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: #F5F7FA; border-radius: 2px; }
+  .mobile-menu { display: none; flex-direction: column; background: #0D1B2A; padding: 16px 5%; gap: 4px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .mobile-menu a { color: #7BA7D4; text-decoration: none; font-size: 15px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: DM Sans, sans-serif; }
+  .mobile-menu a:last-child { border-bottom: none; color: #fff; }
+  .mobile-menu.open { display: flex; }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .mentions-section { padding: 40px 5%; }
+    .mentions-block { padding: 24px; }
+    .page-hero { padding: 40px 5%; }
+  }
+</style>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-icon">
+      <img src="logo_controlia_icon.png" alt="Controlia logo" style="width:28px;height:28px;object-fit:contain;"/>
+    </div>
+    <span class="nav-name">Controlia</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="offre.html">Notre offre</a></li>
+    <li><a href="contact.html" class="nav-cta">Nous contacter</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Accueil</a>
+  <a href="offre.html">Notre offre</a>
+  <a href="contact.html">Nous contacter</a>
+</div>
+
+<div class="hero-bar" style="height:0"></div>
+<section class="page-hero">
+  <span class="tag">Transparence</span>
+  <h1>Mentions légales</h1>
+  <p>Conformément à la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique.</p>
+</section>
+<div class="hero-bar"></div>
+
+<div class="mentions-section">
+
+  <div class="mentions-block">
+    <h2>Éditeur du site</h2>
+    <p><strong>Raison sociale :</strong> Controlia</p>
+    <p><strong>Statut :</strong> Entrepreneur individuel</p>
+    <p><strong>Responsable de la publication :</strong> MIDON Enzo</p>
+    <p><strong>Adresse :</strong> 4 Impasse des Cerisiers, 31600 Saint-Clar-de-Rivière, France</p>
+    <p><strong>Email :</strong> <a href="mailto:enzo@controlia.agency">enzo@controlia.agency</a></p>
+    <p><strong>Site web :</strong> <a href="https://controlia.agency">controlia.agency</a></p>
+    <p><strong>SIRET :</strong> [À COMPLÉTER]</p>
+    <p><strong>Numéro de téléphone :</strong> [À COMPLÉTER]</p>
+    <p><strong>TVA :</strong> Non applicable — franchise en base de TVA, article 293 B du CGI</p>
+  </div>
+
+  <div class="mentions-block">
+    <h2>Hébergement</h2>
+    <p><strong>Hébergeur :</strong> Netlify, Inc.</p>
+    <p><strong>Adresse :</strong> 512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis</p>
+    <p><strong>Site :</strong> <a href="https://www.netlify.com" target="_blank">www.netlify.com</a></p>
+  </div>
+
+  <div class="mentions-block">
+    <h2>Propriété intellectuelle</h2>
+    <p>L'ensemble des contenus présents sur le site <strong>controlia.agency</strong> — textes, visuels, logo, charte graphique — sont la propriété exclusive de Controlia et sont protégés par les lois françaises et internationales relatives à la propriété intellectuelle.</p>
+    <p>Toute reproduction, représentation, modification ou exploitation, totale ou partielle, du contenu de ce site est interdite sans l'autorisation préalable et écrite de l'éditeur.</p>
+  </div>
+
+  <div class="mentions-block">
+    <h2>Données personnelles</h2>
+    <p>Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez des droits suivants concernant vos données personnelles :</p>
+    <ul>
+      <li>Droit d'accès à vos données</li>
+      <li>Droit de rectification</li>
+      <li>Droit à l'effacement (droit à l'oubli)</li>
+      <li>Droit à la limitation du traitement</li>
+      <li>Droit d'opposition</li>
+    </ul>
+    <p style="margin-top:12px;"><strong>Données collectées via le formulaire de contact :</strong> prénom, nom, email, téléphone, métier et message. Ces données sont utilisées uniquement pour répondre à votre demande et ne sont jamais transmises à des tiers.</p>
+    <p>Pour exercer vos droits, contactez-nous à : <a href="mailto:enzo@controlia.agency">enzo@controlia.agency</a></p>
+  </div>
+
+  <div class="mentions-block">
+    <h2>Cookies</h2>
+    <p>Le site <strong>controlia.agency</strong> n'utilise pas de cookies de traçage ou publicitaires.</p>
+    <p>Des cookies techniques strictement nécessaires au bon fonctionnement du site peuvent être déposés. Ils ne collectent aucune donnée personnelle et ne nécessitent pas de consentement préalable.</p>
+  </div>
+
+  <div class="mentions-block">
+    <h2>Responsabilité</h2>
+    <p>Controlia s'efforce d'assurer l'exactitude et la mise à jour des informations publiées sur ce site. Toutefois, Controlia ne peut garantir l'exactitude, la complétude ou l'actualité des informations diffusées.</p>
+    <p>Controlia décline toute responsabilité pour tout dommage résultant de l'utilisation de ce site ou de l'impossibilité d'y accéder.</p>
+  </div>
+
+  <div class="mentions-block">
+    <h2>Droit applicable</h2>
+    <p>Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+    <p>Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter à l'adresse : <a href="mailto:enzo@controlia.agency">enzo@controlia.agency</a></p>
+  </div>
+
+</div>
+
+<footer>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="nav-icon" style="width:32px;height:32px;">
+      <img src="logo_controlia_icon.png" alt="Controlia logo" style="width:28px;height:28px;object-fit:contain;"/>
+    </div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#fff;">Controlia</div>
+      <div style="font-size:12px;font-style:italic;color:#7BA7D4;font-family:'Playfair Display',serif;">Votre métier mérite d'être vu.</div>
+    </div>
+  </div>
+  <nav style="display:flex;gap:24px;background:transparent;padding:0;height:auto;position:static;">
+    <a href="index.html" style="color:#888780;text-decoration:none;font-size:13px;">Accueil</a>
+    <a href="offre.html" style="color:#888780;text-decoration:none;font-size:13px;">Notre offre</a>
+    <a href="contact.html" style="color:#888780;text-decoration:none;font-size:13px;">Contact</a>
+    <a href="mentions-legales.html" style="color:#888780;text-decoration:none;font-size:13px;">Mentions légales</a>
+  </nav>
+  <p class="footer-copy">© 2026 Controlia — enzo@controlia.agency</p>
+</footer>
+
+</body>
+</html>
