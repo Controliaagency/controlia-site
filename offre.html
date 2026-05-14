@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Notre offre — Controlia</title>
-<meta name="description" content="Découvrez l'offre Controlia pour les artisans et TPE locales. Gestion complète de votre visibilité en ligne.">
+<title>Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie</title>
+<meta name="description" content="Controlia accompagne les paysagistes, piscinistes et artisans du cadre de vie dans leur visibilité en ligne. Google Business, avis clients, réseaux sociaux, site web.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -16,8 +16,15 @@
     --gris: #888780;
     --blanc: #FFFFFF;
   }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--blanc-casse); color: var(--marine); }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--blanc-casse);
+    color: var(--marine);
+    overflow-x: hidden;
+  }
 
   nav {
     background: var(--marine);
@@ -30,54 +37,69 @@
     top: 0;
     z-index: 100;
   }
+
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .nav-icon { width: 38px; height: 38px; background: rgba(44, 95, 138, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-  .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); }
+  .nav-icon { width: 38px; height: 38px; background: rgba(44, 95, 138, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); letter-spacing: -0.3px; }
   .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-  .nav-links a { color: var(--bleu-clair); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+  .nav-links a { color: var(--bleu-clair); text-decoration: none; font-size: 14px; font-weight: 400; transition: color 0.2s; }
   .nav-links a:hover { color: var(--blanc); }
-  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; }
+  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; transition: opacity 0.2s !important; }
+  .nav-cta:hover { opacity: 0.85; }
 
-  .page-hero {
-    background: var(--marine);
-    padding: 60px 5% 50px;
-    text-align: center;
-  }
-  .page-hero .tag { display: inline-block; background: rgba(44,95,138,0.2); color: var(--bleu-clair); font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; }
-  .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px); color: var(--blanc); margin-bottom: 12px; }
-  .page-hero p { font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 300; }
-  .hero-bar { height: 3px; background: var(--bleu); }
+  .hero { background: var(--marine); padding: 100px 5% 80px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; right: -100px; top: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(44, 95, 138, 0.08); }
+  .hero::after { content: ''; position: absolute; left: 30%; bottom: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(44, 95, 138, 0.05); }
+  .hero-content { max-width: 700px; position: relative; z-index: 1; }
+  .hero-tag { display: inline-block; background: rgba(44, 95, 138, 0.2); color: var(--bleu-clair); font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 58px); font-weight: 700; color: var(--blanc); line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.5px; }
+  .hero h1 em { font-style: italic; color: var(--bleu-clair); }
+  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 40px; font-weight: 300; max-width: 520px; }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary { background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary { background: transparent; color: var(--bleu-clair); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 400; border: 1px solid rgba(123, 167, 212, 0.3); transition: border-color 0.2s; }
+  .btn-secondary:hover { border-color: var(--bleu-clair); }
+  .hero-bar { height: 3px; background: var(--bleu); margin-top: 0; }
 
-  .offre-section { padding: 80px 5%; max-width: 900px; margin: 0 auto; }
+  .stats { background: var(--blanc); padding: 40px 5%; display: flex; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .stat { flex: 1; text-align: center; padding: 20px; border-right: 1px solid rgba(0,0,0,0.06); }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--bleu); display: block; }
+  .stat-label { font-size: 13px; color: var(--gris); margin-top: 4px; }
 
-  .inclus-title { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--bleu); margin-bottom: 24px; }
+  .services { padding: 80px 5%; background: var(--blanc-casse); }
+  .section-tag { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--bleu); margin-bottom: 12px; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--marine); margin-bottom: 48px; max-width: 500px; line-height: 1.2; }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .service-card { background: var(--blanc); border-radius: 12px; padding: 28px; border: 1px solid rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s; }
+  .service-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13, 27, 42, 0.08); }
+  .service-icon { width: 44px; height: 44px; background: rgba(44, 95, 138, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .service-icon svg { width: 22px; height: 22px; }
+  .service-card h3 { font-size: 16px; font-weight: 500; color: var(--marine); margin-bottom: 8px; }
+  .service-card p { font-size: 14px; color: var(--gris); line-height: 1.6; font-weight: 300; }
 
-  .inclus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 48px; }
+  .pourquoi { background: var(--marine); padding: 80px 5%; }
+  .pourquoi .section-tag { color: var(--bleu-clair); }
+  .pourquoi .section-title { color: var(--blanc); }
+  .pourquoi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .pourquoi-text p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 20px; font-weight: 300; }
+  .pourquoi-text strong { color: var(--blanc); font-weight: 500; }
+  .pourquoi-quote { background: rgba(44, 95, 138, 0.15); border-left: 3px solid var(--bleu); border-radius: 0 12px 12px 0; padding: 32px; }
+  .pourquoi-quote blockquote { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: var(--blanc); line-height: 1.5; margin-bottom: 16px; }
+  .pourquoi-quote cite { font-size: 13px; color: var(--bleu-clair); font-style: normal; letter-spacing: 1px; text-transform: uppercase; }
 
-  .inclus-item { background: var(--blanc); border-radius: 10px; padding: 20px 24px; border: 1px solid rgba(0,0,0,0.06); display: flex; gap: 14px; align-items: flex-start; }
-  .inclus-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bleu); flex-shrink: 0; margin-top: 6px; }
-  .inclus-item h3 { font-size: 14px; font-weight: 500; color: var(--marine); margin-bottom: 4px; }
-  .inclus-item p { font-size: 13px; color: var(--gris); line-height: 1.5; font-weight: 300; }
-
-  .options-section { background: var(--blanc); border-radius: 12px; padding: 32px; margin-bottom: 32px; border: 1px solid rgba(0,0,0,0.06); }
-  .options-section h3 { font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gris); margin-bottom: 16px; }
-  .option-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 14px; color: var(--marine); }
-  .option-item:last-child { border-bottom: none; }
-  .option-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bleu-clair); flex-shrink: 0; }
-
-  .oneshot-section { background: var(--marine); border-radius: 12px; padding: 32px; margin-bottom: 48px; }
-  .oneshot-section h3 { font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--bleu-clair); margin-bottom: 16px; }
-  .oneshot-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; color: rgba(255,255,255,0.8); }
-  .oneshot-item:last-child { border-bottom: none; }
-  .oneshot-price { color: var(--bleu-clair); font-weight: 500; }
-
-  .cta-offre { background: var(--bleu); border-radius: 12px; padding: 40px; text-align: center; }
-  .cta-offre h2 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--blanc); margin-bottom: 12px; }
-  .cta-offre p { color: rgba(255,255,255,0.65); margin-bottom: 24px; font-size: 15px; font-weight: 300; }
-  .btn-white { background: var(--blanc); color: var(--bleu); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; display: inline-block; transition: opacity 0.2s; }
-  .btn-white:hover { opacity: 0.9; }
+  .cta-section { background: var(--blanc-casse); padding: 80px 5%; text-align: center; }
+  .cta-section .section-title { margin: 0 auto 16px; text-align: center; }
+  .cta-section p { font-size: 16px; color: var(--gris); margin-bottom: 32px; font-weight: 300; }
 
   footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--blanc); }
+  .footer-slogan { font-size: 12px; font-style: italic; color: var(--bleu-clair); font-family: 'Playfair Display', serif; }
+  footer nav { background: transparent; padding: 0; height: auto; position: static; gap: 24px; }
+  footer nav a { color: var(--gris); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  footer nav a:hover { color: var(--blanc); }
   .footer-copy { font-size: 12px; color: var(--gris); width: 100%; text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
 
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
@@ -90,9 +112,16 @@
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .hamburger { display: flex; }
-    .inclus-grid { grid-template-columns: 1fr; }
-    .offre-section { padding: 50px 5%; }
-    .page-hero { padding: 40px 5%; }
+    .pourquoi-grid { grid-template-columns: 1fr; }
+    .stats { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
+    .stat:last-child { border-bottom: none; }
+    .hero { padding: 60px 5% 40px; }
+    .services { padding: 50px 5%; }
+    .pourquoi { padding: 50px 5%; }
+    .cta-section { padding: 50px 5%; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary, .btn-secondary { text-align: center; }
   }
 </style>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -100,6 +129,16 @@
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Controlia">
+<meta property="og:title" content="Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie">
+<meta property="og:description" content="Controlia accompagne les paysagistes, piscinistes et artisans du cadre de vie dans leur visibilité en ligne. Google Business, avis clients, SEO local, réseaux sociaux.">
+<meta property="og:url" content="https://controlia.agency/">
+<meta property="og:image" content="https://controlia.agency/logo_controlia_icon.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie">
+<meta name="twitter:description" content="Controlia accompagne les paysagistes, piscinistes et artisans du cadre de vie dans leur visibilité en ligne. Google Business, avis clients, SEO local, réseaux sociaux.">
+<link rel="canonical" href="https://controlia.agency/">
 </head>
 <body>
 
@@ -126,103 +165,146 @@
 </div>
 
 <div class="hero-bar" style="height:0"></div>
-<section class="page-hero" style="position:relative; overflow:hidden;">
-  <div style="position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:rgba(44,95,138,0.08);pointer-events:none;"></div>
-  <div style="position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;border-radius:50%;background:rgba(44,95,138,0.06);pointer-events:none;"></div>
-  <span class="tag">Transparence totale</span>
-  <h1>Une offre simple,<br>sans surprise</h1>
-  <p>Tout ce qui est inclus, clairement détaillé.</p>
+
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">Paysagistes, piscinistes & artisans du cadre de vie</span>
+    <h1>Votre métier mérite<br><em>d'être vu.</em></h1>
+    <p class="hero-sub">Votre réputation se construit réalisation après réalisation. On s'assure qu'elle se voit aussi en ligne.</p>
+    <div class="hero-btns">
+      <a href="contact.html" class="btn-primary">Prendre contact</a>
+      <a href="offre.html" class="btn-secondary">Découvrir l'offre</a>
+    </div>
+  </div>
 </section>
 <div class="hero-bar"></div>
 
-<section class="offre-section">
+<section class="stats">
+  <div class="stat">
+    <span class="stat-num">93%</span>
+    <p class="stat-label">des particuliers consultent Google avant de choisir leur prestataire.</p>
+  </div>
+  <div class="stat">
+    <span class="stat-num">100%</span>
+    <p class="stat-label">géré pour vous — zéro temps perdu</p>
+  </div>
+  <div class="stat">
+    <span class="stat-num">0</span>
+    <p class="stat-label">engagement — vous restez libre à tout moment</p>
+  </div>
+</section>
 
-  <p class="inclus-title">Ce qui est inclus chaque mois</p>
-
-  <div class="inclus-grid">
-    <div class="inclus-item">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>Audit initial de présence en ligne</h3>
-        <p>On fait le point sur ce qui existe et ce qui manque.</p>
+<section class="services">
+  <p class="section-tag">Ce qu'on fait pour vous</p>
+  <h2 class="section-title">Tout ce dont vous avez besoin, en un seul contact</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+          <line x1="12" y1="4" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="20"/>
+          <line x1="4" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="20" y2="12"/>
+        </svg>
       </div>
+      <h3>Fiche Google Business</h3>
+      <p>Votre fiche Google est complète, soignée et visible. Vos clients trouvent vos infos facilement.</p>
     </div>
-    <div class="inclus-item">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>Optimisation fiche Google Business</h3>
-        <p>Votre fiche Google est complète, soignée et visible.</p>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
       </div>
+      <h3>Gestion des avis Google</h3>
+      <p>On répond à tous vos avis — les bons comme les mauvais — avec le bon ton et les bons mots.</p>
     </div>
-    <div class="inclus-item">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>Gestion et réponses aux avis Google</h3>
-        <p>Les bons comme les mauvais, avec le bon ton.</p>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
       </div>
+      <h3>SEO local</h3>
+      <p>On travaille votre visibilité sur les recherches Google dans votre zone géographique.</p>
     </div>
-    <div class="inclus-item">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>Stratégie de collecte d'avis</h3>
-        <p>Un système simple pour que vos clients laissent des avis.</p>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
       </div>
+      <h3>Réseaux sociaux & site web</h3>
+      <p>4 publications par mois avec les photos de vos réalisations. Vous envoyez par WhatsApp, on s'occupe du reste.</p>
     </div>
-    <div class="inclus-item">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>SEO local</h3>
-        <p>On travaille votre visibilité sur les recherches dans votre zone.</p>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
       </div>
+      <h3>Stratégie de collecte d'avis</h3>
+      <p>On met en place un système simple pour que vos clients satisfaits laissent des avis automatiquement.</p>
     </div>
-    <div class="inclus-item">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>4 publications / mois</h3>
-        <p>Vos photos de chantier par WhatsApp, on s'occupe du reste.</p>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
       </div>
-    </div>
-    <div class="inclus-item" style="grid-column: 1 / -1;">
-      <div class="inclus-dot"></div>
-      <div>
-        <h3>Rapport mensuel clair</h3>
-        <p>Vous voyez exactement ce qui a été fait et les résultats chaque mois.</p>
-      </div>
+      <h3>Rapport mensuel clair</h3>
+      <p>Chaque mois vous recevez un bilan simple. Vous voyez exactement ce qui a été fait et les résultats.</p>
     </div>
   </div>
+</section>
 
-  <div class="options-section">
-    <h3>Options sur demande</h3>
-    <div class="option-item"><div class="option-dot"></div>Référencement sur les annuaires locaux (Pages Jaunes, Houzz...)</div>
-    <div class="option-item"><div class="option-dot"></div>Présence sur Bing Places et Apple Maps</div>
-    <div class="option-item"><div class="option-dot"></div>Modèles de réponse aux demandes de devis</div>
+<div style="padding: 0 5% 48px; background: var(--blanc-casse);">
+  <div style="background: var(--marine); border-radius: 16px; padding: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+    <div>
+      <p style="font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--bleu-clair); margin-bottom: 8px;">Notre offre</p>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--blanc); margin-bottom: 8px;">Tout inclus à 490€/mois — sans engagement.</h3>
+      <p style="font-size: 14px; color: rgba(255,255,255,0.55); font-weight: 300;">Un seul contact, résiliable à tout moment.</p>
+    </div>
+    <a href="offre.html" style="background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap; transition: opacity 0.2s;">Découvrir l'offre complète</a>
   </div>
+</div>
 
-  <div class="oneshot-section">
-    <h3>Prestations one-shot</h3>
-    <div class="oneshot-item"><span>Création site WordPress vitrine</span><span class="oneshot-price">Sur devis</span></div>
-    <div class="oneshot-item"><span>Refonte site existant</span><span class="oneshot-price">Sur devis</span></div>
+
+
+<section class="pourquoi">
+  <p class="section-tag">Qui sommes-nous</p>
+  <h2 class="section-title">Un projet né d'une conviction</h2>
+  <div class="pourquoi-grid">
+    <div class="pourquoi-text">
+      <p>Je suis <strong>Enzo</strong>, fondateur de Controlia. J'ai 22 ans et j'ai décidé de mettre le digital au service des artisans & TPE Locales.</p>
+      <p>Ce qui me motive, c'est simple : <strong>trop de paysagistes et piscinistes talentueux sont invisibles en ligne</strong> alors qu'ils méritent d'être vus. J'ai créé Controlia pour changer ça, un professionnel à la fois.</p>
+      <p>Les métiers manuels ont un bel avenir devant eux. Autant leur donner la visibilité qu'ils méritent dès maintenant.</p>
+    </div>
+    <div class="pourquoi-quote">
+      <blockquote>"Votre métier mérite d'être vu."</blockquote>
+      <cite>Enzo Midon — Fondateur, Controlia</cite>
+    </div>
   </div>
+</section>
 
-  <div class="cta-offre">
-    <h2>Vous voulez en savoir plus ?</h2>
-    <p>Un échange de 15 minutes suffit pour faire le point sur votre situation.</p>
-    <a href="contact.html" class="btn-white">Prendre contact</a>
-  </div>
-
+<section class="cta-section">
+  <p class="section-tag" style="text-align:center;">Passons à l'action</p>
+  <h2 class="section-title">Prêt à être visible en ligne ?</h2>
+  <p>Un échange de 15 minutes suffit pour faire le point sur votre situation et voir ce qu'on peut améliorer.</p>
+  <a href="contact.html" class="btn-primary">Prendre contact gratuitement</a>
 </section>
 
 <footer>
-  <div style="display:flex;align-items:center;gap:10px;">
+  <div class="footer-logo">
     <div class="nav-icon" style="width:32px;height:32px;">
       <img src="logo_controlia_icon.png" alt="Controlia logo" style="width:28px;height:28px;object-fit:contain;"/>
     </div>
     <div>
-      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#fff;">Controlia</div>
-      <div style="font-size:12px;font-style:italic;color:#7BA7D4;font-family:'Playfair Display',serif;">Votre métier mérite d'être vu.</div>
+      <div class="footer-name">Controlia</div>
+      <div class="footer-slogan">Votre métier mérite d'être vu.</div>
     </div>
   </div>
-  <nav style="display:flex;gap:24px;">
+  <nav style="display:flex;gap:24px;background:transparent;padding:0;height:auto;position:static;">
     <a href="index.html" style="color:#888780;text-decoration:none;font-size:13px;">Accueil</a>
     <a href="offre.html" style="color:#888780;text-decoration:none;font-size:13px;">Notre offre</a>
     <a href="contact.html" style="color:#888780;text-decoration:none;font-size:13px;">Contact</a>
