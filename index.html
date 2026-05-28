@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie</title>
-<meta name="description" content="Controlia accompagne les paysagistes, piscinistes et artisans du cadre de vie dans leur visibilité en ligne. Google Business, avis clients, réseaux sociaux, site web.">
+<meta name="description" content="Controlia construit votre présence digitale de A à Z. Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -16,28 +16,9 @@
     --gris: #888780;
     --blanc: #FFFFFF;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--blanc-casse);
-    color: var(--marine);
-    overflow-x: hidden;
-  }
-
-  nav {
-    background: var(--marine);
-    padding: 0 5%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
+  body { font-family: 'DM Sans', sans-serif; background: var(--blanc-casse); color: var(--marine); overflow-x: hidden; }
+  nav { background: var(--marine); padding: 0 5%; height: 70px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
   .nav-icon { width: 38px; height: 38px; background: rgba(44, 95, 138, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); letter-spacing: -0.3px; }
@@ -46,7 +27,6 @@
   .nav-links a:hover { color: var(--blanc); }
   .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; transition: opacity 0.2s !important; }
   .nav-cta:hover { opacity: 0.85; }
-
   .hero { background: var(--marine); padding: 100px 5% 80px; position: relative; overflow: hidden; }
   .hero::before { content: ''; position: absolute; right: -100px; top: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(44, 95, 138, 0.08); }
   .hero::after { content: ''; position: absolute; left: 30%; bottom: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(44, 95, 138, 0.05); }
@@ -61,16 +41,15 @@
   .btn-secondary { background: transparent; color: var(--bleu-clair); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 400; border: 1px solid rgba(123, 167, 212, 0.3); transition: border-color 0.2s; }
   .btn-secondary:hover { border-color: var(--bleu-clair); }
   .hero-bar { height: 3px; background: var(--bleu); margin-top: 0; }
-
   .stats { background: var(--blanc); padding: 40px 5%; display: flex; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .stat { flex: 1; text-align: center; padding: 20px; border-right: 1px solid rgba(0,0,0,0.06); }
   .stat:last-child { border-right: none; }
   .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--bleu); display: block; }
   .stat-label { font-size: 13px; color: var(--gris); margin-top: 4px; }
-
   .services { padding: 80px 5%; background: var(--blanc-casse); }
   .section-tag { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--bleu); margin-bottom: 12px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--marine); margin-bottom: 48px; max-width: 500px; line-height: 1.2; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 40px); font-weight: 700; color: var(--marine); margin-bottom: 16px; max-width: 600px; line-height: 1.2; }
+  .section-intro { font-size: 16px; color: var(--gris); line-height: 1.7; margin-bottom: 48px; max-width: 600px; font-weight: 300; }
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
   .service-card { background: var(--blanc); border-radius: 12px; padding: 28px; border: 1px solid rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s; }
   .service-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13, 27, 42, 0.08); }
@@ -78,7 +57,6 @@
   .service-icon svg { width: 22px; height: 22px; }
   .service-card h3 { font-size: 16px; font-weight: 500; color: var(--marine); margin-bottom: 8px; }
   .service-card p { font-size: 14px; color: var(--gris); line-height: 1.6; font-weight: 300; }
-
   .pourquoi { background: var(--marine); padding: 80px 5%; }
   .pourquoi .section-tag { color: var(--bleu-clair); }
   .pourquoi .section-title { color: var(--blanc); }
@@ -88,11 +66,9 @@
   .pourquoi-quote { background: rgba(44, 95, 138, 0.15); border-left: 3px solid var(--bleu); border-radius: 0 12px 12px 0; padding: 32px; }
   .pourquoi-quote blockquote { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: var(--blanc); line-height: 1.5; margin-bottom: 16px; }
   .pourquoi-quote cite { font-size: 13px; color: var(--bleu-clair); font-style: normal; letter-spacing: 1px; text-transform: uppercase; }
-
   .cta-section { background: var(--blanc-casse); padding: 80px 5%; text-align: center; }
   .cta-section .section-title { margin: 0 auto 16px; text-align: center; }
   .cta-section p { font-size: 16px; color: var(--gris); margin-bottom: 32px; font-weight: 300; }
-
   footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .footer-logo { display: flex; align-items: center; gap: 10px; }
   .footer-name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--blanc); }
@@ -101,14 +77,12 @@
   footer nav a { color: var(--gris); text-decoration: none; font-size: 13px; transition: color 0.2s; }
   footer nav a:hover { color: var(--blanc); }
   .footer-copy { font-size: 12px; color: var(--gris); width: 100%; text-align: center; margin-top: 24px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
-
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
   .hamburger span { display: block; width: 24px; height: 2px; background: #F5F7FA; border-radius: 2px; }
   .mobile-menu { display: none; flex-direction: column; background: #0D1B2A; padding: 16px 5%; gap: 4px; border-top: 1px solid rgba(255,255,255,0.06); }
   .mobile-menu a { color: #7BA7D4; text-decoration: none; font-size: 15px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: DM Sans, sans-serif; }
   .mobile-menu a:last-child { border-bottom: none; color: #fff; }
   .mobile-menu.open { display: flex; }
-
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .hamburger { display: flex; }
@@ -132,12 +106,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Controlia">
 <meta property="og:title" content="Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie">
-<meta property="og:description" content="Controlia accompagne les paysagistes, piscinistes et artisans du cadre de vie dans leur visibilité en ligne. Google Business, avis clients, SEO local, réseaux sociaux.">
+<meta property="og:description" content="Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.">
 <meta property="og:url" content="https://controlia.agency/">
 <meta property="og:image" content="https://controlia.agency/logo_controlia_icon.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie">
-<meta name="twitter:description" content="Controlia accompagne les paysagistes, piscinistes et artisans du cadre de vie dans leur visibilité en ligne. Google Business, avis clients, SEO local, réseaux sociaux.">
+<meta name="twitter:description" content="Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.">
 <link rel="canonical" href="https://controlia.agency/">
 </head>
 <body>
@@ -165,18 +139,16 @@
 </div>
 
 <div class="hero-bar" style="height:0"></div>
-
 <section class="hero" style="display:flex;align-items:center;gap:40px;">
   <div class="hero-content">
     <span class="hero-tag">Paysagistes, piscinistes & artisans du cadre de vie</span>
     <h1>Votre métier mérite<br><em>d'être vu.</em></h1>
-    <p class="hero-sub">Votre réputation se construit réalisation après réalisation. On s'assure qu'elle se voit aussi en ligne.</p>
+    <p class="hero-sub">Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.</p>
     <div class="hero-btns">
       <a href="contact.html" class="btn-primary">Prendre contact</a>
       <a href="offre.html" class="btn-secondary">Découvrir l'offre</a>
     </div>
   </div>
-
   <div class="hero-schema" aria-hidden="true">
     <style>
       .hero-schema { display: none; }
@@ -271,9 +243,11 @@
 </section>
 
 <section class="services">
-  <p class="section-tag">Ce qu'on fait pour vous</p>
-  <h2 class="section-title">Tout ce dont vous avez besoin, en un seul contact</h2>
+  <p class="section-tag">Notre approche</p>
+  <h2 class="section-title">Un écosystème digital construit pour vous</h2>
+  <p class="section-intro">On ne gère pas des outils séparément. On construit une présence cohérente où chaque canal renforce les autres — pour que partout où vos clients vous cherchent, ils trouvent la même image : professionnelle, soignée, à votre image.</p>
   <div class="services-grid">
+
     <div class="service-card">
       <div class="service-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
@@ -283,44 +257,49 @@
         </svg>
       </div>
       <h3>Fiche Google Business</h3>
-      <p>Votre fiche Google est complète, soignée et visible. Vos clients trouvent vos infos facilement.</p>
+      <p>Le point d'entrée de votre présence. Complète, soignée, optimisée — elle donne le ton de tout ce qui suit.</p>
     </div>
+
     <div class="service-card">
       <div class="service-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
           <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
         </svg>
       </div>
-      <h3>Gestion des avis Google</h3>
-      <p>On répond à tous vos avis — les bons comme les mauvais — avec le bon ton et les bons mots.</p>
+      <h3>Réputation & avis clients</h3>
+      <p>On gère chaque avis avec le bon ton. Un avis bien répondu, c'est un futur client convaincu avant même de vous appeler.</p>
     </div>
+
     <div class="service-card">
       <div class="service-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
           <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
         </svg>
       </div>
-      <h3>SEO local</h3>
-      <p>On travaille votre visibilité sur les recherches Google dans votre zone géographique.</p>
+      <h3>Référencement local</h3>
+      <p>On travaille votre visibilité sur les recherches de votre zone. Quand quelqu'un cherche votre métier près de chez lui, vous apparaissez.</p>
     </div>
+
     <div class="service-card">
       <div class="service-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
           <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
         </svg>
       </div>
-      <h3>Réseaux sociaux & site web</h3>
-      <p>4 publications par mois avec les photos de vos réalisations. Vous envoyez par WhatsApp, on s'occupe du reste.</p>
+      <h3>Présence sur les réseaux</h3>
+      <p>Vos réalisations mises en valeur chaque semaine. Vous envoyez vos photos par WhatsApp, on construit votre image.</p>
     </div>
+
     <div class="service-card">
       <div class="service-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
         </svg>
       </div>
-      <h3>Stratégie de collecte d'avis</h3>
-      <p>On met en place un système simple pour que vos clients satisfaits laissent des avis automatiquement.</p>
+      <h3>Stratégie d'avis clients</h3>
+      <p>Un système simple pour que vos clients satisfaits parlent pour vous. Plus d'avis, plus de confiance, plus de clients.</p>
     </div>
+
     <div class="service-card">
       <div class="service-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round">
@@ -328,9 +307,10 @@
           <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
         </svg>
       </div>
-      <h3>Rapport mensuel clair</h3>
-      <p>Chaque mois vous recevez un bilan simple. Vous voyez exactement ce qui a été fait et les résultats.</p>
+      <h3>Rapport mensuel</h3>
+      <p>Chaque mois, un bilan clair de ce qui a été fait et des résultats obtenus. Vous voyez exactement où en est votre présence en ligne.</p>
     </div>
+
   </div>
 </section>
 
@@ -345,19 +325,17 @@
   </div>
 </div>
 
-
-
 <section class="pourquoi">
   <p class="section-tag">Qui sommes-nous</p>
   <h2 class="section-title">Un projet né d'une conviction</h2>
   <div class="pourquoi-grid">
     <div class="pourquoi-text">
       <p>Je suis <strong>Enzo</strong>, fondateur de Controlia. J'ai 22 ans et j'ai décidé de mettre le digital au service des artisans du cadre de vie extérieur.</p>
-      <p>Ce qui me motive, c'est simple : <strong>trop de paysagistes et piscinistes talentueux sont invisibles en ligne</strong> alors qu'ils méritent d'être vus. J'ai créé Controlia pour changer ça, un professionnel à la fois.</p>
-      <p>Les métiers manuels ont un bel avenir devant eux. Autant leur donner la visibilité qu'ils méritent dès maintenant.</p>
+      <p>Ce qui me motive, c'est simple : <strong>trop de paysagistes et piscinistes talentueux sont invisibles en ligne</strong> alors qu'ils méritent d'être vus. Pas parce qu'ils manquent de clients — mais parce que personne n'a pris le temps de construire une présence digitale à la hauteur de leur travail.</p>
+      <p>Controlia c'est ça — construire cet écosystème pour eux, le maintenir, et s'assurer que tout ce qu'on dit d'eux en ligne est cohérent, maîtrisé, à leur image.</p>
     </div>
     <div class="pourquoi-quote">
-      <blockquote>"Votre métier mérite d'être vu."</blockquote>
+      <blockquote>"Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image."</blockquote>
       <cite>Enzo Midon — Fondateur, Controlia</cite>
     </div>
   </div>
@@ -365,8 +343,8 @@
 
 <section class="cta-section">
   <p class="section-tag" style="text-align:center;">Passons à l'action</p>
-  <h2 class="section-title">Prêt à être visible en ligne ?</h2>
-  <p>Un échange de 15 minutes suffit pour faire le point sur votre situation et voir ce qu'on peut améliorer.</p>
+  <h2 class="section-title">Prêt à prendre le contrôle de votre image en ligne ?</h2>
+  <p>Un échange de 15 minutes suffit pour faire le point sur votre situation et voir ce qu'on peut construire ensemble.</p>
   <a href="contact.html" class="btn-primary">Prendre contact gratuitement</a>
 </section>
 
