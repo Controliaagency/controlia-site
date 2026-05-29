@@ -314,10 +314,51 @@
 </section>
 
 <!-- SECTION IMMERSIVE → CONSTAT -->
-<div class="maillage-banner">
-  <p><strong>Vous vous reconnaissez dans ces situations ?</strong> Voyez concrètement les problèmes sur lesquels on intervient.</p>
-  <a href="constat.html" class="maillage-link">Voir le constat <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-</div>
+<section style="background:var(--blanc-casse);padding:80px 5% 100px;position:relative;overflow:hidden;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+
+    <!-- GAUCHE : Texte -->
+    <div>
+      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--bleu);margin-bottom:20px;">Une question à vous poser</p>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;color:var(--marine);line-height:1.15;margin-bottom:20px;letter-spacing:-0.5px;">Savez-vous ce que vos clients voient quand ils vous <em style="font-style:italic;color:var(--bleu);">cherchent en ligne ?</em></h2>
+      <p style="font-size:16px;color:var(--gris);font-weight:300;line-height:1.7;margin-bottom:36px;">La réalité est souvent plus critique qu'on ne le croit. Fiche incomplète, avis sans réponse, présence incohérente — voyez par vous-même.</p>
+      <a href="constat.html" style="display:inline-flex;align-items:center;gap:10px;background:var(--bleu);color:var(--blanc);padding:14px 32px;border-radius:8px;text-decoration:none;font-size:15px;font-weight:500;transition:opacity 0.2s;">
+        Voir le constat
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <!-- DROITE : Mockup Google -->
+    <div>
+      <div style="background:#1E2A38;border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 40px 80px rgba(0,0,0,0.5);transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 50px 100px rgba(0,0,0,0.6)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 40px 80px rgba(0,0,0,0.5)'">
+        <div style="background:rgba(255,255,255,0.06);border-radius:24px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08);">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(123,167,212,0.5)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span style="font-size:13px;color:rgba(255,255,255,0.5);">paysagiste toulouse</span>
+        </div>
+        <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div style="font-size:11px;color:rgba(123,167,212,0.6);margin-bottom:4px;">jardins-dupont.fr</div>
+          <div style="font-size:15px;color:#8AB4F8;margin-bottom:4px;">Jardins Dupont — Paysagiste Toulouse</div>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
+            <span style="color:#F4B942;font-size:12px;">★★★★★</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:4px;">4,9 · 87 avis</span>
+          </div>
+        </div>
+        <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div style="font-size:11px;color:rgba(123,167,212,0.6);margin-bottom:4px;">espaces-verts-martin.fr</div>
+          <div style="font-size:15px;color:#8AB4F8;margin-bottom:4px;">Martin Espaces Verts — Paysagiste</div>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
+            <span style="color:#F4B942;font-size:12px;">★★★★</span><span style="color:rgba(255,255,255,0.15);font-size:12px;">★</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:4px;">4,2 · 34 avis</span>
+          </div>
+        </div>
+        <div style="padding:16px 0;text-align:center;">
+          <span style="font-size:13px;color:rgba(255,100,100,0.6);font-style:italic;">Votre entreprise n'apparaît pas.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <div style="padding: 0 5% 48px; background: var(--blanc-casse);">
   <div style="background: var(--marine); border-radius: 16px; padding: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
