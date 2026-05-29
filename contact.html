@@ -46,6 +46,11 @@
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--bleu); background: var(--blanc); }
   .form-group textarea { resize: vertical; min-height: 120px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rgpd-group { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; padding: 16px; background: var(--blanc-casse); border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); }
+  .rgpd-group input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--bleu); cursor: pointer; flex-shrink: 0; }
+  .rgpd-group label { font-size: 12px; color: var(--gris); line-height: 1.6; cursor: pointer; font-weight: 300; }
+  .rgpd-group label a { color: var(--bleu); text-decoration: none; }
+  .rgpd-group label a:hover { text-decoration: underline; }
   .btn-submit { width: 100%; background: var(--bleu); color: var(--blanc); padding: 14px; border-radius: 8px; border: none; font-size: 15px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity 0.2s; margin-top: 8px; }
   .btn-submit:hover { opacity: 0.85; }
   .form-note { font-size: 12px; color: var(--gris); text-align: center; margin-top: 12px; font-weight: 300; }
@@ -169,6 +174,11 @@
       <div class="form-group">
         <label for="message">Votre situation en quelques mots</label>
         <textarea id="message" name="message" placeholder="Dites-nous où vous en êtes avec votre présence en ligne..."></textarea>
+      </div>
+      <!-- RGPD -->
+      <div class="rgpd-group">
+        <input type="checkbox" id="rgpd" name="rgpd" required>
+        <label for="rgpd">J'accepte que mes données personnelles soient utilisées par Controlia pour me recontacter dans le cadre de ma demande. Ces données ne seront pas transmises à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression en écrivant à <a href="mailto:enzo@controlia.agency">enzo@controlia.agency</a>.</label>
       </div>
       <button type="submit" class="btn-submit">Envoyer ma demande</button>
       <p class="form-note">Sans engagement — on vous répond sous 24h</p>
