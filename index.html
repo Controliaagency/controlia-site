@@ -20,27 +20,54 @@
   body { font-family: 'DM Sans', sans-serif; background: var(--blanc-casse); color: var(--marine); overflow-x: hidden; }
   nav { background: var(--marine); padding: 0 5%; height: 70px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
   .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-  .nav-icon { width: 38px; height: 38px; background: rgba(44, 95, 138, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nav-icon { width: 38px; height: 38px; background: rgba(44,95,138,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .nav-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--blanc); letter-spacing: -0.3px; }
   .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
   .nav-links a { color: var(--bleu-clair); text-decoration: none; font-size: 14px; font-weight: 400; transition: color 0.2s; }
   .nav-links a:hover { color: var(--blanc); }
-  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; transition: opacity 0.2s !important; }
+  .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; }
   .nav-cta:hover { opacity: 0.85; }
-  .hero { background: var(--marine); padding: 100px 5% 80px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; right: -100px; top: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(44, 95, 138, 0.08); }
-  .hero::after { content: ''; position: absolute; left: 30%; bottom: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(44, 95, 138, 0.05); }
-  .hero-content { max-width: 700px; position: relative; z-index: 1; }
-  .hero-tag { display: inline-block; background: rgba(44, 95, 138, 0.2); color: var(--bleu-clair); font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
-  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 58px); font-weight: 700; color: var(--blanc); line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.5px; }
+
+  /* HERO */
+  .hero { background: var(--marine); padding: 110px 5% 90px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; right: -100px; top: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(44,95,138,0.08); }
+  .hero::after { content: ''; position: absolute; left: 30%; bottom: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(44,95,138,0.05); }
+  .hero-content { max-width: 780px; position: relative; z-index: 1; }
+  .hero-tag { display: inline-block; background: rgba(44,95,138,0.2); color: var(--bleu-clair); font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 32px; }
+
+  /* Titre principal */
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(38px, 5vw, 62px); font-weight: 700; color: var(--blanc); line-height: 1.12; letter-spacing: -0.5px; }
   .hero h1 em { font-style: italic; color: var(--bleu-clair); }
-  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 40px; font-weight: 300; max-width: 520px; }
+
+  /* Ligne animée */
+  .rotating-wrap {
+    display: block;
+    overflow: hidden;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 5vw, 62px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    height: 1.2em; /* fallback, écrasé par JS */
+  }
+  .ticker { display: flex; flex-direction: column; will-change: transform; }
+  .rword {
+    display: block;
+    font-style: italic;
+    color: #4AADEE;
+    white-space: nowrap;
+    padding: 0.1em 0; /* espace haut/bas pour ascendantes et descendantes */
+  }
+  .cursor { display: inline-block; width: 3px; height: 0.75em; background: #4AADEE; margin-left: 6px; vertical-align: middle; border-radius: 2px; animation: blink 1s step-end infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero-sub { font-size: 18px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-top: 28px; margin-bottom: 44px; font-weight: 300; max-width: 520px; }
   .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
   .btn-primary { background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; transition: opacity 0.2s; }
   .btn-primary:hover { opacity: 0.85; }
-  .btn-secondary { background: transparent; color: var(--bleu-clair); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 400; border: 1px solid rgba(123, 167, 212, 0.3); transition: border-color 0.2s; }
+  .btn-secondary { background: transparent; color: var(--bleu-clair); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 400; border: 1px solid rgba(123,167,212,0.3); transition: border-color 0.2s; }
   .btn-secondary:hover { border-color: var(--bleu-clair); }
-  .hero-bar { height: 3px; background: var(--bleu); margin-top: 0; }
+
+  .hero-bar { height: 3px; background: var(--bleu); }
   .stats { background: var(--blanc); padding: 40px 5%; display: flex; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .stat { flex: 1; text-align: center; padding: 20px; border-right: 1px solid rgba(0,0,0,0.06); }
   .stat:last-child { border-right: none; }
@@ -52,8 +79,8 @@
   .section-intro { font-size: 16px; color: var(--gris); line-height: 1.7; margin-bottom: 48px; max-width: 600px; font-weight: 300; }
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
   .service-card { background: var(--blanc); border-radius: 12px; padding: 28px; border: 1px solid rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s; }
-  .service-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13, 27, 42, 0.08); }
-  .service-icon { width: 44px; height: 44px; background: rgba(44, 95, 138, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .service-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13,27,42,0.08); }
+  .service-icon { width: 44px; height: 44px; background: rgba(44,95,138,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
   .service-icon svg { width: 22px; height: 22px; }
   .service-card h3 { font-size: 16px; font-weight: 500; color: var(--marine); margin-bottom: 8px; }
   .service-card p { font-size: 14px; color: var(--gris); line-height: 1.6; font-weight: 300; }
@@ -63,19 +90,13 @@
   .pourquoi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
   .pourquoi-text p { font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-bottom: 20px; font-weight: 300; }
   .pourquoi-text strong { color: var(--blanc); font-weight: 500; }
-  .pourquoi-quote { background: rgba(44, 95, 138, 0.15); border-left: 3px solid var(--bleu); border-radius: 0 12px 12px 0; padding: 32px; }
+  .pourquoi-quote { background: rgba(44,95,138,0.15); border-left: 3px solid var(--bleu); border-radius: 0 12px 12px 0; padding: 32px; }
   .pourquoi-quote blockquote { font-family: 'Playfair Display', serif; font-size: 22px; font-style: italic; color: var(--blanc); line-height: 1.5; margin-bottom: 16px; }
   .pourquoi-quote cite { font-size: 13px; color: var(--bleu-clair); font-style: normal; letter-spacing: 1px; text-transform: uppercase; }
   .cta-section { background: var(--blanc-casse); padding: 80px 5%; text-align: center; }
   .cta-section .section-title { margin: 0 auto 16px; text-align: center; }
   .cta-section p { font-size: 16px; color: var(--gris); margin-bottom: 32px; font-weight: 300; }
   .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  /* BANDEAU MAILLAGE */
-  .maillage-banner { background: var(--blanc); border-top: 1px solid rgba(0,0,0,0.06); border-bottom: 1px solid rgba(0,0,0,0.06); padding: 20px 5%; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-  .maillage-banner p { font-size: 15px; color: var(--gris); font-weight: 300; }
-  .maillage-banner p strong { color: var(--marine); font-weight: 500; }
-  .maillage-link { display: inline-flex; align-items: center; gap: 8px; color: var(--bleu); font-size: 14px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: gap 0.2s; }
-  .maillage-link:hover { gap: 12px; }
   footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .footer-logo { display: flex; align-items: center; gap: 10px; }
   .footer-name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--blanc); }
@@ -97,13 +118,12 @@
     .stats { flex-direction: column; }
     .stat { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
     .stat:last-child { border-bottom: none; }
-    .hero { padding: 60px 5% 40px; }
+    .hero { padding: 60px 5% 50px; }
     .services { padding: 50px 5%; }
     .pourquoi { padding: 50px 5%; }
     .cta-section { padding: 50px 5%; }
     .hero-btns { flex-direction: column; }
     .btn-primary, .btn-secondary { text-align: center; }
-    .maillage-banner { flex-direction: column; align-items: flex-start; }
   }
 </style>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -146,94 +166,29 @@
   <a href="offre.html">Notre offre</a>
   <a href="contact.html">Nous contacter</a>
 </div>
-<div class="hero-bar" style="height:0"></div>
-<section class="hero" style="display:flex;align-items:center;gap:40px;">
+
+<section class="hero">
   <div class="hero-content">
     <span class="hero-tag">Paysagistes, piscinistes & artisans du cadre de vie</span>
-    <h1>Votre métier mérite<br><em>d'être vu.</em></h1>
+    <h1>Votre métier mérite<br><em>d'être vu</em></h1>
+    <div class="rotating-wrap">
+      <div class="ticker" id="ticker">
+        <span class="rword">avant même qu'ils appellent<span class="cursor"></span></span>
+        <span class="rword">là où vos clients vous cherchent<span class="cursor"></span></span>
+        <span class="rword">bien avant le premier contact<span class="cursor"></span></span>
+        <span class="rword">par ceux qui ont besoin de vous<span class="cursor"></span></span>
+      </div>
+    </div>
     <p class="hero-sub">Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.</p>
     <div class="hero-btns">
       <a href="constat.html" class="btn-primary">Voir le constat</a>
       <a href="offre.html" class="btn-secondary">Découvrir l'offre</a>
     </div>
   </div>
-  <div class="hero-schema" aria-hidden="true">
-    <style>
-      .hero-schema { display: none; }
-      @media (min-width: 768px) { .hero-schema { display: flex; align-items: center; justify-content: center; flex: 1; } }
-      .schema-node { opacity: 0; }
-      .schema-line { opacity: 0; stroke-dasharray: 120; stroke-dashoffset: 120; }
-      @media (prefers-reduced-motion: no-preference) {
-        .sn1 { animation: sfadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.4s forwards, spulse 4s ease-in-out 1.4s infinite; }
-        .sn2 { animation: sfadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.8s forwards, spulse 4s ease-in-out 1.8s infinite; }
-        .sn3 { animation: sfadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 1.2s forwards, spulse 4s ease-in-out 2.2s infinite; }
-        .sn4 { animation: sfadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 1.6s forwards, spulse 4s ease-in-out 2.6s infinite; }
-        .sn5 { animation: sfadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 2.0s forwards, spulse 4s ease-in-out 3.0s infinite; }
-        .sn6 { animation: sfadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 2.4s forwards, spulse 4s ease-in-out 3.4s infinite; }
-        .sl1 { animation: sdrawLine 0.6s ease 0.9s forwards; }
-        .sl2 { animation: sdrawLine 0.6s ease 1.3s forwards; }
-        .sl3 { animation: sdrawLine 0.6s ease 1.7s forwards; }
-        .sl4 { animation: sdrawLine 0.6s ease 2.1s forwards; }
-        .sl5 { animation: sdrawLine 0.6s ease 2.5s forwards; }
-        .sl6 { animation: sdrawLine 0.6s ease 2.9s forwards; }
-      }
-      @keyframes sfadeUp { from { opacity:0; transform:translateY(8px) scale(0.92); } to { opacity:1; transform:translateY(0) scale(1); } }
-      @keyframes sdrawLine { from { opacity:1; stroke-dashoffset:120; } to { opacity:1; stroke-dashoffset:0; } }
-      @keyframes spulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.8; transform:scale(1.05); } }
-    </style>
-    <svg width="100%" viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg" style="max-width:580px;">
-      <circle cx="190" cy="190" r="130" fill="none" stroke="#7BA7D4" stroke-width="1" opacity="0.35" stroke-dasharray="4 8"/>
-      <line class="schema-line sl1" x1="190.0" y1="100.0" x2="190.0" y2="138.0" stroke="#7BA7D4" stroke-width="1.2" stroke-linecap="round"/>
-      <line class="schema-line sl2" x1="105.9" y1="147.2" x2="143.6" y2="166.4" stroke="#7BA7D4" stroke-width="1.2" stroke-linecap="round"/>
-      <line class="schema-line sl3" x1="90.7" y1="234.5" x2="142.5" y2="211.3" stroke="#7BA7D4" stroke-width="1.2" stroke-linecap="round"/>
-      <line class="schema-line sl4" x1="190.0" y1="280.0" x2="190.0" y2="242.0" stroke="#7BA7D4" stroke-width="1.2" stroke-linecap="round"/>
-      <line class="schema-line sl5" x1="289.3" y1="234.5" x2="237.5" y2="211.3" stroke="#7BA7D4" stroke-width="1.2" stroke-linecap="round"/>
-      <line class="schema-line sl6" x1="274.1" y1="147.2" x2="236.4" y2="166.4" stroke="#7BA7D4" stroke-width="1.2" stroke-linecap="round"/>
-      <g class="schema-node sn1" style="transform-origin:190px 62px">
-        <circle cx="190" cy="62" r="38" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="1.5"/>
-        <circle cx="190" cy="62" r="31" fill="#2C5F8A" opacity="0.15"/>
-        <text x="190" y="56" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">Google</text>
-        <text x="190" y="68" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">Business</text>
-      </g>
-      <g class="schema-node sn2" style="transform-origin:72px 130px">
-        <circle cx="72" cy="130" r="38" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="1.5"/>
-        <circle cx="72" cy="130" r="31" fill="#2C5F8A" opacity="0.15"/>
-        <text x="72" y="124" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">Avis</text>
-        <text x="72" y="136" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">clients</text>
-      </g>
-      <g class="schema-node sn3" style="transform-origin:56px 250px">
-        <circle cx="56" cy="250" r="38" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="1.5"/>
-        <circle cx="56" cy="250" r="31" fill="#2C5F8A" opacity="0.15"/>
-        <text x="56" y="244" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">SEO</text>
-        <text x="56" y="256" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">local</text>
-      </g>
-      <g class="schema-node sn4" style="transform-origin:190px 318px">
-        <circle cx="190" cy="318" r="38" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="1.5"/>
-        <circle cx="190" cy="318" r="31" fill="#2C5F8A" opacity="0.15"/>
-        <text x="190" y="312" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">Réseaux</text>
-        <text x="190" y="324" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">sociaux</text>
-      </g>
-      <g class="schema-node sn5" style="transform-origin:324px 250px">
-        <circle cx="324" cy="250" r="38" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="1.5"/>
-        <circle cx="324" cy="250" r="31" fill="#2C5F8A" opacity="0.15"/>
-        <text x="324" y="244" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">Rapport</text>
-        <text x="324" y="256" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">mensuel</text>
-      </g>
-      <g class="schema-node sn6" style="transform-origin:308px 130px">
-        <circle cx="308" cy="130" r="38" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="1.5"/>
-        <circle cx="308" cy="130" r="31" fill="#2C5F8A" opacity="0.15"/>
-        <text x="308" y="124" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">Stratégie</text>
-        <text x="308" y="136" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-weight="700" fill="#fff">d'avis</text>
-      </g>
-      <circle cx="190" cy="190" r="52" fill="#0D1B2A" stroke="#2C5F8A" stroke-width="2"/>
-      <circle cx="190" cy="190" r="44" fill="#0D1B2A"/>
-      <text x="190" y="182" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="700" fill="#fff" dominant-baseline="central">Votre</text>
-      <text x="190" y="196" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="700" fill="#fff" dominant-baseline="central">métier</text>
-      <text x="190" y="212" text-anchor="middle" font-family="Georgia,serif" font-size="8" font-style="italic" fill="#7BA7D4" dominant-baseline="central">au centre</text>
-    </svg>
-  </div>
 </section>
+
 <div class="hero-bar"></div>
+
 <section class="stats">
   <div class="stat">
     <span class="stat-num">93%</span>
@@ -248,6 +203,7 @@
     <p class="stat-label">engagement — vous restez libre à tout moment</p>
   </div>
 </section>
+
 <section class="services">
   <p class="section-tag">Notre approche</p>
   <h2 class="section-title">Un écosystème digital construit pour vous</h2>
@@ -313,12 +269,9 @@
   </div>
 </section>
 
-<!-- SECTION IMMERSIVE → CONSTAT -->
 <section style="background:var(--blanc-casse);padding:80px 5% 100px;position:relative;overflow:hidden;">
   <style>.immersive-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;position:relative;z-index:1;}@media(max-width:768px){.immersive-grid{grid-template-columns:1fr;gap:40px;}}</style>
   <div class="immersive-grid">
-
-    <!-- GAUCHE : Texte -->
     <div>
       <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--bleu);margin-bottom:20px;">Une question à vous poser</p>
       <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;color:var(--marine);line-height:1.15;margin-bottom:20px;letter-spacing:-0.5px;">Savez-vous ce que vos clients voient quand ils vous <em style="font-style:italic;color:var(--bleu);">cherchent en ligne ?</em></h2>
@@ -328,8 +281,6 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
     </div>
-
-    <!-- DROITE : Mockup Google -->
     <div>
       <div style="background:#1E2A38;border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 40px 80px rgba(0,0,0,0.5);transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 50px 100px rgba(0,0,0,0.6)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 40px 80px rgba(0,0,0,0.5)'">
         <div style="background:rgba(255,255,255,0.06);border-radius:24px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08);">
@@ -357,7 +308,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -368,7 +318,7 @@
       <h3 style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--blanc); margin-bottom: 8px;">Tout inclus à 490€/mois — sans engagement.</h3>
       <p style="font-size: 14px; color: rgba(255,255,255,0.55); font-weight: 300;">Un seul contact, résiliable à tout moment.</p>
     </div>
-    <a href="offre.html" style="background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap; transition: opacity 0.2s;">Découvrir l'offre complète</a>
+    <a href="offre.html" style="background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap;">Découvrir l'offre complète</a>
   </div>
 </div>
 
@@ -409,13 +359,62 @@
     </div>
   </div>
   <nav style="display:flex;gap:24px;background:transparent;padding:0;height:auto;position:static;">
-    <a href="index.html" style="color:#888780;text-decoration:none;font-size:13px;">Accueil</a>
-    <a href="constat.html" style="color:#888780;text-decoration:none;font-size:13px;">Le constat</a>
-    <a href="offre.html" style="color:#888780;text-decoration:none;font-size:13px;">Notre offre</a>
-    <a href="contact.html" style="color:#888780;text-decoration:none;font-size:13px;">Contact</a>
-    <a href="mentions-legales.html" style="color:#888780;text-decoration:none;font-size:13px;">Mentions légales</a>
+    <a href="index.html">Accueil</a>
+    <a href="constat.html">Le constat</a>
+    <a href="offre.html">Notre offre</a>
+    <a href="contact.html">Contact</a>
+    <a href="mentions-legales.html">Mentions légales</a>
   </nav>
   <p class="footer-copy">© 2026 Controlia — enzo@controlia.agency</p>
 </footer>
+
+<script>
+(function() {
+  var wrap = document.querySelector('.rotating-wrap');
+  var ticker = document.getElementById('ticker');
+  if (!ticker || !wrap) return;
+
+  var words = ticker.children;
+  var count = words.length;
+  var pauseMs = 2200;
+  var transMs = 550;
+  var current = 0;
+  var lineH = 0;
+
+  function init() {
+    // Mesure la hauteur réelle d'un mot (incluant ascendantes et descendantes)
+    lineH = words[0].offsetHeight;
+    // Applique cette hauteur exacte au conteneur
+    wrap.style.height = lineH + 'px';
+    // Démarre l'animation
+    setTimeout(next, pauseMs);
+  }
+
+  function next() {
+    current++;
+    if (current >= count) {
+      ticker.style.transition = 'transform ' + transMs + 'ms cubic-bezier(0.76,0,0.24,1)';
+      ticker.style.transform = 'translateY(-' + (current * lineH) + 'px)';
+      setTimeout(function() {
+        ticker.style.transition = 'none';
+        current = 0;
+        ticker.style.transform = 'translateY(0px)';
+        setTimeout(next, pauseMs);
+      }, transMs + 50);
+      return;
+    }
+    ticker.style.transition = 'transform ' + transMs + 'ms cubic-bezier(0.76,0,0.24,1)';
+    ticker.style.transform = 'translateY(-' + (current * lineH) + 'px)';
+    setTimeout(next, pauseMs + transMs);
+  }
+
+  // Attendre que la police soit chargée avant de mesurer
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(init);
+  } else {
+    window.addEventListener('load', init);
+  }
+})();
+</script>
 </body>
 </html>
