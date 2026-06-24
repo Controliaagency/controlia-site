@@ -71,6 +71,28 @@
   .option-card h3 { font-size: 15px; font-weight: 500; color: var(--marine); margin-bottom: 6px; }
   .option-card p { font-size: 13px; color: var(--gris); font-weight: 300; line-height: 1.5; }
   .option-prix { font-size: 13px; font-weight: 500; color: var(--bleu); margin-top: 10px; }
+  .site-centre { padding: 80px 5%; background: var(--blanc); border-top: 1px solid rgba(0,0,0,0.06); }
+  .site-inner { max-width: 1000px; margin: 0 auto; }
+  .site-head { max-width: 600px; }
+  .site-head .section-title { max-width: 100%; }
+  .site-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: start; margin-top: 48px; }
+  .site-args { display: flex; flex-direction: column; gap: 28px; }
+  .site-arg { display: flex; gap: 16px; align-items: flex-start; }
+  .site-arg-icon { width: 38px; height: 38px; background: rgba(44,95,138,0.1); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .site-arg-icon svg { width: 19px; height: 19px; }
+  .site-arg-text strong { display: block; font-size: 15px; font-weight: 500; color: var(--marine); margin-bottom: 5px; }
+  .site-arg-text p { font-size: 14px; color: var(--gris); line-height: 1.65; font-weight: 300; }
+  .site-card { background: var(--marine); border-radius: 16px; padding: 32px; position: sticky; top: 90px; }
+  .site-card-label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--bleu-clair); margin-bottom: 20px; }
+  .site-price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .site-price-row:last-of-type { border-bottom: none; }
+  .site-price-desc { font-size: 14px; color: var(--blanc); font-weight: 400; }
+  .site-price-desc span { display: block; font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 300; margin-top: 2px; }
+  .site-price-val { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--blanc); font-weight: 700; white-space: nowrap; padding-left: 16px; }
+  .site-price-val.soft { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; color: var(--bleu-clair); }
+  .site-card .btn-primary { width: 100%; text-align: center; margin-top: 24px; }
+  .site-note { font-size: 13px; color: var(--gris); font-weight: 300; margin-top: 20px; line-height: 1.6; }
+  .site-note strong { color: var(--marine); font-weight: 500; }
   .cta-section { padding: 80px 5%; text-align: center; background: var(--blanc); }
   .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
   footer { background: var(--marine); padding: 40px 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -86,6 +108,8 @@
     .hamburger { display: flex; }
     .engagement-grid { grid-template-columns: 1fr; gap: 40px; }
     .options-grid { grid-template-columns: 1fr; }
+    .site-grid { grid-template-columns: 1fr; gap: 36px; }
+    .site-card { position: static; }
     .prix-inner { flex-direction: column; align-items: flex-start; }
     .cta-btns { flex-direction: column; align-items: center; }
   }
@@ -152,12 +176,63 @@
   <h2 class="section-title">Chaque canal renforce les autres</h2>
   <p class="section-intro">On ne gère pas des outils séparément. On construit une présence où tout converge — pour que partout où vos clients vous cherchent, ils trouvent la même image, le même niveau, le même professionnel.</p>
   <div class="composantes">
-    <div class="composante"><span class="composante-num">01</span><h3>Fiche Google Business</h3><p>Le point d'entrée de votre présence. Complète, soignée, optimisée — elle donne le ton de tout ce qui suit.</p></div>
-    <div class="composante"><span class="composante-num">02</span><h3>Réputation & avis clients</h3><p>On gère chaque avis avec le bon ton. Un avis bien répondu, c'est un futur client convaincu avant même de vous appeler.</p></div>
-    <div class="composante"><span class="composante-num">03</span><h3>Référencement local</h3><p>On travaille votre visibilité sur les recherches de votre zone. Quand quelqu'un cherche votre métier près de chez lui, vous apparaissez.</p></div>
-    <div class="composante"><span class="composante-num">04</span><h3>Présence sur les réseaux</h3><p>Vos réalisations mises en valeur chaque semaine. Vous envoyez vos photos par WhatsApp, on construit votre image.</p></div>
-    <div class="composante"><span class="composante-num">05</span><h3>Stratégie d'avis clients</h3><p>Un système simple pour que vos clients satisfaits parlent pour vous. Plus d'avis, plus de confiance, plus de clients.</p></div>
-    <div class="composante"><span class="composante-num">06</span><h3>Rapport mensuel</h3><p>Chaque mois, un bilan clair de ce qui a été fait et des résultats obtenus. Vous voyez où en est votre présence en ligne.</p></div>
+    <div class="composante"><span class="composante-num">01</span><h3>Fiche Google Business</h3><p>Le premier endroit où on vous trouve. Complète, soignée, à jour — c'est elle qui donne le ton.</p></div>
+    <div class="composante"><span class="composante-num">02</span><h3>Réponse aux avis</h3><p>On répond à chaque avis, avec le bon ton. Un avis bien géré rassure le prochain client avant même qu'il appelle.</p></div>
+    <div class="composante"><span class="composante-num">03</span><h3>Référencement local</h3><p>Quand quelqu'un cherche votre métier près de chez lui, c'est vous qui apparaissez. Pas vos concurrents.</p></div>
+    <div class="composante"><span class="composante-num">04</span><h3>Présence sur les réseaux</h3><p>Vos chantiers mis en valeur chaque semaine. Vous envoyez les photos par WhatsApp, on fait le reste.</p></div>
+    <div class="composante"><span class="composante-num">05</span><h3>Plus d'avis clients</h3><p>Un système simple pour que vos clients satisfaits laissent un avis. Plus d'avis, plus de confiance, plus d'appels.</p></div>
+    <div class="composante"><span class="composante-num">06</span><h3>Rapport mensuel</h3><p>Chaque mois, un point clair : ce qu'on a fait, ce que ça a donné. Vous savez toujours où vous en êtes.</p></div>
+  </div>
+</section>
+<section class="site-centre">
+  <div class="site-inner">
+    <div class="site-head">
+      <p class="section-tag">Votre site internet</p>
+      <h2 class="section-title">Le site, au centre de tout.</h2>
+      <p class="section-intro" style="margin-bottom:0;">Votre fiche Google, vos avis, vos réseaux — tout envoie vos clients au même endroit. C'est là qu'ils décident de vous appeler ou de passer au suivant. Ce point d'arrivée, c'est votre site. Il doit être à la hauteur de votre travail.</p>
+    </div>
+    <div class="site-grid">
+      <div class="site-args">
+        <div class="site-arg">
+          <div class="site-arg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="site-arg-text">
+            <strong>On s'occupe de tout.</strong>
+            <p>Conception, textes, photos, mise en ligne, technique : on construit votre site de A à Z. Une modification à faire ? Vous l'envoyez par WhatsApp, on s'en charge. Vous ne touchez jamais à rien.</p>
+          </div>
+        </div>
+        <div class="site-arg">
+          <div class="site-arg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7h3a5 5 0 0 1 0 10h-3m-6 0H6A5 5 0 0 1 6 7h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+          <div class="site-arg-text">
+            <strong>Vous n'êtes prisonnier de personne.</strong>
+            <p>Votre site est construit sur WordPress, le standard du marché. Si un jour vous voulez le confier à quelqu'un d'autre, vous le pouvez. Pas de cadenas, pas de dépendance.</p>
+          </div>
+        </div>
+        <div class="site-arg">
+          <div class="site-arg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#2C5F8A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a5 5 0 0 1 10 0v4"/><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/></svg></div>
+          <div class="site-arg-text">
+            <strong>Tout reste à votre nom.</strong>
+            <p>L'hébergement et le nom de domaine vous appartiennent — payés directement, sans un centime de marge pour nous. Vous gardez les clés de votre site. Toujours.</p>
+          </div>
+        </div>
+      </div>
+      <div class="site-card">
+        <div class="site-card-label">Votre site</div>
+        <div class="site-price-row">
+          <div class="site-price-desc">Création du site<span>Une fois, clé en main</span></div>
+          <div class="site-price-val">dès 690€</div>
+        </div>
+        <div class="site-price-row">
+          <div class="site-price-desc">Suivi & modifications<span>Par WhatsApp, autant que besoin</span></div>
+          <div class="site-price-val">29€<span style="display:inline;font-size:13px;color:rgba(255,255,255,0.45);">/mois</span></div>
+        </div>
+        <div class="site-price-row">
+          <div class="site-price-desc">Hébergement & domaine<span>À votre nom, ~5€/mois — payés directement</span></div>
+          <div class="site-price-val soft">0€ pour nous</div>
+        </div>
+        <a href="contact.html" class="btn-primary">Parler de mon site</a>
+      </div>
+    </div>
+    <p class="site-note"><strong>Vous avez déjà un site ?</strong> On le reprend et on le remet à niveau, pour qu'il soit enfin à la hauteur de votre réputation. On en parle ensemble.</p>
   </div>
 </section>
 <section class="engagement">
@@ -192,10 +267,8 @@
     <p class="section-tag">En complément</p>
     <h2 class="section-title">Prestations sur demande</h2>
     <div class="options-grid">
-      <div class="option-card"><div class="option-tag">Option mensuelle</div><h3>Annuaires locaux</h3><p>Référencement sur Pages Jaunes, Houzz et autres annuaires pertinents pour votre métier.</p><div class="option-prix">Sur devis</div></div>
-      <div class="option-card"><div class="option-tag">Option mensuelle</div><h3>Bing Places & Apple Maps</h3><p>Présence sur les autres moteurs de recherche et cartes pour maximiser votre visibilité.</p><div class="option-prix">Sur devis</div></div>
-      <div class="option-card"><div class="option-tag">Prestation one-shot</div><h3>Création de site vitrine</h3><p>Un site WordPress professionnel, sobre et efficace pour compléter votre présence digitale.</p><div class="option-prix">Sur devis</div></div>
-      <div class="option-card"><div class="option-tag">Prestation one-shot</div><h3>Refonte de site existant</h3><p>Votre site actuel mérite mieux ? On le modernise pour qu'il soit à la hauteur de votre réputation.</p><div class="option-prix">Sur devis</div></div>
+      <div class="option-card"><div class="option-tag">Option mensuelle</div><h3>Annuaires locaux</h3><p>Pages Jaunes, Houzz et les annuaires qui comptent pour votre métier. Plus d'endroits où on vous trouve.</p><div class="option-prix">Sur devis</div></div>
+      <div class="option-card"><div class="option-tag">Option mensuelle</div><h3>Bing & Apple Plans</h3><p>Pour ceux qui ne cherchent pas sur Google. Présent sur les autres moteurs et cartes, sans rien à gérer.</p><div class="option-prix">Sur devis</div></div>
     </div>
   </div>
 </section>
