@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie</title>
+<title>Controlia — Visibilité digitale pour artisans & entreprises du bâtiment</title>
 <meta name="description" content="Controlia construit votre présence digitale de A à Z. Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -27,46 +27,24 @@
   .nav-links a:hover { color: var(--blanc); }
   .nav-cta { background: var(--bleu) !important; color: var(--blanc) !important; padding: 8px 20px; border-radius: 6px; font-weight: 500 !important; }
   .nav-cta:hover { opacity: 0.85; }
-
-  /* HERO */
   .hero { background: var(--marine); padding: 110px 5% 90px; position: relative; overflow: hidden; }
   .hero::before { content: ''; position: absolute; right: -100px; top: -100px; width: 500px; height: 500px; border-radius: 50%; background: rgba(44,95,138,0.08); }
   .hero::after { content: ''; position: absolute; left: 30%; bottom: -50px; width: 300px; height: 300px; border-radius: 50%; background: rgba(44,95,138,0.05); }
   .hero-content { max-width: 780px; position: relative; z-index: 1; }
   .hero-tag { display: inline-block; background: rgba(44,95,138,0.2); color: var(--bleu-clair); font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 32px; }
-
-  /* Titre principal */
   .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(38px, 5vw, 62px); font-weight: 700; color: var(--blanc); line-height: 1.12; letter-spacing: -0.5px; }
   .hero h1 em { font-style: italic; color: var(--bleu-clair); }
-
-  /* Ligne animée */
-  .rotating-wrap {
-    display: block;
-    overflow: hidden;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(22px, 3.5vw, 46px);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    height: 1.2em;
-  }
+  .rotating-wrap { display: block; overflow: hidden; font-family: 'Playfair Display', serif; font-size: clamp(22px, 3.5vw, 46px); font-weight: 700; letter-spacing: -0.5px; height: 1.2em; }
   .ticker { display: flex; flex-direction: column; will-change: transform; }
-  .rword {
-    display: block;
-    font-style: italic;
-    color: #4AADEE;
-    white-space: nowrap;
-    padding: 0.1em 0;
-  }
+  .rword { display: block; font-style: italic; color: #4AADEE; white-space: nowrap; padding: 0.1em 0; }
   .cursor { display: inline-block; width: 3px; height: 0.75em; background: #4AADEE; margin-left: 6px; vertical-align: middle; border-radius: 2px; animation: blink 1s step-end infinite; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
   .hero-sub { font-size: 18px; color: rgba(255,255,255,0.55); line-height: 1.65; margin-top: 28px; margin-bottom: 44px; font-weight: 300; max-width: 520px; }
   .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
   .btn-primary { background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; transition: opacity 0.2s; }
   .btn-primary:hover { opacity: 0.85; }
   .btn-secondary { background: transparent; color: var(--bleu-clair); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 400; border: 1px solid rgba(123,167,212,0.3); transition: border-color 0.2s; }
   .btn-secondary:hover { border-color: var(--bleu-clair); }
-
   .hero-bar { height: 3px; background: var(--bleu); }
   .stats { background: var(--blanc); padding: 40px 5%; display: flex; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
   .stat { flex: 1; text-align: center; padding: 20px; border-right: 1px solid rgba(0,0,0,0.06); }
@@ -133,12 +111,12 @@
 <link rel="manifest" href="site.webmanifest">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Controlia">
-<meta property="og:title" content="Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie">
+<meta property="og:title" content="Controlia — Visibilité digitale pour artisans & entreprises du bâtiment">
 <meta property="og:description" content="Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.">
 <meta property="og:url" content="https://controlia.agency/">
 <meta property="og:image" content="https://controlia.agency/logo_controlia_icon.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Controlia — Visibilité digitale pour paysagistes, piscinistes & artisans du cadre de vie">
+<meta name="twitter:title" content="Controlia — Visibilité digitale pour artisans & entreprises du bâtiment">
 <meta name="twitter:description" content="Tout ce qu'on dit de vous en ligne — cohérent, maîtrisé, à votre image.">
 <link rel="canonical" href="https://controlia.agency/">
 </head>
@@ -166,10 +144,9 @@
   <a href="offre.html">Notre offre</a>
   <a href="contact.html">Nous contacter</a>
 </div>
-
 <section class="hero">
   <div class="hero-content">
-    <span class="hero-tag">Paysagistes, piscinistes & artisans du cadre de vie</span>
+    <span class="hero-tag">Paysagistes, piscinistes & artisans du bâtiment</span>
     <h1>Votre métier mérite<br><em>d'être vu</em></h1>
     <div class="rotating-wrap">
       <div class="ticker" id="ticker">
@@ -186,9 +163,7 @@
     </div>
   </div>
 </section>
-
 <div class="hero-bar"></div>
-
 <section class="stats">
   <div class="stat">
     <span class="stat-num">93%</span>
@@ -203,7 +178,6 @@
     <p class="stat-label">engagement — vous partez quand vous voulez.</p>
   </div>
 </section>
-
 <section class="services">
   <p class="section-tag">Notre approche</p>
   <h2 class="section-title">Un écosystème digital construit pour vous</h2>
@@ -269,7 +243,6 @@
   </div>
   <a href="offre.html" style="display:inline-flex;align-items:center;gap:8px;margin-top:36px;color:var(--bleu);text-decoration:none;font-size:15px;font-weight:500;transition:gap 0.2s;" onmouseover="this.style.gap='12px'" onmouseout="this.style.gap='8px'">Voir en détail ce qu'on construit pour vous <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
 </section>
-
 <section style="background:var(--blanc-casse);padding:80px 5% 100px;position:relative;overflow:hidden;">
   <style>.immersive-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1100px;margin:0 auto;position:relative;z-index:1;}@media(max-width:768px){.immersive-grid{grid-template-columns:1fr;gap:40px;}}</style>
   <div class="immersive-grid">
@@ -286,19 +259,19 @@
       <div style="background:#1E2A38;border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.06);box-shadow:0 40px 80px rgba(0,0,0,0.5);transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 50px 100px rgba(0,0,0,0.6)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 40px 80px rgba(0,0,0,0.5)'">
         <div style="background:rgba(255,255,255,0.06);border-radius:24px;padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.08);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(123,167,212,0.5)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span style="font-size:13px;color:rgba(255,255,255,0.5);">paysagiste toulouse</span>
+          <span style="font-size:13px;color:rgba(255,255,255,0.5);">maçon toulouse</span>
         </div>
         <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-          <div style="font-size:11px;color:rgba(123,167,212,0.6);margin-bottom:4px;">jardins-dupont.fr</div>
-          <div style="font-size:15px;color:#8AB4F8;margin-bottom:4px;">Jardins Dupont — Paysagiste Toulouse</div>
+          <div style="font-size:11px;color:rgba(123,167,212,0.6);margin-bottom:4px;">maconnerie-dupont.fr</div>
+          <div style="font-size:15px;color:#8AB4F8;margin-bottom:4px;">Dupont Maçonnerie — Toulouse</div>
           <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
             <span style="color:#F4B942;font-size:12px;">★★★★★</span>
             <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:4px;">4,9 · 87 avis</span>
           </div>
         </div>
         <div style="padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-          <div style="font-size:11px;color:rgba(123,167,212,0.6);margin-bottom:4px;">espaces-verts-martin.fr</div>
-          <div style="font-size:15px;color:#8AB4F8;margin-bottom:4px;">Martin Espaces Verts — Paysagiste</div>
+          <div style="font-size:11px;color:rgba(123,167,212,0.6);margin-bottom:4px;">martin-batiment.fr</div>
+          <div style="font-size:15px;color:#8AB4F8;margin-bottom:4px;">Martin Bâtiment — Maçon</div>
           <div style="display:flex;align-items:center;gap:4px;margin-top:4px;">
             <span style="color:#F4B942;font-size:12px;">★★★★</span><span style="color:rgba(255,255,255,0.15);font-size:12px;">★</span>
             <span style="font-size:11px;color:rgba(255,255,255,0.4);margin-left:4px;">4,2 · 34 avis</span>
@@ -311,7 +284,6 @@
     </div>
   </div>
 </section>
-
 <div style="padding: 0 5% 48px; background: var(--blanc-casse);">
   <div style="background: var(--marine); border-radius: 16px; padding: 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
     <div>
@@ -322,14 +294,13 @@
     <a href="offre.html" style="background: var(--bleu); color: var(--blanc); padding: 14px 32px; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap;">Découvrir l'offre complète</a>
   </div>
 </div>
-
 <section class="pourquoi">
   <p class="section-tag">Qui sommes-nous</p>
   <h2 class="section-title">Un projet né d'une conviction</h2>
   <div class="pourquoi-grid">
     <div class="pourquoi-text">
-      <p>Je suis <strong>Enzo</strong>, fondateur de Controlia. J'ai 22 ans et j'ai décidé de mettre le digital au service des artisans du cadre de vie extérieur.</p>
-      <p>Ce qui me motive, c'est simple : <strong>trop de paysagistes et piscinistes talentueux sont invisibles en ligne</strong> alors qu'ils méritent d'être vus. Pas parce qu'ils manquent de clients — mais parce que personne n'a pris le temps de construire une présence digitale à la hauteur de leur travail.</p>
+      <p>Je suis <strong>Enzo</strong>, fondateur de Controlia. J'ai 22 ans et j'ai décidé de mettre le digital au service des artisans — paysagistes, piscinistes, maçons, électriciens, plombiers et tous ceux qui bâtissent le cadre de vie.</p>
+      <p>Ce qui me motive, c'est simple : <strong>trop d'artisans talentueux sont invisibles en ligne</strong> alors qu'ils méritent d'être vus. Pas parce qu'ils manquent de clients — mais parce que personne n'a pris le temps de construire une présence digitale à la hauteur de leur travail.</p>
       <p>Controlia c'est ça — construire cette présence pour eux, brique par brique, la maintenir, et s'assurer que tout ce qu'on dit d'eux en ligne est cohérent, maîtrisé, à leur image.</p>
     </div>
     <div class="pourquoi-quote">
@@ -338,7 +309,6 @@
     </div>
   </div>
 </section>
-
 <section class="cta-section">
   <p class="section-tag" style="text-align:center;">Passons à l'action</p>
   <h2 class="section-title">Prêt à prendre le contrôle de votre image en ligne ?</h2>
@@ -348,7 +318,6 @@
     <a href="offre.html" class="btn-secondary">Voir l'offre complète</a>
   </div>
 </section>
-
 <footer>
   <div class="footer-logo">
     <div class="nav-icon" style="width:32px;height:32px;">
@@ -368,29 +337,22 @@
   </nav>
   <p class="footer-copy">© 2026 Controlia — enzo@controlia.agency</p>
 </footer>
-
 <script>
 (function() {
   var wrap = document.querySelector('.rotating-wrap');
   var ticker = document.getElementById('ticker');
   if (!ticker || !wrap) return;
-
   var words = ticker.children;
   var count = words.length;
   var pauseMs = 2200;
   var transMs = 550;
   var current = 0;
   var lineH = 0;
-
   function init() {
-    // Mesure la hauteur réelle d'un mot (incluant ascendantes et descendantes)
     lineH = words[0].offsetHeight;
-    // Applique cette hauteur exacte au conteneur
     wrap.style.height = lineH + 'px';
-    // Démarre l'animation
     setTimeout(next, pauseMs);
   }
-
   function next() {
     current++;
     if (current >= count) {
@@ -408,8 +370,6 @@
     ticker.style.transform = 'translateY(-' + (current * lineH) + 'px)';
     setTimeout(next, pauseMs + transMs);
   }
-
-  // Attendre que la police soit chargée avant de mesurer
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(init);
   } else {
