@@ -240,6 +240,29 @@ select.inp option{background:#1a1a1a}
   .grid-3{grid-template-columns:1fr!important}
 }
 
+
+/* ── Agent IA ── */
+.agent-block{
+  background:linear-gradient(135deg,#141414 0%,#1a1a1a 100%);
+  border:1px solid rgba(59,130,246,.22);border-radius:16px;
+  padding:22px 26px;position:relative;overflow:hidden;
+  box-shadow:0 0 48px rgba(59,130,246,.05);
+}
+.agent-block::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(59,130,246,.55),transparent);
+}
+.agent-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.agent-title{font-size:13px;font-weight:600;color:#93c5fd;display:flex;align-items:center;gap:7px}
+.agent-time{font-size:12px;color:var(--muted)}
+.agent-msg{font-size:15px;line-height:1.75;color:#f1f5f9;min-height:52px;letter-spacing:.01em}
+.agent-msg.loading{color:var(--muted);font-style:italic;font-size:14px;display:flex;align-items:center;gap:8px}
+.agent-dot{display:inline-block;width:6px;height:6px;border-radius:99px;background:#3b82f6;
+  animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.agent-refresh{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);
+  padding:5px 10px;border-radius:7px;transition:.12s;margin-top:12px}
+.agent-refresh:hover{background:#1e1e1e;color:var(--text)}
 /* ── Print ── */
 @media print{
   body>*{display:none!important}
@@ -304,6 +327,7 @@ let state={
   filter:'Tous',loaded:false,
   confirmDel:false,confirmDelDevis:false,confirmReset:false,
   drag:null,
+  agent:{msg:null,loading:false,time:null},
 };
 
 /* ═══════════════════════════════════════════════════════════════
@@ -473,6 +497,7 @@ async function logCall(id,fromModal){
   render();
   await api('PUT','/contacts?id='+id,toDB(updated));
   toast('Appel enregistré 📞');
+  scheduleAgent();
 }
 
 async function moveStage(id,statut,closeModal){
@@ -484,6 +509,7 @@ async function moveStage(id,statut,closeModal){
   if(closeModal)state.editing=null;
   render();
   await api('PUT','/contacts?id='+id,toDB(updated));
+  scheduleAgent();
   toast(statut==='Gagné'?'Vente conclue ! 🎉':('Déplacé → '+stageLabel(statut)),statut==='Gagné'?'win':'');
 }
 
@@ -621,6 +647,7 @@ const I={
   clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
   printer:'<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
   logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
   party:'<path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="M22 2 11 13"/>',
   chevron:'<polyline points="9 18 15 12 9 6"/>',
 };
@@ -657,13 +684,14 @@ function chipDevis(statut){const col=DEVIS_STATUS_COLOR[statut]||DEVIS_STATUS_CO
 function viewDashboard(){
   const k=computeKPI(),rel=computeRelances(),s=state.settings;
   const alertes=rel.retard.concat(rel.aujourdhui).slice(0,5);
+  const agentBlock='<div class="agent-block" id="agent-block">'+agentBlockHTML()+'</div>';
   const cards=[
     {label:"Appels aujourd'hui",value:k.appelsJour,icon:'phone',tint:'tint-indigo'},
     {label:'RDV actifs',value:k.rdvActifs,icon:'calendar',tint:'tint-violet'},
     {label:'Ventes conclues',value:k.gagnes,icon:'award',tint:'tint-emerald'},
     {label:'Taux de conversion',value:k.conv+' %',icon:'trending',tint:'tint-amber'},
   ];
-  return'<div class="stack">'
+  return'<div class="stack">'+agentBlock
     +'<div class="grid" style="grid-template-columns:auto 1fr">'
       +'<div class="card ring-wrap">'+ringHTML(k.appelsJour,s.objAppels,'appels')
         +'<div><div class="eyebrow">Objectif du jour</div><p style="font-size:13px;color:var(--muted);line-height:1.5">'+(k.appelsJour>=s.objAppels?'Objectif atteint. Beau travail 👏':'Encore '+Math.max(s.objAppels-k.appelsJour,0)+' appels pour atteindre votre cible.')+'</p>'
@@ -728,7 +756,7 @@ function viewRelances(){
   const total=g.retard.length+g.aujourdhui.length+g.avenir.length;
   if(total===0)return'<div class="empty"><div class="ei">'+ic('bell',24)+'</div><h3>Aucune relance programmée</h3><p>Ouvrez un contact et définissez une date de relance.</p></div>';
   const secs=[{key:'retard',label:'En retard',color:'#fb7185',dot:'#e11d48'},{key:'aujourdhui',label:"Aujourd'hui",color:'#fcd34d',dot:'#f59e0b'},{key:'avenir',label:'À venir',color:'var(--muted)',dot:'#475569'}];
-  return'<div class="stack">'+secs.map(sec=>g[sec.key].length===0?'':'<div><div class="rsec-head"><span class="dot" style="background:'+sec.dot+'"></span><h3 style="color:'+sec.color+'">'+sec.label+'</h3><span style="color:var(--muted);font-size:12px">('+g[sec.key].length+')</span></div>'
+  return'<div class="stack">'+agentBlock+secs.map(sec=>g[sec.key].length===0?'':'<div><div class="rsec-head"><span class="dot" style="background:'+sec.dot+'"></span><h3 style="color:'+sec.color+'">'+sec.label+'</h3><span style="color:var(--muted);font-size:12px">('+g[sec.key].length+')</span></div>'
     +'<div class="list">'+g[sec.key].map(c=>'<div class="row"><button class="row-main" data-act="open" data-id="'+c.id+'"><div class="row-name">'+esc(c.nom)+'</div><div class="row-sub">'+esc(c.entreprise||'')+' · '+esc(c.telephone||'')+'</div></button><span class="hide-sm" style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px">'+ic('calendar',12)+' '+fmtDate(c.dateRelance)+'</span><button class="mini-btn" data-act="call" data-id="'+c.id+'">'+ic('phone',15)+'</button><button class="mini-btn ok" data-act="closerel" data-id="'+c.id+'">'+ic('check',15)+'</button></div>').join('')+'</div></div>').join('')+'</div>';
 }
 
@@ -736,7 +764,7 @@ function viewRelances(){
 function viewDevis(){
   const totalCA=state.devis.filter(d=>d.statut==='Accepté').reduce((s,d)=>s+d.lignes.reduce((ss,l)=>ss+(l.total||0),0)*(1+d.tva/100),0);
   const enCours=state.devis.filter(d=>['Envoyé','Brouillon'].includes(d.statut)).length;
-  return'<div class="stack">'
+  return'<div class="stack">'+agentBlock
     +'<div class="grid" style="grid-template-columns:1fr 1fr 1fr">'
       +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA devis acceptés</div><div class="v">'+eur(totalCA)+'</div></div>'
       +'<div class="vtile g-indigo"><div class="t">'+ic('filetext',14)+' Devis total</div><div class="v">'+state.devis.length+'</div></div>'
@@ -766,7 +794,7 @@ function viewActivite(){
   const perf=[{label:'Appels',val:k.appelsJour,goal:s.objAppels,col:'#3b82f6'},{label:'RDV pris',val:k.rdvJour,goal:s.objRdv,col:'#8b5cf6'},{label:'Ventes',val:k.ventesJour,goal:s.objVentes,col:'#10b981'}];
   const funnel=[{label:'Contactés',val:k.contactes,col:'#0ea5e9'},{label:'RDV',val:k.rdvActifs,col:'#8b5cf6'},{label:'Gagnés',val:k.gagnes,col:'#10b981'}];
   const maxF=Math.max(1,...funnel.map(f=>f.val));
-  return'<div class="stack">'
+  return'<div class="stack">'+agentBlock
     +'<div class="card" style="padding:20px"><h3 style="color:#fff;font-weight:600;margin-bottom:4px">Objectifs quotidiens</h3><p style="font-size:13px;color:var(--muted);margin-bottom:16px">Ajustez vos cibles de prospection.</p><div class="grid" style="grid-template-columns:1fr 1fr 1fr">'
       +[{k:'objAppels',label:'Appels / jour',icon:'phone'},{k:'objRdv',label:'RDV / jour',icon:'calendar'},{k:'objVentes',label:'Ventes / jour',icon:'award'}].map(f=>'<label class="field"><span style="display:flex;align-items:center;gap:5px">'+ic(f.icon,12)+' '+f.label+'</span><input type="number" min="0" class="inp" style="font-weight:600;margin-top:5px" data-act="goal" data-key="'+f.k+'" value="'+s[f.k]+'"/></label>').join('')
     +'</div></div>'
@@ -881,6 +909,53 @@ function recomputeDevisLines(){
   const c=document.getElementById('tot-ttc');if(c)c.textContent=eur(ttc);
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   AGENT IA
+═══════════════════════════════════════════════════════════════ */
+function agentBlockHTML(){
+  const a=state.agent;
+  const head='<div class="agent-head"><span class="agent-title">'+ic('zap',14)+' Mentor Controlia'+(a.time?' <span class="agent-time">· '+esc(a.time)+'</span>':'')+'</span></div>';
+  const body=a.loading
+    ?'<div class="agent-msg loading"><span class="agent-dot"></span> Analyse de ton pipeline en cours…</div>'
+    :'<div class="agent-msg">'+(a.msg?esc(a.msg):'—')+'</div>';
+  const foot='<button class="agent-refresh" data-act="agent-refresh">'+ic('reset',13)+' Actualiser</button>';
+  return head+body+foot;
+}
+
+let agentTimer=null;
+async function fetchAgent(){
+  if(!state.loaded)return;
+  state.agent.loading=true;
+  const el=document.getElementById('agent-block');
+  if(el)el.innerHTML=agentBlockHTML();
+
+  const k=computeKPI();
+  const rel=computeRelances();
+  const now=new Date();
+  const res=await api('POST','/agent',{
+    kpi:{...k,objAppels:state.settings.objAppels,objRdv:state.settings.objRdv,objVentes:state.settings.objVentes},
+    relances:{retard:rel.retard,aujourdhui:rel.aujourdhui},
+    contacts:state.contacts,
+    heure:now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),
+    jour:now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),
+  });
+  state.agent.msg=res?.message||null;
+  state.agent.time=now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  state.agent.loading=false;
+  const el2=document.getElementById('agent-block');
+  if(el2)el2.innerHTML=agentBlockHTML();
+
+  // refresh auto toutes les 5 min
+  clearTimeout(agentTimer);
+  agentTimer=setTimeout(fetchAgent, 5*60*1000);
+}
+
+let agentDebounce=null;
+function scheduleAgent(){
+  clearTimeout(agentDebounce);
+  agentDebounce=setTimeout(fetchAgent, 1200);
+}
 /* ═══════════════════════════════════════════════════════════════
    TOAST
 ═══════════════════════════════════════════════════════════════ */
@@ -958,6 +1033,7 @@ document.addEventListener('click',e=>{
     case 'closerel':closeRelance(id);break;
     case 'filter':state.filter=t.getAttribute('data-f');render();break;
     case 'logout':logout();break;
+    case 'agent-refresh':fetchAgent();break;
     /* ── Devis ── */
     case 'new-devis':state.editingDevis={lignes:[],tva:20,statut:'Brouillon'};state.confirmDelDevis=false;render();break;
     case 'open-devis':{const dv=state.devis.find(x=>x.id===id);if(dv){state.editingDevis={...dv,lignes:[...(dv.lignes||[])]};state.confirmDelDevis=false;render();}}break;
@@ -1021,6 +1097,7 @@ document.addEventListener('keydown',e=>{
     if(saved)try{state.settings=JSON.parse(saved);}catch(e){}
     state.loaded=true;
     render();
+    fetchAgent();
   }catch(err){
     console.error(err);
     document.getElementById('app').innerHTML='<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#64748b"><div>Erreur de connexion au serveur.</div><a href="/admin/login.html" style="color:#3b82f6;font-weight:600">Reconnexion →</a></div>';
