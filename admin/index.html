@@ -910,7 +910,7 @@ function render(){
       return'<button class="nav-item'+(active?' active':'')+'" data-act="goto" data-view="'+n.key+'">'+ic(n.icon,17)+'<span class="lbl">'+n.label+'</span>'+(b!=null?'<span class="nav-badge'+(alert?' alert':'')+'">'+b+'</span>':'')+'</button>';}).join('')+'</nav>'
     +'<div class="sidebar-foot"><button class="btn-new" data-act="new">'+ic('plus',16)+' Nouveau contact</button><button class="btn-logout" data-act="logout">'+ic('logout',15)+' Déconnexion</button></div></aside>';
 
-  const topbar='<div class="topbar"><h1>'+(NAV.find(n=>n.key===state.view)||{}).label||''+'</h1>'
+  const topbar='<div class="topbar"><h1>'+(NAV.find(n=>n.key===state.view)||{label:''}).label+'</h1>'
     +'<button class="icon-btn" data-act="goto" data-view="relances">'+ic('bell',18)+(alertCount>0?'<span class="bell-badge">'+alertCount+'</span>':'')+'</button>'
     +(state.view!=='devis'?'<button class="btn-primary hide-sm" data-act="new">'+ic('plus',16)+' Ajouter</button>':'<button class="btn-primary hide-sm" data-act="new-devis">'+ic('plus',16)+' Nouveau devis</button>')
     +'</div>';
@@ -926,7 +926,7 @@ function render(){
   const botnav='<nav class="botnav">'+NAV.map(n=>{const active=state.view===n.key,alert=n.key==='relances'&&alertCount>0;
     return'<button class="'+(active?'active':'')+'" data-act="goto" data-view="'+n.key+'">'+ic(n.icon,19)+'<span>'+n.label.split(' ')[0]+'</span>'+(alert?'<span class="bdot"></span>':'')+'</button>';}).join('')+'</nav>';
 
-  document.getElementById('app').innerHTML=sidebar+'<div class="main">'+topbar+'<main class="content">'+body+'</main></div>'+botnav+modalHTML()+devisModalHTML();
+  document.getElementById("app").innerHTML="<div class=\"app\">"+sidebar+'<div class="main">'+topbar+'<main class="content">'+body+'</main></div></div>'+botnav+modalHTML()+devisModalHTML();
 }
 
 /* ═══════════════════════════════════════════════════════════════
