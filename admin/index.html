@@ -6,8 +6,8 @@
 <title>Controlia — Admin</title>
 <style>
 :root{
-  --bg:#0b1622; --card:#122032; --sidebar:#091320;
-  --border:rgba(255,255,255,.07); --border2:rgba(255,255,255,.1);
+  --bg:#0a0a0a; --card:#141414; --sidebar:#0f0f0f;
+  --border:#252525; --border2:#2e2e2e;
   --text:#e2e8f0; --muted:#64748b; --faint:#94a3b8;
   --accent:#3b82f6; --accent-h:#2563eb; --accent-bg:rgba(59,130,246,.12);
   --emerald:#10b981; --amber:#f59e0b; --rose:#e11d48;
@@ -23,7 +23,7 @@ a{color:var(--accent);text-decoration:none}
 
 /* ── Layout ── */
 .app{display:flex;min-height:100vh}
-.sidebar{width:232px;flex-shrink:0;background:var(--sidebar);border-right:1px solid rgba(255,255,255,.06);
+.sidebar{width:232px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);
   position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
 .brand{padding:22px 18px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--border)}
 .brand-ic{width:36px;height:36px;border-radius:11px;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(59,130,246,.35);flex-shrink:0}
@@ -44,7 +44,7 @@ a{color:var(--accent);text-decoration:none}
 .btn-logout:hover{background:#1e1e1e;color:var(--text)}
 
 .main{flex:1;min-width:0;padding-bottom:72px}
-.topbar{position:sticky;top:0;z-index:20;background:rgba(11,22,34,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:13px 28px;display:flex;align-items:center;gap:12px}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:13px 28px;display:flex;align-items:center;gap:12px}
 .topbar h1{font-size:18px;font-weight:700;color:#fff;flex:1}
 .icon-btn{position:relative;padding:8px;border-radius:8px;color:var(--muted);transition:.12s}
 .icon-btn:hover{background:#1a1a1a;color:var(--text)}
@@ -73,7 +73,7 @@ a{color:var(--accent);text-decoration:none}
 .vtile .v{font-size:24px;font-weight:800;color:#fff}
 .g-emerald{background:linear-gradient(135deg,rgba(16,185,129,.18),rgba(5,150,105,.12));border-color:rgba(16,185,129,.25)}
 .g-indigo{background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(37,99,235,.12));border-color:rgba(59,130,246,.3)}
-.g-slate{background:linear-gradient(135deg,rgba(15,35,55,.6),rgba(9,19,32,.5));border-color:rgba(255,255,255,.08)}
+.g-slate{background:linear-gradient(135deg,rgba(51,65,85,.3),rgba(30,41,59,.2));border-color:rgba(51,65,85,.4)}
 
 .ring-wrap{padding:18px 20px;display:flex;align-items:center;gap:18px}
 .ring{position:relative;width:120px;height:120px;flex-shrink:0}
@@ -338,6 +338,8 @@ function fromDB(r){
     valeur:r.valeur||0,notes:r.notes||'',
     dateRelance:r.date_relance||null,dateCreation:r.date_creation||new Date().toISOString(),
     historique:r.historique||[],
+  ville:r.ville||'',
+  secteur:r.secteur||'',
   };
 }
 function toDB(c){
@@ -346,6 +348,7 @@ function toDB(c){
     source:c.source,statut:c.statut,valeur:c.valeur,notes:c.notes,
     date_relance:c.dateRelance||null,date_creation:c.dateCreation,
     historique:c.historique,
+    ville:c.ville||'',secteur:c.secteur||'',
   };
 }
 function fromDBDevis(r){
@@ -421,6 +424,8 @@ async function saveContactFromForm(){
     statut:(g('f-statut')||{}).value||'Nouveau',source:(g('f-source')||{}).value||'Appel à froid',
     valeur:Number((g('f-valeur')||{}).value)||0,notes:(g('f-notes')||{}).value||'',
     dateRelance:(g('f-relance')||{}).value?new Date((g('f-relance')||{}).value).toISOString():null,
+    ville:(g('f-ville')||{}).value||'',
+    secteur:(g('f-secteur')||{}).value||'',
   };
   const cur=state.editing;
   if(!isNew){
@@ -447,6 +452,7 @@ function syncFromForm(){
   cur.telephone=g('f-telephone')||'';cur.email=g('f-email')||'';
   cur.statut=g('f-statut')||cur.statut;cur.source=g('f-source')||cur.source;
   cur.valeur=Number(g('f-valeur'))||0;cur.notes=g('f-notes')||'';
+  cur.ville=g('f-ville')||'';cur.secteur=g('f-secteur')||'';
   const r=g('f-relance');if(r)cur.dateRelance=r?new Date(r).toISOString():null;
 }
 
@@ -790,7 +796,7 @@ function modalHTML(){
       +'<label class="field col-2"><span>Entreprise</span><input id="f-entreprise" class="inp" value="'+esc(c.entreprise||'')+'" placeholder="Ex. Boulangerie du Coin"/></label>'
       +'<label class="field"><span>Téléphone</span><input id="f-telephone" class="inp" value="'+esc(c.telephone||'')+'" placeholder="06 …"/></label>'
       +'<label class="field"><span>Email</span><input id="f-email" class="inp" value="'+esc(c.email||'')+'" placeholder="contact@…"/></label>'
-      +'<label class="field"><span>Statut</span><select id="f-statut" class="inp">'+STAGES.map(s=>'<option value="'+s.key+'"'+((c.statut||'Nouveau')===s.key?' selected':'')+'>'+esc(s.label)+'</option>').join('')+'</select></label>'
+      +'<label class="field"><span>Ville / Zone</span><input id="f-ville" class="inp" value="'+esc(c.ville||'')+'" placeholder="Ex. Toulouse, Sud-Ouest"/></label>'+'<label class="field"><span>Secteur</span><input id="f-secteur" class="inp" value="'+esc(c.secteur||'')+'" placeholder="Ex. Plomberie, Maçonnerie"/></label>'+'<label class="field"><span>Statut</span><select id="f-statut" class="inp">'+STAGES.map(s=>'<option value="'+s.key+'"'+((c.statut||'Nouveau')===s.key?' selected':'')+'>'+esc(s.label)+'</option>').join('')+'</select></label>'
       +'<label class="field"><span>Source</span><select id="f-source" class="inp">'+SOURCES.map(s=>'<option'+((c.source||'Appel à froid')===s?' selected':'')+'>'+esc(s)+'</option>').join('')+'</select></label>'
       +'<label class="field"><span>Valeur estimée (€)</span><input id="f-valeur" type="number" min="0" class="inp" value="'+(c.valeur||0)+'"/></label>'
       +'<label class="field"><span>Relance le</span><input id="f-relance" type="date" class="inp" value="'+relVal+'"/></label>'
