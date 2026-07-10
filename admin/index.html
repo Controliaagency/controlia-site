@@ -1223,8 +1223,8 @@ function modalHTML(){
       +'<label class="field"><span>Valeur estimée (€)</span><input id="f-valeur" type="number" min="0" class="inp" value="'+(c.valeur||0)+'"/></label>'
       +'<label class="field"><span>Relance le</span><input id="f-relance" type="date" class="inp" value="'+relVal+'"/></label>'
       +'<label class="field col-2"><span>Notes</span><textarea id="f-notes" class="inp" rows="3" placeholder="Contexte, objections, prochaines étapes…">'+esc(c.notes||'')+'</textarea></label>'
-      +(isNew?'<label class="field col-2 checkline"><input id="f-appel" type="checkbox"/><span>Je viens d\'appeler ce contact</span></label>':'')+
-      +(isNew?'<label class="field" id="f-appel-date-wrap" style="display:none"><span>Date de l\'appel</span><input id="f-appel-date" type="datetime-local" class="inp" value=""/></label>':'')
+      +(isNew?'<label class="field col-2 checkline"><input id="f-appel" type="checkbox"/><span>Je viens d\'appeler ce contact</span></label>':'')
+    +(isNew?'<label class="field col-2"><span>Date &amp; heure de l\'appel</span><input id="f-appel-date" type="datetime-local" class="inp" style="background:#1a1a1a"/></label>':'')
     +'</div>'
     +(isNew?'':'<div><div class="sub-label">Faire avancer</div><div class="qact">'
       +'<button class="qbtn call" data-act="call-modal" data-id="'+c.id+'">'+ic('phone',13)+' Appel</button>'
@@ -1353,6 +1353,9 @@ function render(){
     return'<button onclick="'+fn+'" class="'+(active?'active':'')+'" style="flex:1;min-width:0">'+ic(n.icon,18)+'<span>'+n.label.split(' ')[0]+'</span>'+(alert?'<span class="bdot"></span>':'')+'</button>';
   }).join('');
   document.getElementById('voice-fab').onclick=startVoice;
+  // Pré-remplir la date d'appel avec l'heure locale actuelle
+  const appelDateInput=document.getElementById('f-appel-date');
+  if(appelDateInput&&!appelDateInput.value)appelDateInput.value=localDatetimeValue();
 }
 
 /* ════════════════════════════════════════════════════════════
