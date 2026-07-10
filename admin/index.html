@@ -633,7 +633,7 @@ function getDevisFormData(){
     clientNom:g('d-clientNom'),clientEntreprise:g('d-clientEntreprise'),
     clientEmail:g('d-clientEmail'),clientTelephone:g('d-clientTelephone'),
     clientAdresse:g('d-clientAdresse'),
-    tva:Number(g('d-tva'))||20,statut:g('d-statut')||'Brouillon',
+    tva:g('d-tva')!==''&&g('d-tva')!==null?Number(g('d-tva')):20,statut:g('d-statut')||'Brouillon',
     dateValidite:g('d-validite')||'',notes:g('d-notes')||'',lignes,
   };
 }
