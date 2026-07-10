@@ -1087,19 +1087,31 @@ function render(){
     +'</div>';
 
   let body='';
-  if(state.view==='dashboard')body=viewDashboard();
-  else if(state.view==='contacts')body=viewContacts();
-  else if(state.view==='pipeline')body=viewPipeline();
-  else if(state.view==='relances')body=viewRelances();
-  else if(state.view==='devis')body=viewDevis();
-  else if(state.view==='activite')body=viewActivite();
+  try{
+    if(state.view==='dashboard')body=viewDashboard();
+    else if(state.view==='contacts')body=viewContacts();
+    else if(state.view==='pipeline')body=viewPipeline();
+    else if(state.view==='relances')body=viewRelances();
+    else if(state.view==='devis')body=viewDevis();
+    else if(state.view==='activite')body=viewActivite();
+  }catch(err){
+    body='<div style="color:#fb7185;padding:24px;font-size:14px"><b>Erreur vue '+esc(state.view)+':</b><br>'+esc(err.message)+'<br><small>'+esc(err.stack||'')+'</small></div>';
+    console.error('View error ['+state.view+']:', err);
+  }
 
   const botnav='<nav class="botnav">'+NAV.map(n=>{const active=state.view===n.key,alert=n.key==='relances'&&alertCount>0;
     return'<button class="'+(active?'active':'')+'" data-act="goto" data-view="'+n.key+'">'+ic(n.icon,19)+'<span>'+n.label.split(' ')[0]+'</span>'+(alert?'<span class="bdot"></span>':'')+'</button>';}).join('')+'</nav>';
 
   document.getElementById("app").innerHTML="<div class=\"app\">"+sidebar+'<div class="main">'+topbar+'<main class="content">'+body+'</main></div></div>'+modalHTML()+devisModalHTML();
   const _bn=document.getElementById('botnav-fixed');
-  if(_bn)_bn.innerHTML=NAV.map(n=>{const active=state.view===n.key,alert=n.key==='relances'&&alertCount>0;return'<button class="'+(active?'active':'')+'" data-act="goto" data-view="'+n.key+'">'+ic(n.icon,19)+'<span>'+n.label.split(' ')[0]+'</span>'+(alert?'<span class="bdot"></span>':'')+'</button>';}).join('');
+  if(_bn){
+    _bn.innerHTML=NAV.map(n=>{
+      const active=state.view===n.key,al=n.key==='relances'&&alertCount>0;
+      // onclick inline : contourne les problèmes de bubbling iOS sur position:fixed
+      const fn="state.view='"+n.key+"';state.filter='Tous';render();return false;";
+      return'<button onclick="'+fn+'" ontouchend="'+fn+'" class="'+(active?'active':'')+'" style="flex:1;min-width:0;-webkit-tap-highlight-color:rgba(59,130,246,.2)">'+ic(n.icon,19)+'<span style="font-size:8px;white-space:nowrap">'+n.label.split(' ')[0]+'</span>'+(al?'<span class="bdot"></span>':'')+'</button>';
+    }).join('');
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
