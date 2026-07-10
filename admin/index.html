@@ -263,6 +263,92 @@ select.inp option{background:#1a1a1a}
 .agent-refresh{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);
   padding:5px 10px;border-radius:7px;transition:.12s;margin-top:12px}
 .agent-refresh:hover{background:#1e1e1e;color:var(--text)}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE MOBILE — full rewrite
+════════════════════════════════════════════ */
+@media(max-width:820px){
+  /* Fix débordement horizontal (cause principale des onglets inaccessibles) */
+  html,body{overflow-x:hidden;width:100%;max-width:100vw}
+  .app{overflow-x:hidden}
+
+  /* Tous les grids inline → 1 colonne */
+  .content .grid{grid-template-columns:1fr!important}
+
+  /* KPI 4 cartes : garder 2x2 */
+  .kpi-4{grid-template-columns:1fr 1fr!important}
+
+  /* Ring card : horizontal compact */
+  .ring-wrap{flex-direction:row;align-items:center;gap:14px;padding:14px 16px}
+  .ring{width:100px;height:100px;flex-shrink:0}
+  .ring .rnum{font-size:22px}
+  .ring .rgoal{font-size:10px}
+  .ring svg{width:100px;height:100px}
+
+  /* Agent */
+  .agent-block{padding:14px 16px}
+  .agent-msg{font-size:13px;line-height:1.6}
+
+  /* VTiles */
+  .vtile{padding:14px 16px}
+  .vtile .v{font-size:20px}
+
+  /* Chart */
+  .chart-wrap{height:130px!important}
+
+  /* Devis table : scroll horizontal */
+  .list{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .devis-table{min-width:480px}
+  .devis-table td,.devis-table th{padding:9px 10px;font-size:12px}
+
+  /* Lines table dans modal */
+  .lines-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+  .lines-table{min-width:380px}
+  .lines-table .inp{padding:5px 6px;font-size:12px}
+
+  /* Modal plein écran en bas */
+  .overlay{padding:0;align-items:flex-end}
+  .modal{border-radius:16px 16px 0 0;max-height:95vh;max-width:100%}
+
+  /* Nav bas : assurer que tout rentre */
+  .botnav{width:100vw;max-width:100vw}
+  .botnav button{font-size:9px;gap:1px;padding:7px 0}
+  .botnav button svg{width:18px;height:18px}
+
+  /* Topbar */
+  .topbar{padding:11px 14px}
+  .topbar h1{font-size:16px}
+
+  /* Content padding */
+  .content{padding:14px 12px}
+
+  /* Stack gap réduit */
+  .stack{gap:12px}
+  .grid{gap:10px}
+
+  /* Cards */
+  .card{border-radius:12px}
+  .kpi{padding:14px 16px;min-height:90px}
+  .kpi-val{font-size:22px}
+
+  /* Pipeline kanban */
+  .kanban{gap:8px}
+  .kcol{width:220px}
+
+  /* Formulaires objectifs (3 col → 1) */
+  .act-goals{grid-template-columns:1fr!important}
+
+  /* Bouton nouveau contact sidebar caché */
+  .sidebar-foot{display:none}
+
+  /* Search bar */
+  .toolbar{gap:8px}
+  .search input{padding:8px 10px 8px 34px;font-size:13px}
+
+  /* Rows */
+  .row{padding:10px 12px;gap:9px}
+  .row-name{font-size:13px}
+}
 /* ── Print ── */
 @media print{
   body>*{display:none!important}
@@ -696,7 +782,7 @@ function viewDashboard(){
       +'<div class="card ring-wrap">'+ringHTML(k.appelsJour,s.objAppels,'appels')
         +'<div><div class="eyebrow">Objectif du jour</div><p style="font-size:13px;color:var(--muted);line-height:1.5">'+(k.appelsJour>=s.objAppels?'Objectif atteint. Beau travail 👏':'Encore '+Math.max(s.objAppels-k.appelsJour,0)+' appels pour atteindre votre cible.')+'</p>'
         +'<div style="margin-top:10px;display:flex;gap:16px;font-size:13px"><div><b style="color:#fff">'+k.rdvJour+'</b> <span style="color:var(--muted)">RDV pris</span></div><div><b style="color:#fff">'+k.ventesJour+'</b> <span style="color:var(--muted)">ventes</span></div></div></div></div>'
-      +'<div class="grid" style="grid-template-columns:1fr 1fr">'+cards.map(c=>'<div class="card kpi"><div class="kpi-ic '+c.tint+'">'+ic(c.icon,18)+'</div><div class="kpi-val">'+c.value+'</div><div class="kpi-lbl">'+c.label+'</div></div>').join('')+'</div>'
+      +'<div class="grid kpi-4" style="grid-template-columns:1fr 1fr">'+cards.map(c=>'<div class="card kpi"><div class="kpi-ic '+c.tint+'">'+ic(c.icon,18)+'</div><div class="kpi-val">'+c.value+'</div><div class="kpi-lbl">'+c.label+'</div></div>').join('')+'</div>'
     +'</div>'
     +'<div class="grid grid-3" style="grid-template-columns:1fr 1fr 1fr">'
       +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA gagné</div><div class="v">'+eur(k.caGagne)+'</div></div>'
@@ -765,7 +851,7 @@ function viewDevis(){
   const totalCA=state.devis.filter(d=>d.statut==='Accepté').reduce((s,d)=>s+d.lignes.reduce((ss,l)=>ss+(l.total||0),0)*(1+d.tva/100),0);
   const enCours=state.devis.filter(d=>['Envoyé','Brouillon'].includes(d.statut)).length;
   return'<div class="stack">'+agentBlock
-    +'<div class="grid" style="grid-template-columns:1fr 1fr 1fr">'
+    +'<div class="grid act-goals" style="grid-template-columns:1fr 1fr 1fr">'
       +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA devis acceptés</div><div class="v">'+eur(totalCA)+'</div></div>'
       +'<div class="vtile g-indigo"><div class="t">'+ic('filetext',14)+' Devis total</div><div class="v">'+state.devis.length+'</div></div>'
       +'<div class="vtile g-slate"><div class="t">'+ic('clock',14)+' En cours</div><div class="v">'+enCours+'</div></div>'
@@ -874,8 +960,8 @@ function devisModalHTML(){
       +'</div></div>'
       +'<div>'
         +'<div class="section-divider">Prestations</div>'
-        +'<table class="lines-table"><thead><tr><th>Description</th><th style="width:70px;text-align:center">Qté</th><th style="width:110px">Prix HT</th><th style="width:100px;text-align:right">Total HT</th><th style="width:32px"></th></tr></thead>'
-        +'<tbody id="lines-body">'+lignes.map((l,i)=>lineRow(l,i)).join('')+'</tbody></table>'
+        +'<div class="lines-table-wrap"><table class="lines-table"><thead><tr><th>Description</th><th style="width:70px;text-align:center">Qté</th><th style="width:110px">Prix HT</th><th style="width:100px;text-align:right">Total HT</th><th style="width:32px"></th></tr></thead>'
+        +'<tbody id="lines-body">'+lignes.map((l,i)=>lineRow(l,i)).join('')+'</tbody></table></div>'
         +'<button class="qbtn call" style="font-size:12px;margin-top:6px" data-act="add-line">'+ic('plus',13)+' Ajouter une ligne</button>'
         +'<div class="totals">'
           +'<div style="display:flex;justify-content:flex-end"><div style="width:260px">'
