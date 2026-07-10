@@ -282,6 +282,16 @@ select.inp option{background:#1a1a1a}
 .memory-tag button{color:var(--rose);opacity:.6;cursor:pointer;background:none;border:none;padding:0;line-height:1;font-size:14px}
 .memory-tag button:hover{opacity:1}
 
+
+/* ── Catégories mémoire ── */
+.mem-cat-objection{background:rgba(225,29,72,.1);color:#fb7185;border-color:rgba(225,29,72,.2)}
+.mem-cat-prospect{background:rgba(14,165,233,.1);color:#7dd3fc;border-color:rgba(14,165,233,.2)}
+.mem-cat-preference{background:rgba(139,92,246,.1);color:#c4b5fd;border-color:rgba(139,92,246,.2)}
+.mem-cat-decision{background:rgba(245,158,11,.1);color:#fcd34d;border-color:rgba(245,158,11,.2)}
+.mem-cat-pattern{background:rgba(16,185,129,.1);color:#6ee7b7;border-color:rgba(16,185,129,.2)}
+.mem-cat-general{background:#1a1a1a;color:var(--muted);border-color:var(--border)}
+.mem-cat-conversation{background:#1a1a1a;color:var(--muted);border-color:var(--border)}
+
 /* ── Print ── */
 @media print{
   html,body,#app,#botnav-fixed,.voice-fab{display:none!important}
@@ -949,11 +959,35 @@ async function deleteMemory(id){
   await api('DELETE','/memory?id='+id);
   toast('Souvenir effacé');
 }
+const CAT_LABEL={'objection':'Objection','prospect':'Prospect','preference':'Préférence','decision':'Décision','pattern':'Pattern','general':'Général','conversation':'Divers'};
 function renderMemories(){
   if(!state.memories.length)return'<div style="color:var(--muted);font-size:13px;font-style:italic">Aucun souvenir pour l\'instant. Conversez avec le mentor pour qu\'il commence à mémoriser.</div>';
-  return state.memories.map(m=>'<div class="memory-tag">'+esc(m.content)+'<button onclick="deleteMemory(\''+m.id+'\')" title="Supprimer">×</button></div>').join('');
+  const byCat={};
+  state.memories.forEach(m=>{const cat=m.category||'general';if(!byCat[cat])byCat[cat]=[];byCat[cat].push(m);});
+  return Object.entries(byCat).map(([cat,mems])=>'<div style="margin-bottom:10px"><div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px">'+(CAT_LABEL[cat]||cat)+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+mems.map(m=>'<div class="memory-tag mem-cat-'+cat+'">'+esc(m.content)+'<button onclick="deleteMemory(\''+m.id+'\')" title="Supprimer">×</button></div>').join('')+'</div></div>').join('');
 }
 function fmtTime(iso){return new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+
+
+async function weeklyRecap(){
+  const now=new Date();
+  const weekStart=new Date(now);weekStart.setDate(now.getDate()-now.getDay()+1);weekStart.setHours(0,0,0,0);
+  const k=computeKPI(),rel=computeRelances();
+  const recapMsg='Fais-moi un bilan de ma semaine de prospection et donne-moi une stratégie concrète pour la semaine qui vient. Sois précis, motivant, et utilise ce que tu sais de moi.';
+  state.chatMessages.push({role:'user',content:recapMsg,time:new Date().toISOString()});
+  state.chatLoading=true;renderChat();
+  const res=await api('POST','/chat',{
+    messages:state.chatMessages.map(m=>({role:m.role,content:m.content})),
+    kpi:{...k,objAppels:state.settings.objAppels},
+    contacts:state.contacts,
+    relances:{retard:rel.retard,aujourdhui:rel.aujourdhui},
+    heure:now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),
+    jour:now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'}),
+  });
+  state.chatLoading=false;
+  if(res&&res.reply)state.chatMessages.push({role:'assistant',content:res.reply,time:new Date().toISOString()});
+  renderChat();
+}
 
 async function sendChatMessage(){
   const input=document.getElementById('chat-input');
@@ -1005,7 +1039,7 @@ function viewMentor(){
           +'<div style="width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(59,130,246,.3)">'+ic('zap',18)+'</div>'
           +'<div><div style="font-weight:700;color:#fff;font-size:15px">Mentor Controlia</div><div style="font-size:12px;color:var(--muted)">Ton partenaire commercial IA</div></div>'
         +'</div>'
-        +'<button class="btn-ghost" onclick="state.chatMessages=[];renderChat()" style="font-size:12px">Nouvelle conversation</button>'
+        +'<div style="display:flex;gap:8px"><button class="btn-ghost" onclick="weeklyRecap()" style="font-size:12px">📊 Bilan semaine</button><button class="btn-ghost" onclick="state.chatMessages=[];renderChat()" style="font-size:12px">Nouvelle conv.</button></div>'
       +'</div>'
       +'<div class="chat-wrap">'
         +'<div class="chat-messages" id="chat-messages">'+welcome+'</div>'
