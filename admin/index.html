@@ -915,7 +915,7 @@ function modalHTML(){
       +'<label class="field"><span>Valeur estimée (€)</span><input id="f-valeur" type="number" min="0" class="inp" value="'+(c.valeur||0)+'"/></label>'
       +'<label class="field"><span>Relance le</span><input id="f-relance" type="date" class="inp" value="'+relVal+'"/></label>'
       +'<label class="field col-2"><span>Notes</span><textarea id="f-notes" class="inp" rows="3" placeholder="Contexte, objections, prochaines étapes…">'+esc(c.notes||'')+'</textarea></label>'
-      +(isNew?'<label class="field col-2 checkline"><input id="f-appel" type="checkbox"/><span>Je viens d'appeler ce contact — compter +1 appel aujourd'hui</span></label>':'')
+      +(isNew?'<label class="field col-2 checkline"><input id="f-appel" type="checkbox"/><span>Je viens d\'appeler ce contact — compter +1 appel aujourd\'hui</span></label>':'')
     +'</div>'
     +(isNew?'':'<div><div class="sub-label">Faire avancer</div><div class="qact">'
       +'<button class="qbtn call" data-act="call-modal" data-id="'+c.id+'">'+ic('phone',13)+' Appel</button>'
