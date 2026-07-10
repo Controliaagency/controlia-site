@@ -32,6 +32,22 @@ exports.handler = async (event) => {
     const data    = JSON.parse(event.body || '{}');
     const context = buildContext(data);
 
+    // Charger les mémoires longue durée
+    let memoriesBlock = '';
+    try {
+      const memRes = await supaFetch('/memories?order=created_at.desc&limit=30');
+      if (memRes.ok) {
+        const mems = await memRes.json();
+        if (Array.isArray(mems) && mems.length > 0) {
+          memoriesBlock = '\n\nCE QUE TU SAIS SUR ENZO (mémoire de vos échanges passés) :\n'
+            + mems.map(m => {
+                const cat = m.category && m.category !== 'general' ? '['+m.category+'] ' : '';
+                return '• ' + cat + m.content;
+              }).join('\n');
+        }
+      }
+    } catch(e) { /* ignore */ }
+
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -42,7 +58,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         model:      'claude-sonnet-4-6',
         max_tokens: 280,
-        system:     SYSTEM,
+        system:     SYSTEM + memoriesBlock,
         messages:   [{ role: 'user', content: context }],
       }),
     });
