@@ -891,6 +891,43 @@ function recomputeDevisLines(){
   const tc=document.getElementById('tot-ttc');if(tc)tc.textContent=eur(ttc);
 }
 
+
+/* ── Modal contact ── */
+function modalHTML(){
+  const c=state.editing;if(!c)return'';
+  const isNew=!c.id;
+  const relVal=c.dateRelance?dayKey(c.dateRelance):'';
+  const hist=(c.historique||[]).slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const foot=state.confirmDel
+    ?'<span style="flex:1;font-size:13px;color:var(--text)">Supprimer ce contact ?</span><button class="btn-ghost" data-act="del-no">Annuler</button><button class="btn-danger" data-act="del-yes" data-id="'+c.id+'">Confirmer</button>'
+    :(isNew?'':'<button class="btn-del" data-act="del-ask">'+ic('trash',17)+'</button>')+'<div class="spacer"></div><button class="btn-ghost" data-act="close">Annuler</button><button class="btn-save" data-act="save-c">'+(isNew?'Ajouter':'Enregistrer')+'</button>';
+  return'<div class="overlay" data-act="close-bg"><div class="modal" data-stop>'
+    +'<div class="modal-head"><h2>'+(isNew?'Nouveau contact':esc(c.nom||''))+'</h2><button class="icon-btn" data-act="close">'+ic('x',18)+'</button></div>'
+    +'<div class="modal-body"><div class="form-grid">'
+      +'<label class="field col-2"><span>Nom *</span><input id="f-nom" class="inp" value="'+esc(c.nom||'')+'" placeholder="Ex. Sophie Martin"/></label>'
+      +'<label class="field col-2"><span>Entreprise</span><input id="f-entreprise" class="inp" value="'+esc(c.entreprise||'')+'" placeholder="Ex. Boulangerie du Coin"/></label>'
+      +'<label class="field"><span>Téléphone</span><input id="f-telephone" class="inp" value="'+esc(c.telephone||'')+'" placeholder="06 …"/></label>'
+      +'<label class="field"><span>Email</span><input id="f-email" class="inp" value="'+esc(c.email||'')+'" placeholder="contact@…"/></label>'
+      +'<label class="field"><span>Ville / Zone</span><input id="f-ville" class="inp" value="'+esc(c.ville||'')+'" placeholder="Ex. Toulouse, Sud-Ouest"/></label>'
+      +'<label class="field"><span>Secteur</span><input id="f-secteur" class="inp" value="'+esc(c.secteur||'')+'" placeholder="Ex. Plomberie, Maçonnerie"/></label>'
+      +'<label class="field"><span>Statut</span><select id="f-statut" class="inp">'+STAGES.map(s=>'<option value="'+s.key+'"'+((c.statut||'Nouveau')===s.key?' selected':'')+'>'+esc(s.label)+'</option>').join('')+'</select></label>'
+      +'<label class="field"><span>Source</span><select id="f-source" class="inp">'+SOURCES.map(s=>'<option'+((c.source||'Appel à froid')===s?' selected':'')+'>'+esc(s)+'</option>').join('')+'</select></label>'
+      +'<label class="field"><span>Valeur estimée (€)</span><input id="f-valeur" type="number" min="0" class="inp" value="'+(c.valeur||0)+'"/></label>'
+      +'<label class="field"><span>Relance le</span><input id="f-relance" type="date" class="inp" value="'+relVal+'"/></label>'
+      +'<label class="field col-2"><span>Notes</span><textarea id="f-notes" class="inp" rows="3" placeholder="Contexte, objections, prochaines étapes…">'+esc(c.notes||'')+'</textarea></label>'
+      +(isNew?'<label class="field col-2 checkline"><input id="f-appel" type="checkbox"/><span>Je viens d'appeler ce contact — compter +1 appel aujourd'hui</span></label>':'')
+    +'</div>'
+    +(isNew?'':'<div><div class="sub-label">Faire avancer</div><div class="qact">'
+      +'<button class="qbtn call" data-act="call-modal" data-id="'+c.id+'">'+ic('phone',13)+' Appel</button>'
+      +'<button class="qbtn win" data-act="win" data-id="'+c.id+'">'+ic('check',13)+' Gagné</button>'
+      +'<button class="qbtn lose" data-act="lose" data-id="'+c.id+'">'+ic('xcircle',13)+' Perdu</button>'
+    +'</div></div>')
+    +(!isNew&&hist.length?'<div><div class="sub-label">Historique</div><div class="hist">'+hist.map(h=>'<div class="hist-item"><div class="hist-dot"></div><div style="flex:1"><span class="hist-type">'+esc(h.type)+'</span>'+(h.note?' <span style="color:var(--muted)">— '+esc(h.note)+'</span>':'')+'<div class="hist-date">'+fmtDate(h.date)+'</div></div></div>').join('')+'</div></div>':'')
+    +'</div>'
+    +'<div class="modal-foot">'+foot+'</div>'
+  +'</div></div>';
+}
+
 /* ── Modal création / édition devis ── */
 function devisModalHTML(){
   const d=state.editingDevis;if(!d)return'';
