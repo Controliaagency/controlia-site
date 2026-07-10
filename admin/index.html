@@ -846,7 +846,7 @@ function viewRelances(){
   const total=g.retard.length+g.aujourdhui.length+g.avenir.length;
   if(total===0)return'<div class="empty"><div class="ei">'+ic('bell',24)+'</div><h3>Aucune relance programmée</h3><p>Ouvrez un contact et définissez une date de relance.</p></div>';
   const secs=[{key:'retard',label:'En retard',color:'#fb7185',dot:'#e11d48'},{key:'aujourdhui',label:"Aujourd'hui",color:'#fcd34d',dot:'#f59e0b'},{key:'avenir',label:'À venir',color:'var(--muted)',dot:'#475569'}];
-  return'<div class="stack">'+agentBlock+secs.map(sec=>g[sec.key].length===0?'':'<div><div class="rsec-head"><span class="dot" style="background:'+sec.dot+'"></span><h3 style="color:'+sec.color+'">'+sec.label+'</h3><span style="color:var(--muted);font-size:12px">('+g[sec.key].length+')</span></div>'
+  return'<div class="stack">'+secs.map(sec=>g[sec.key].length===0?'':'<div><div class="rsec-head"><span class="dot" style="background:'+sec.dot+'"></span><h3 style="color:'+sec.color+'">'+sec.label+'</h3><span style="color:var(--muted);font-size:12px">('+g[sec.key].length+')</span></div>'
     +'<div class="list">'+g[sec.key].map(c=>'<div class="row"><button class="row-main" data-act="open" data-id="'+c.id+'"><div class="row-name">'+esc(c.nom)+'</div><div class="row-sub">'+esc(c.entreprise||'')+' · '+esc(c.telephone||'')+'</div></button><span class="hide-sm" style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px">'+ic('calendar',12)+' '+fmtDate(c.dateRelance)+'</span><button class="mini-btn" data-act="call" data-id="'+c.id+'">'+ic('phone',15)+'</button><button class="mini-btn ok" data-act="closerel" data-id="'+c.id+'">'+ic('check',15)+'</button></div>').join('')+'</div></div>').join('')+'</div>';
 }
 
@@ -854,7 +854,7 @@ function viewRelances(){
 function viewDevis(){
   const totalCA=state.devis.filter(d=>d.statut==='Accepté').reduce((s,d)=>s+d.lignes.reduce((ss,l)=>ss+(l.total||0),0)*(1+d.tva/100),0);
   const enCours=state.devis.filter(d=>['Envoyé','Brouillon'].includes(d.statut)).length;
-  return'<div class="stack">'+agentBlock
+  return'<div class="stack">'
     +'<div class="grid act-goals" style="grid-template-columns:1fr 1fr 1fr">'
       +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA devis acceptés</div><div class="v">'+eur(totalCA)+'</div></div>'
       +'<div class="vtile g-indigo"><div class="t">'+ic('filetext',14)+' Devis total</div><div class="v">'+state.devis.length+'</div></div>'
@@ -884,7 +884,7 @@ function viewActivite(){
   const perf=[{label:'Appels',val:k.appelsJour,goal:s.objAppels,col:'#3b82f6'},{label:'RDV pris',val:k.rdvJour,goal:s.objRdv,col:'#8b5cf6'},{label:'Ventes',val:k.ventesJour,goal:s.objVentes,col:'#10b981'}];
   const funnel=[{label:'Contactés',val:k.contactes,col:'#0ea5e9'},{label:'RDV',val:k.rdvActifs,col:'#8b5cf6'},{label:'Gagnés',val:k.gagnes,col:'#10b981'}];
   const maxF=Math.max(1,...funnel.map(f=>f.val));
-  return'<div class="stack">'+agentBlock
+  return'<div class="stack">'
     +'<div class="card" style="padding:20px"><h3 style="color:#fff;font-weight:600;margin-bottom:4px">Objectifs quotidiens</h3><p style="font-size:13px;color:var(--muted);margin-bottom:16px">Ajustez vos cibles de prospection.</p><div class="grid" style="grid-template-columns:1fr 1fr 1fr">'
       +[{k:'objAppels',label:'Appels / jour',icon:'phone'},{k:'objRdv',label:'RDV / jour',icon:'calendar'},{k:'objVentes',label:'Ventes / jour',icon:'award'}].map(f=>'<label class="field"><span style="display:flex;align-items:center;gap:5px">'+ic(f.icon,12)+' '+f.label+'</span><input type="number" min="0" class="inp" style="font-weight:600;margin-top:5px" data-act="goal" data-key="'+f.k+'" value="'+s[f.k]+'"/></label>').join('')
     +'</div></div>'
