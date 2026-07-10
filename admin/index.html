@@ -1194,7 +1194,12 @@ document.addEventListener('keydown',e=>{
     fetchAgent();
   }catch(err){
     console.error(err);
-    document.getElementById('app').innerHTML='<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#64748b"><div>Erreur de connexion au serveur.</div><a href="/admin/login.html" style="color:#3b82f6;font-weight:600">Reconnexion →</a></div>';
+    console.error('Init error:', err);
+    document.getElementById('app').innerHTML='<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;font-family:monospace">'
+      +'<div style="color:#fb7185;font-weight:700;font-size:16px">Erreur : '+err.message+'</div>'
+      +'<pre style="color:#94a3b8;font-size:11px;background:#111;padding:16px;border-radius:8px;max-width:700px;overflow:auto;text-align:left">'+(err.stack||'')+'</pre>'
+      +'<a href="/admin/login.html" style="color:#3b82f6;font-weight:600">Reconnexion →</a>'
+      +'</div>';
   }
 })();
 </script>
