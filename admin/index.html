@@ -432,6 +432,7 @@ const I={
   chevron:'<polyline points="9 18 15 12 9 6"/>',
   reset:'<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>',
   zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  pencil:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
   eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
 };
 function ic(name,size){size=size||18;return'<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(I[name]||'')+'</svg>';}
@@ -690,21 +691,25 @@ async function deleteDevis(id){
   await api('DELETE','/devis?id='+id);
   toast('Devis supprimé','warn');
 }
-function printDevis(d){
-  const totalHT=d.lignes.reduce((s,l)=>s+(l.total||0),0);
+
+/* ═══════════════════════════════════════════════════════════════
+   DEVIS — aperçu & génération PDF
+═══════════════════════════════════════════════════════════════ */
+
+/* ── HTML du document devis (réutilisé pour aperçu + PDF) ── */
+function buildDevisHTML(d){
+  const totalHT=d.lignes.reduce((s,l)=>s+(Number(l.total)||0),0);
   const tvaAmt=d.tva>0?Math.round(totalHT*d.tva)/100:0;
   const ttc=totalHT+tvaAmt;
-  const isFranchise=d.tva===0;
-  const LOGO='/admin/logo.png';
-
-  const docHTML='<div id="devis-content" style="font-family:\'Segoe UI\',Arial,sans-serif;color:#1a1a2e;padding:40px 48px;background:#fff;min-height:297mm;box-sizing:border-box">'
+  const isFranchise=!d.tva||d.tva===0;
+  return '<div style="font-family:\'Segoe UI\',Arial,sans-serif;color:#1a1a2e;padding:40px 48px;background:#fff;box-sizing:border-box">'
     +'<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:36px;padding-bottom:24px;border-bottom:3px solid #3b82f6">'
       +'<div style="display:flex;align-items:center;gap:14px">'
         +'<div style="width:50px;height:50px;background:#3b82f6;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">'
-          +'<img src="'+LOGO+'" style="width:38px;height:38px;object-fit:contain" crossorigin="anonymous"/>'
+          +'<img src="/admin/logo.png" style="width:38px;height:38px;object-fit:contain" crossorigin="anonymous"/>'
         +'</div>'
         +'<div><div style="font-size:22px;font-weight:800;color:#1a1a2e">Controlia</div>'
-        +'<div style="font-size:11px;color:#3b82f6;font-weight:600;text-transform:uppercase;letter-spacing:.06em">Présence digitale & IA</div></div>'
+          +'<div style="font-size:11px;color:#3b82f6;font-weight:600;text-transform:uppercase;letter-spacing:.06em">Présence digitale & IA</div></div>'
       +'</div>'
       +'<div style="text-align:right">'
         +'<div style="font-size:28px;font-weight:800;color:#3b82f6">DEVIS</div>'
@@ -723,7 +728,7 @@ function printDevis(d){
       +'</div>'
       +'<div style="background:#f8fafc;border-radius:12px;padding:18px 20px;border:1px solid #e2e8f0">'
         +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#3b82f6;margin-bottom:8px">Client</div>'
-        +'<div style="font-weight:700;font-size:15px">'+esc(d.clientNom)+'</div>'
+        +'<div style="font-weight:700;font-size:15px">'+esc(d.clientNom||'—')+'</div>'
         +(d.clientEntreprise?'<div style="font-size:13px;color:#374151;margin-top:2px">'+esc(d.clientEntreprise)+'</div>':'')
         +(d.clientAdresse?'<div style="font-size:13px;color:#64748b;margin-top:6px;line-height:1.7">'+esc(d.clientAdresse)+'</div>':'')
         +(d.clientEmail?'<div style="font-size:13px;color:#64748b">'+esc(d.clientEmail)+'</div>':'')
@@ -737,12 +742,12 @@ function printDevis(d){
         +'<th style="text-align:right;padding:12px 16px;font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;width:130px">Prix unit.</th>'
         +'<th style="text-align:right;padding:12px 16px;font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;width:130px">Total</th>'
       +'</tr></thead>'
-      +'<tbody>'+d.lignes.map((l,i)=>'<tr style="background:'+(i%2===0?'#fff':'#f8fafc')+';border-bottom:1px solid #e2e8f0">'
-        +'<td style="padding:13px 16px;font-size:14px">'+esc(l.description)+'</td>'
+      +'<tbody>'+(d.lignes.length?d.lignes.map((l,i)=>'<tr style="background:'+(i%2===0?'#fff':'#f8fafc')+';border-bottom:1px solid #e2e8f0">'
+        +'<td style="padding:13px 16px;font-size:14px">'+esc(l.description||'')+'</td>'
         +'<td style="text-align:center;padding:13px 16px;font-size:14px;color:#64748b">'+l.quantite+'</td>'
-        +'<td style="text-align:right;padding:13px 16px;font-size:14px;color:#64748b">'+eur(l.prixUnitaire)+'</td>'
-        +'<td style="text-align:right;padding:13px 16px;font-size:14px;font-weight:600">'+eur(l.total)+'</td>'
-      +'</tr>').join('')+'</tbody>'
+        +'<td style="text-align:right;padding:13px 16px;font-size:14px;color:#64748b">'+eur(Number(l.prixUnitaire)||0)+'</td>'
+        +'<td style="text-align:right;padding:13px 16px;font-size:14px;font-weight:600">'+eur(Number(l.total)||0)+'</td>'
+      +'</tr>').join(''):'<tr><td colspan="4" style="padding:16px;color:#94a3b8;text-align:center">Aucune prestation</td></tr>')+'</tbody>'
     +'</table>'
     +'<div style="display:flex;justify-content:flex-end;margin-bottom:32px">'
       +'<div style="width:300px">'
@@ -763,287 +768,111 @@ function printDevis(d){
       +'<div style="border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;min-height:68px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:6px">Date</div></div>'
     +'</div>'
     +'<div style="margin-top:24px;padding-top:14px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center">'
-      +'<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#3b82f6;border-radius:4px;display:flex;align-items:center;justify-content:center"><img src="'+LOGO+'" style="width:14px;height:14px;object-fit:contain"/></div><span style="font-size:11px;color:#94a3b8">controlia.agency</span></div>'
-      +'<div style="font-size:11px;color:#94a3b8">TVA non applicable, art. 293 B du CGI</div>'
+      +'<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#3b82f6;border-radius:4px"></div><span style="font-size:11px;color:#94a3b8">controlia.agency</span></div>'
+      +(isFranchise?'<div style="font-size:11px;color:#94a3b8">TVA non applicable, art. 293 B du CGI</div>':'')
     +'</div>'
   +'</div>';
+}
 
-  // Créer l'aperçu
-  const existing=document.getElementById('dv-preview-modal');
+/* ── Aperçu devis + génération PDF ── */
+function previewDevis(d){
+  const existing=document.getElementById('_dv_preview');
   if(existing)existing.remove();
 
-  const ov=document.createElement('div');
-  ov.id='dv-preview-modal';
-  ov.className='dv-overlay';
-  ov.innerHTML=
-    '<div class="dv-bar">'
-      +'<span class="dv-bar-title">'+esc(d.numero)+' — Aperçu</span>'
-      +'<div class="dv-bar-btns">'
-        +'<button class="dv-close" id="dv-close-btn">✕ Fermer</button>'
-        +'<button class="dv-pdf" id="dv-pdf-btn">⬇ Générer le PDF</button>'
-      +'</div>'
-    +'</div>'
-    +'<div class="dv-doc" id="dv-doc-inner">'+docHTML+'</div>';
+  const docHTML=buildDevisHTML(d);
 
+  const ov=document.createElement('div');
+  ov.id='_dv_preview';
+  ov.style.cssText='position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.88);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;overflow-y:auto;padding:20px 16px';
+
+  const bar=document.createElement('div');
+  bar.style.cssText='width:100%;max-width:860px;display:flex;justify-content:space-between;align-items:center;padding:10px 0;margin-bottom:14px;flex-shrink:0';
+  bar.innerHTML='<span style="font-size:14px;font-weight:600;color:#e2e8f0">'+esc(d.numero)+' — Aperçu</span>'
+    +'<div style="display:flex;gap:10px">'
+      +'<button id="_dv_edit" style="padding:8px 16px;border-radius:8px;background:rgba(255,255,255,.1);color:#e2e8f0;font-size:14px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.15);font-family:inherit">✏️ Modifier</button>'
+      +'<button id="_dv_close" style="padding:8px 16px;border-radius:8px;background:rgba(255,255,255,.1);color:#e2e8f0;font-size:14px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.15);font-family:inherit">✕ Fermer</button>'
+      +'<button id="_dv_pdf" style="padding:8px 20px;border-radius:8px;background:#3b82f6;color:#fff;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit">⬇ Générer le PDF</button>'
+    +'</div>';
+
+  const doc=document.createElement('div');
+  doc.id='_dv_doc';
+  doc.style.cssText='width:100%;max-width:860px;background:#fff;border-radius:10px;box-shadow:0 24px 64px rgba(0,0,0,.6);overflow:hidden;margin-bottom:24px';
+  doc.innerHTML=docHTML;
+
+  ov.appendChild(bar);
+  ov.appendChild(doc);
   document.body.appendChild(ov);
 
-  document.getElementById('dv-close-btn').onclick=()=>ov.remove();
-  ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+  // Fermer
+  document.getElementById('_dv_close').onclick=()=>ov.remove();
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};
 
-  document.getElementById('dv-pdf-btn').onclick=function(){
+  // Modifier
+  document.getElementById('_dv_edit').onclick=()=>{
+    ov.remove();
+    state.editingDevis={...d,lignes:[...(d.lignes||[])]};
+    state.confirmDelDevis=false;
+    render();
+  };
+
+  // Générer PDF
+  document.getElementById('_dv_pdf').onclick=function(){
     const btn=this;
+    if(typeof html2pdf==='undefined'){toast('Bibliothèque PDF non chargée, réessayez dans quelques secondes','err');return;}
     btn.disabled=true;btn.textContent='Génération…';
-    const el=document.getElementById('dv-doc-inner');
     html2pdf().set({
       margin:0,
       filename:'Devis-'+d.numero+'-Controlia.pdf',
       image:{type:'jpeg',quality:0.97},
-      html2canvas:{scale:2,useCORS:true,logging:false},
+      html2canvas:{scale:2,useCORS:true,logging:false,backgroundColor:'#ffffff'},
       jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
-    }).from(el).save().then(()=>{
-      btn.disabled=false;btn.innerHTML='⬇ Générer le PDF';
+    }).from(document.getElementById('_dv_doc')).save().then(()=>{
+      btn.disabled=false;btn.textContent='⬇ Générer le PDF';
+      toast('PDF généré ✓','win');
+    }).catch(err=>{
+      btn.disabled=false;btn.textContent='⬇ Générer le PDF';
+      toast('Erreur PDF : '+err.message,'err');
     });
   };
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   COMPOSANTS HTML
-═══════════════════════════════════════════════════════════════ */
-function ringHTML(value,goal,label){
-  const size=120,r=size/2-10,c=2*Math.PI*r,pct=goal>0?Math.min(value/goal,1):0,done=pct>=1;
-  const off=c*(1-pct);
-  return'<div class="ring"><svg viewBox="0 0 '+size+' '+size+'" width="100%" height="100%">'
-    +'<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="#1e1e1e" stroke-width="10"/>'
-    +'<circle cx="60" cy="60" r="'+r+'" fill="none" stroke="'+(done?'#10b981':'#3b82f6')+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'" style="transition:stroke-dashoffset .6s"/>'
-    +'</svg><div class="center"><div class="rnum'+(done?' done':'')+'">'+value+'</div><div class="rgoal">/ '+goal+' '+label+'</div></div></div>';
-}
-function barChartHTML(chart,obj){
-  const W=540,H=180,pl=22,pr=8,pt=6,pb=20,iw=W-pl-pr,ih=H-pt-pb;
-  const max=Math.max(obj||1,...chart.map(d=>d.appels),1);
-  const bw=iw/chart.length;
-  let bars='',labs='';
-  const grid=[0,Math.round(max/2),max].map(v=>{const y=pt+ih-(v/max)*ih;return'<line x1="'+pl+'" y1="'+y+'" x2="'+(W-pr)+'" y2="'+y+'" stroke="#1e1e1e"/><text x="'+(pl-4)+'" y="'+(y+3)+'" text-anchor="end" font-size="10" fill="#475569">'+v+'</text>';}).join('');
-  chart.forEach((d,i)=>{
-    const h=(d.appels/max)*ih,x=pl+i*bw+bw*.18,y=pt+ih-h,w=bw*.64,col=d.appels>=obj&&obj>0?'#10b981':'#3b82f6';
-    bars+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+Math.max(h,0)+'" rx="3" fill="'+col+'"/>';
-    if(i%2===1)labs+='<text x="'+(pl+i*bw+bw/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="9" fill="#475569">'+esc(d.jour)+'</text>';
-  });
-  return'<svg viewBox="0 0 '+W+' '+H+'" class="chart-wrap" preserveAspectRatio="none" style="height:180px">'+grid+bars+labs+'</svg>';
-}
-function chipContact(statut){const col=STAGE_COLOR[statut]||STAGE_COLOR['Nouveau'];return'<span class="chip" style="background:'+col.bg+';color:'+col.fg+';border-color:'+col.bdr+'"><span class="dot" style="background:'+col.dot+'"></span><span class="hide-sm">'+esc(stageLabel(statut))+'</span></span>';}
-function chipDevis(statut){const col=DEVIS_STATUS_COLOR[statut]||DEVIS_STATUS_COLOR['Brouillon'];return'<span class="chip" style="background:'+col.bg+';color:'+col.fg+'"><span class="dot" style="background:'+col.dot+'"></span>'+esc(statut)+'</span>';}
-
-/* ─── Dashboard ─── */
-function viewDashboard(){
-  const k=computeKPI(),rel=computeRelances(),s=state.settings;
-  const alertes=rel.retard.concat(rel.aujourdhui).slice(0,5);
-  const agentBlock='<div class="agent-block" id="agent-block">'+agentBlockHTML()+'</div>';
-  const cards=[
-    {label:"Appels aujourd'hui",value:k.appelsJour,icon:'phone',tint:'tint-indigo'},
-    {label:'RDV actifs',value:k.rdvActifs,icon:'calendar',tint:'tint-violet'},
-    {label:'Ventes conclues',value:k.gagnes,icon:'award',tint:'tint-emerald'},
-    {label:'Taux de conversion',value:k.conv+' %',icon:'trending',tint:'tint-amber'},
-  ];
-  return'<div class="stack">'+agentBlock
-    +'<div class="grid" style="grid-template-columns:auto 1fr">'
-      +'<div class="card ring-wrap">'+ringHTML(k.appelsJour,s.objAppels,'appels')
-        +'<div><div class="eyebrow">Objectif du jour</div><p style="font-size:13px;color:var(--muted);line-height:1.5">'+(k.appelsJour>=s.objAppels?'Objectif atteint. Beau travail 👏':'Encore '+Math.max(s.objAppels-k.appelsJour,0)+' appels pour atteindre votre cible.')+'</p>'
-        +'<div style="margin-top:10px;display:flex;gap:16px;font-size:13px"><div><b style="color:#fff">'+k.rdvJour+'</b> <span style="color:var(--muted)">RDV pris</span></div><div><b style="color:#fff">'+k.ventesJour+'</b> <span style="color:var(--muted)">ventes</span></div></div></div></div>'
-      +'<div class="grid kpi-4" style="grid-template-columns:1fr 1fr">'+cards.map(c=>'<div class="card kpi"><div class="kpi-ic '+c.tint+'">'+ic(c.icon,18)+'</div><div class="kpi-val">'+c.value+'</div><div class="kpi-lbl">'+c.label+'</div></div>').join('')+'</div>'
-    +'</div>'
-    +'<div class="grid grid-3" style="grid-template-columns:1fr 1fr 1fr">'
-      +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA gagné</div><div class="v">'+eur(k.caGagne)+'</div></div>'
-      +'<div class="vtile g-indigo"><div class="t">'+ic('pipeline',14)+' Pipeline</div><div class="v">'+eur(k.pipeline)+'</div></div>'
-      +'<div class="vtile g-slate"><div class="t">'+ic('phone',14)+' Appels cumulés</div><div class="v">'+k.appelsTotal+'</div></div>'
-    +'</div>'
-    +'<div class="grid" style="grid-template-columns:2fr 1fr">'
-      +'<div class="card" style="padding:18px 20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-weight:600;color:#fff">Appels sur 14 jours</span><span style="font-size:12px;color:var(--muted)">objectif : '+s.objAppels+'/jour</span></div>'+barChartHTML(k.chart,s.objAppels)+'</div>'
-      +'<div class="card" style="padding:18px 20px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-weight:600;color:#fff">À relancer</span><button data-act="goto" data-view="relances" style="font-size:12px;color:var(--accent);font-weight:500;display:flex;align-items:center;gap:2px">Tout voir '+ic('chevron',12)+'</button></div>'
-        +(alertes.length===0?'<div style="text-align:center;padding:24px 0;color:var(--muted);font-size:13px">'+ic('check',26)+'<div style="margin-top:8px">Aucune relance en attente</div></div>'
-        :'<div style="display:flex;flex-direction:column;gap:6px">'+alertes.map(c=>{const st=relanceState(c.dateRelance);return'<button class="row" style="border-radius:8px;border:none;background:none;width:100%;" data-act="open" data-id="'+c.id+'"><div style="width:4px;height:32px;border-radius:99px;background:'+(st==='retard'?'#e11d48':'#f59e0b')+'"></div><div class="row-main"><div class="row-name">'+esc(c.nom)+'</div><div class="row-sub">'+esc(c.entreprise||'')+'</div></div><span class="chip" style="font-size:10px;background:'+(st==='retard'?'rgba(225,29,72,.12)':'rgba(245,158,11,.12)')+';color:'+(st==='retard'?'#fb7185':'#fcd34d')+';">'+(st==='retard'?'Retard':"Auj.")+'</span></button>';}).join('')+'</div>')
-      +'</div>'
-    +'</div>'
-  +'</div>';
-}
-
-/* ─── Contacts ─── */
-function viewContacts(){
-  if(state.contacts.length===0)return emptyHTML('users','Aucun contact','Ajoutez votre premier prospect.','new');
-  const chips=['Tous'].concat(STAGES.map(s=>s.key));
-  const rows=state.contacts.filter(c=>state.filter==='Tous'||c.statut===state.filter);
-  return'<div class="toolbar">'
-    +'<div class="search">'+ic('search',16)+'<input id="search" placeholder="Rechercher…"/></div>'
-    +'<div class="chips">'+chips.map(f=>'<button class="fchip'+(state.filter===f?' on':'')+'" data-act="filter" data-f="'+f+'">'+(f==='Tous'?'Tous':esc(stageLabel(f)))+'</button>').join('')+'</div>'
-  +'</div>'
-  +'<div class="list" id="contact-list">'+(rows.length===0?'<div style="padding:40px;text-align:center;color:var(--muted)">Aucun résultat.</div>'
-    :rows.map(c=>{const rs=relanceState(c.dateRelance);return'<div class="row" data-search="'+esc((c.nom+' '+c.entreprise+' '+c.telephone).toLowerCase())+'">'
-      +'<div class="avatar">'+initial(c.nom)+'</div>'
-      +'<button class="row-main" data-act="open" data-id="'+c.id+'"><div class="row-name">'+esc(c.nom)+'</div><div class="row-sub">'+esc(c.entreprise||'—')+' · '+esc(c.telephone||'')+'</div></button>'
-      +(c.valeur>0?'<div class="hide-sm" style="font-weight:600;color:var(--emerald)">'+eur(c.valeur)+'</div>':'')
-      +(rs&&rs!=='avenir'?'<span class="chip hide-sm" style="font-size:10px;background:'+(rs==='retard'?'rgba(225,29,72,.1)':'rgba(245,158,11,.1)')+';color:'+(rs==='retard'?'#fb7185':'#fcd34d')+'">relance</span>':'')
-      +chipContact(c.statut)
-      +'<button class="mini-btn" data-act="call" data-id="'+c.id+'" title="Enregistrer un appel">'+ic('phone',15)+'</button>'
-    +'</div>';}).join(''))
-  +'</div>'
-  +'<div style="text-align:center;font-size:12px;color:var(--muted);margin-top:10px">'+rows.length+' contact'+(rows.length>1?'s':'')+'</div>';
-}
-
-/* ─── Pipeline ─── */
-function viewPipeline(){
-  const by={};STAGES.forEach(s=>by[s.key]=[]);
-  state.contacts.forEach(c=>{if(by[c.statut])by[c.statut].push(c);});
-  return'<p style="font-size:13px;color:var(--muted);margin-bottom:14px">Glissez une carte pour faire avancer l\'opportunité.</p>'
-    +'<div class="kanban">'+STAGES.map(s=>{
-      const list=by[s.key],val=list.reduce((a,c)=>a+(Number(c.valeur)||0),0),col=STAGE_COLOR[s.key];
-      return'<div class="kcol" data-col="'+s.key+'">'
-        +'<div class="kcol-head"><div class="l"><span class="dot" style="background:'+col.dot+'"></span>'+esc(s.label)+'<span class="kcol-count">'+list.length+'</span></div>'+(val>0?'<span class="kcol-val">'+eur(val)+'</span>':'')+'</div>'
-        +'<div class="kcol-body">'+(list.length===0?'<div class="kcol-empty">Vide</div>':list.map(c=>{const rs=relanceState(c.dateRelance);return'<div class="kcard" draggable="true" data-id="'+c.id+'">'
-          +'<div class="kn">'+esc(c.nom)+'</div><div class="ke">'+esc(c.entreprise||'—')+'</div>'
-          +'<div class="kf">'+(c.valeur>0?'<span class="kval">'+eur(c.valeur)+'</span>':'<span></span>')+(c.dateRelance&&!['Gagné','Perdu'].includes(c.statut)?'<span class="krel'+(rs==='retard'?' late':'')+'">'+ic('clock',10)+' '+esc(fmtDate(c.dateRelance).slice(0,6))+'</span>':'')+'</div>'
-        +'</div>';}).join(''))+'</div></div>';}).join('')+'</div>';
-}
-
-/* ─── Relances ─── */
-function viewRelances(){
-  const g=computeRelances();
-  const total=g.retard.length+g.aujourdhui.length+g.avenir.length;
-  if(total===0)return'<div class="empty"><div class="ei">'+ic('bell',24)+'</div><h3>Aucune relance programmée</h3><p>Ouvrez un contact et définissez une date de relance.</p></div>';
-  const secs=[{key:'retard',label:'En retard',color:'#fb7185',dot:'#e11d48'},{key:'aujourdhui',label:"Aujourd'hui",color:'#fcd34d',dot:'#f59e0b'},{key:'avenir',label:'À venir',color:'var(--muted)',dot:'#475569'}];
-  return'<div class="stack">'+secs.map(sec=>g[sec.key].length===0?'':'<div><div class="rsec-head"><span class="dot" style="background:'+sec.dot+'"></span><h3 style="color:'+sec.color+'">'+sec.label+'</h3><span style="color:var(--muted);font-size:12px">('+g[sec.key].length+')</span></div>'
-    +'<div class="list">'+g[sec.key].map(c=>'<div class="row"><button class="row-main" data-act="open" data-id="'+c.id+'"><div class="row-name">'+esc(c.nom)+'</div><div class="row-sub">'+esc(c.entreprise||'')+' · '+esc(c.telephone||'')+'</div></button><span class="hide-sm" style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px">'+ic('calendar',12)+' '+fmtDate(c.dateRelance)+'</span><button class="mini-btn" data-act="call" data-id="'+c.id+'">'+ic('phone',15)+'</button><button class="mini-btn ok" data-act="closerel" data-id="'+c.id+'">'+ic('check',15)+'</button></div>').join('')+'</div></div>').join('')+'</div>';
-}
-
-/* ─── Devis ─── */
+/* ── Vue liste devis ── */
 function viewDevis(){
-  const totalCA=state.devis.filter(d=>d.statut==='Accepté').reduce((s,d)=>s+d.lignes.reduce((ss,l)=>ss+(l.total||0),0)*(1+d.tva/100),0);
+  const totalCA=state.devis.filter(d=>d.statut==='Accepté').reduce((s,d)=>s+buildDevisHTML(d)&&0||d.lignes.reduce((ss,l)=>ss+(Number(l.total)||0),0)*(1+(d.tva||0)/100),0);
   const enCours=state.devis.filter(d=>['Envoyé','Brouillon'].includes(d.statut)).length;
-  return'<div class="stack">'
-    +'<div class="grid act-goals" style="grid-template-columns:1fr 1fr 1fr">'
-      +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA devis acceptés</div><div class="v">'+eur(totalCA)+'</div></div>'
-      +'<div class="vtile g-indigo"><div class="t">'+ic('filetext',14)+' Devis total</div><div class="v">'+state.devis.length+'</div></div>'
+  const caReal=state.devis.filter(d=>d.statut==='Accepté').reduce((s,d)=>s+d.lignes.reduce((ss,l)=>ss+(Number(l.total)||0),0)*(1+(d.tva||0)/100),0);
+  return '<div class="stack">'
+    +'<div class="grid" style="grid-template-columns:1fr 1fr 1fr">'
+      +'<div class="vtile g-emerald"><div class="t">'+ic('euro',14)+' CA devis acceptés</div><div class="v">'+eur(caReal)+'</div></div>'
+      +'<div class="vtile g-indigo"><div class="t">'+ic('filetext',14)+' Total devis</div><div class="v">'+state.devis.length+'</div></div>'
       +'<div class="vtile g-slate"><div class="t">'+ic('clock',14)+' En cours</div><div class="v">'+enCours+'</div></div>'
     +'</div>'
-    +(state.devis.length===0?'<div class="empty"><div class="ei">'+ic('filetext',24)+'</div><h3>Aucun devis</h3><p>Créez votre premier devis en cliquant sur le bouton ci-dessous.</p><button class="btn-primary" style="margin:16px auto 0" data-act="new-devis">'+ic('plus',16)+' Nouveau devis</button></div>'
-    :'<div class="list"><table class="devis-table"><thead><tr><th>N° Devis</th><th>Client</th><th>Date</th><th>Total TTC</th><th>Statut</th><th></th></tr></thead><tbody>'
-      +state.devis.map(d=>{
-        const ht=d.lignes.reduce((s,l)=>s+(l.total||0),0);
-        const ttc=ht+ht*d.tva/100;
-        return'<tr><td style="font-weight:600;color:#fff;font-size:13px">'+esc(d.numero)+'</td>'
-          +'<td><div style="font-weight:500">'+esc(d.clientNom)+'</div><div style="font-size:12px;color:var(--muted)">'+esc(d.clientEntreprise)+'</div></td>'
-          +'<td style="color:var(--muted);font-size:13px">'+fmtDate(d.dateCreation)+'</td>'
-          +'<td style="font-weight:600;color:var(--emerald)">'+eur(ttc)+'</td>'
-          +'<td>'+chipDevis(d.statut)+'</td>'
-          +'<td style="display:flex;gap:4px;justify-content:flex-end">'
-          +'<button class="mini-btn" data-act="print-devis" data-id="'+d.id+'" title="Aperçu & PDF" style="color:#3b82f6">'+ic('eye',15)+'</button>'
-          +'<button class="mini-btn" data-act="open-devis" data-id="'+d.id+'" title="Modifier">'+ic('filetext',15)+'</button>'
-          +'</td></tr>';}).join('')
-    +'</tbody></table></div>')
-  +'</div>';
+    +(state.devis.length===0
+      ?'<div class="empty"><div class="ei">'+ic('filetext',24)+'</div><h3>Aucun devis</h3><p>Créez votre premier devis pour un prospect.</p><button class="btn-primary" style="margin:16px auto 0" data-act="new-devis">'+ic('plus',16)+' Nouveau devis</button></div>'
+      :'<div class="list"><table class="devis-table"><thead><tr>'
+        +'<th>N° Devis</th><th>Client</th><th>Date</th><th>Total TTC</th><th>Statut</th><th></th>'
+      +'</tr></thead><tbody>'
+        +state.devis.map(d=>{
+          const ht=d.lignes.reduce((s,l)=>s+(Number(l.total)||0),0);
+          const ttc=ht*(1+(d.tva||0)/100);
+          return '<tr>'
+            +'<td style="font-weight:600;color:#fff;font-size:13px">'+esc(d.numero)+'</td>'
+            +'<td><div style="font-weight:500">'+esc(d.clientNom||'—')+'</div>'
+              +(d.clientEntreprise?'<div style="font-size:12px;color:var(--muted)">'+esc(d.clientEntreprise)+'</div>':'')+'</td>'
+            +'<td style="color:var(--muted);font-size:13px">'+fmtDate(d.dateCreation)+'</td>'
+            +'<td style="font-weight:600;color:var(--emerald)">'+eur(ttc)+'</td>'
+            +'<td>'+chipDevis(d.statut)+'</td>'
+            +'<td><div style="display:flex;gap:6px;justify-content:flex-end">'
+              +'<button class="mini-btn" style="color:#3b82f6" data-act="preview-devis" data-id="'+d.id+'" title="Aperçu & PDF">'+ic('eye',15)+'</button>'
+              +'<button class="mini-btn" data-act="open-devis" data-id="'+d.id+'" title="Modifier">'+ic('pencil',15)+'</button>'
+            +'</div></td>'
+          +'</tr>';
+        }).join('')
+      +'</tbody></table></div>'
+    )+'</div>';
 }
 
-/* ─── Activité ─── */
-function viewActivite(){
-  const k=computeKPI(),s=state.settings;
-  const perf=[{label:'Appels',val:k.appelsJour,goal:s.objAppels,col:'#3b82f6'},{label:'RDV pris',val:k.rdvJour,goal:s.objRdv,col:'#8b5cf6'},{label:'Ventes',val:k.ventesJour,goal:s.objVentes,col:'#10b981'}];
-  const funnel=[{label:'Contactés',val:k.contactes,col:'#0ea5e9'},{label:'RDV',val:k.rdvActifs,col:'#8b5cf6'},{label:'Gagnés',val:k.gagnes,col:'#10b981'}];
-  const maxF=Math.max(1,...funnel.map(f=>f.val));
-  return'<div class="stack">'
-    +'<div class="card" style="padding:20px"><h3 style="color:#fff;font-weight:600;margin-bottom:4px">Objectifs quotidiens</h3><p style="font-size:13px;color:var(--muted);margin-bottom:16px">Ajustez vos cibles de prospection.</p><div class="grid" style="grid-template-columns:1fr 1fr 1fr">'
-      +[{k:'objAppels',label:'Appels / jour',icon:'phone'},{k:'objRdv',label:'RDV / jour',icon:'calendar'},{k:'objVentes',label:'Ventes / jour',icon:'award'}].map(f=>'<label class="field"><span style="display:flex;align-items:center;gap:5px">'+ic(f.icon,12)+' '+f.label+'</span><input type="number" min="0" class="inp" style="font-weight:600;margin-top:5px" data-act="goal" data-key="'+f.k+'" value="'+s[f.k]+'"/></label>').join('')
-    +'</div></div>'
-    +'<div class="grid" style="grid-template-columns:1fr 1fr">'
-      +'<div class="card" style="padding:20px"><h3 style="color:#fff;font-weight:600;margin-bottom:14px">Performance du jour</h3><div style="display:flex;flex-direction:column;gap:14px">'+perf.map(r=>{const pct=r.goal>0?Math.min(r.val/r.goal*100,100):0;return'<div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:var(--muted)">'+r.label+'</span><span style="color:var(--muted)"><b style="color:#fff">'+r.val+'</b> / '+r.goal+'</span></div><div class="pbar"><span style="width:'+pct+'%;background:'+r.col+'"></span></div></div>';}).join('')+'</div></div>'
-      +'<div class="card" style="padding:20px"><h3 style="color:#fff;font-weight:600;margin-bottom:14px">Entonnoir</h3><div style="display:flex;flex-direction:column;gap:10px">'+funnel.map(f=>'<div class="frow"><span style="font-size:12px;color:var(--muted);width:76px;flex-shrink:0">'+f.label+'</span><div class="fbar"><span style="width:'+(f.val/maxF*100)+'%;background:'+f.col+';min-width:'+(f.val>0?'24px':'0')+'">'+(f.val>0?f.val:'')+'</span></div></div>').join('')+'</div><div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted)">Conversion globale</span><span style="font-size:18px;font-weight:800;color:var(--emerald)">'+k.conv+' %</span></div></div>'
-    +'</div>'
-    +'<div class="card" style="padding:20px"><h3 style="color:#fff;font-weight:600;margin-bottom:12px">Volume d\'appels — 14 jours</h3>'+barChartHTML(k.chart,0)+'</div>'
-  +'</div>';
-}
-
-function emptyHTML(icon,title,txt,act){return'<div class="empty"><div class="ei">'+ic(icon,24)+'</div><h3>'+title+'</h3><p>'+txt+'</p>'+(act?'<button class="btn-primary" style="margin:16px auto 0" data-act="'+act+'">'+ic('plus',16)+' Créer</button>':'')+'</div>';}
-
-/* ─── Modal contact ─── */
-function modalHTML(){
-  const c=state.editing;if(!c)return'';
-  const isNew=!c.id;
-  const relVal=c.dateRelance?dayKey(c.dateRelance):'';
-  const hist=(c.historique||[]).slice().sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const foot=state.confirmDel
-    ?'<span style="flex:1;font-size:13px;color:var(--text)">Supprimer ce contact ?</span><button class="btn-ghost" data-act="del-no">Annuler</button><button class="btn-danger" data-act="del-yes" data-id="'+c.id+'">Supprimer</button>'
-    :(isNew?'':'<button class="btn-del" data-act="del-ask">'+ic('trash',17)+'</button>')+'<div class="spacer"></div><button class="btn-ghost" data-act="close">Annuler</button><button class="btn-save" data-act="save-c">'+( isNew?'Ajouter':'Enregistrer')+'</button>';
-  return'<div class="overlay" data-act="close-bg"><div class="modal" data-stop>'
-    +'<div class="modal-head"><h2>'+(isNew?'Nouveau contact':esc(c.nom||''))+'</h2><button class="icon-btn" data-act="close">'+ic('x',18)+'</button></div>'
-    +'<div class="modal-body"><div class="form-grid">'
-      +'<label class="field col-2"><span>Nom *</span><input id="f-nom" class="inp" value="'+esc(c.nom||'')+'" placeholder="Ex. Sophie Martin" autofocus/></label>'
-      +'<label class="field col-2"><span>Entreprise</span><input id="f-entreprise" class="inp" value="'+esc(c.entreprise||'')+'" placeholder="Ex. Boulangerie du Coin"/></label>'
-      +'<label class="field"><span>Téléphone</span><input id="f-telephone" class="inp" value="'+esc(c.telephone||'')+'" placeholder="06 …"/></label>'
-      +'<label class="field"><span>Email</span><input id="f-email" class="inp" value="'+esc(c.email||'')+'" placeholder="contact@…"/></label>'
-      +'<label class="field"><span>Ville / Zone</span><input id="f-ville" class="inp" value="'+esc(c.ville||'')+'" placeholder="Ex. Toulouse, Sud-Ouest"/></label>'+'<label class="field"><span>Secteur</span><input id="f-secteur" class="inp" value="'+esc(c.secteur||'')+'" placeholder="Ex. Plomberie, Maçonnerie"/></label>'+'<label class="field"><span>Statut</span><select id="f-statut" class="inp">'+STAGES.map(s=>'<option value="'+s.key+'"'+((c.statut||'Nouveau')===s.key?' selected':'')+'>'+esc(s.label)+'</option>').join('')+'</select></label>'
-      +'<label class="field"><span>Source</span><select id="f-source" class="inp">'+SOURCES.map(s=>'<option'+((c.source||'Appel à froid')===s?' selected':'')+'>'+esc(s)+'</option>').join('')+'</select></label>'
-      +'<label class="field"><span>Valeur estimée (€)</span><input id="f-valeur" type="number" min="0" class="inp" value="'+(c.valeur||0)+'"/></label>'
-      +'<label class="field"><span>Relance le</span><input id="f-relance" type="date" class="inp" value="'+relVal+'"/></label>'
-      +'<label class="field col-2"><span>Notes</span><textarea id="f-notes" class="inp" rows="3" placeholder="Contexte, objections, prochaines étapes…">'+esc(c.notes||'')+'</textarea></label>'
-      +(isNew?'<label class="field col-2 checkline"><input id="f-appel" type="checkbox"/><span>Je viens d\'appeler ce contact — compter +1 appel aujourd\'hui</span></label>':'')
-    +'</div>'
-    +(isNew?'':'<div><div class="sub-label">Faire avancer</div><div class="qact"><button class="qbtn call" data-act="call-modal" data-id="'+c.id+'">'+ic('phone',13)+' Appel</button><button class="qbtn win" data-act="win" data-id="'+c.id+'">'+ic('check',13)+' Gagné</button><button class="qbtn lose" data-act="lose" data-id="'+c.id+'">'+ic('xcircle',13)+' Perdu</button></div></div>')
-    +(!isNew&&hist.length?'<div><div class="sub-label">Historique</div><div class="hist">'+hist.map(h=>'<div class="hist-item"><div class="hist-dot"></div><div style="flex:1"><span class="hist-type">'+esc(h.type)+'</span>'+(h.note?' <span style="color:var(--muted)">— '+esc(h.note)+'</span>':'')+'<div class="hist-date">'+fmtDate(h.date)+'</div></div></div>').join('')+'</div></div>':'')
-    +'</div>'
-    +'<div class="modal-foot">'+foot+'</div>'
-  +'</div></div>';
-}
-
-/* ─── Modal devis ─── */
-function devisModalHTML(){
-  const d=state.editingDevis;if(!d)return'';
-  const isNew=!d.id;
-  const lignes=d.lignes&&d.lignes.length?d.lignes:[{description:'',quantite:1,prixUnitaire:0,total:0}];
-  const totalHT=lignes.reduce((s,l)=>s+(l.total||0),0);
-  const tvaAmt=Math.round(totalHT*(d.tva||20))/100;
-  const ttc=totalHT+tvaAmt;
-  function lineRow(l,i){
-    return'<tr class="dline">'
-      +'<td><input class="inp" data-field="desc" value="'+esc(l.description||'')+'" placeholder="Description de la prestation"/></td>'
-      +'<td style="width:70px"><input class="inp" data-field="qty" type="number" min="0.5" step="0.5" value="'+(l.quantite||1)+'" style="text-align:center"/></td>'
-      +'<td style="width:110px"><input class="inp" data-field="pu" type="number" min="0" step="10" value="'+(l.prixUnitaire||0)+'"/></td>'
-      +'<td style="width:100px;text-align:right;font-weight:600;color:var(--emerald);padding:0 8px">'+eur(l.total||0)+'</td>'
-      +'<td style="width:32px"><button class="mini-btn" data-act="del-line" data-li="'+i+'" style="color:var(--rose)">'+ic('x',13)+'</button></td>'
-    +'</tr>';
-  }
-  const foot=state.confirmDelDevis
-    ?'<span style="flex:1;font-size:13px;color:var(--text)">Supprimer ce devis ?</span><button class="btn-ghost" data-act="deldv-no">Annuler</button><button class="btn-danger" data-act="deldv-yes" data-id="'+d.id+'">Supprimer</button>'
-    :(isNew?'':'<button class="btn-del" data-act="deldv-ask">'+ic('trash',17)+'</button>')+'<div class="spacer"></div><button class="btn-ghost" data-act="close-dv">Annuler</button><button class="qbtn call" data-act="print-from-modal" style="gap:6px">'+ic('printer',14)+' Imprimer</button><button class="btn-save" data-act="save-dv">'+(isNew?'Créer':'Enregistrer')+'</button>';
-  return'<div class="overlay" data-act="close-dv-bg"><div class="modal" style="max-width:660px" data-stop>'
-    +'<div class="modal-head"><h2>'+(isNew?'Nouveau devis':esc(d.numero||''))+'</h2><button class="icon-btn" data-act="close-dv">'+ic('x',18)+'</button></div>'
-    +'<div class="modal-body">'
-      +'<div><div class="section-divider">Client</div><div class="form-grid">'
-        +'<label class="field"><span>Nom du client *</span><input id="d-clientNom" class="inp" value="'+esc(d.clientNom||'')+'" placeholder="Prénom Nom"/></label>'
-        +'<label class="field"><span>Entreprise</span><input id="d-clientEntreprise" class="inp" value="'+esc(d.clientEntreprise||'')+'" placeholder="SARL Example"/></label>'
-        +'<label class="field"><span>Email</span><input id="d-clientEmail" class="inp" value="'+esc(d.clientEmail||'')+'" placeholder="contact@…"/></label>'
-        +'<label class="field"><span>Téléphone</span><input id="d-clientTelephone" class="inp" value="'+esc(d.clientTelephone||'')+'" placeholder="06 …"/></label>'
-        +'<label class="field col-2"><span>Adresse</span><input id="d-clientAdresse" class="inp" value="'+esc(d.clientAdresse||'')+'" placeholder="12 rue de la Paix, 75001 Paris"/></label>'
-      +'</div></div>'
-      +'<div><div class="section-divider">Devis</div><div class="form-grid">'
-        +'<label class="field"><span>Statut</span><select id="d-statut" class="inp">'+['Brouillon','Envoyé','Accepté','Refusé'].map(s=>'<option'+(d.statut===s?' selected':'')+'>'+s+'</option>').join('')+'</select></label>'
-        +'<label class="field"><span>Date de validité</span><input id="d-validite" type="date" class="inp" value="'+esc(d.dateValidite||'')+'"/></label>'
-      +'</div></div>'
-      +'<div>'
-        +'<div class="section-divider">Prestations</div>'
-        +'<div class="lines-table-wrap"><table class="lines-table"><thead><tr><th>Description</th><th style="width:70px;text-align:center">Qté</th><th style="width:110px">Prix HT</th><th style="width:100px;text-align:right">Total HT</th><th style="width:32px"></th></tr></thead>'
-        +'<tbody id="lines-body">'+lignes.map((l,i)=>lineRow(l,i)).join('')+'</tbody></table></div>'
-        +'<button class="qbtn call" style="font-size:12px;margin-top:6px" data-act="add-line">'+ic('plus',13)+' Ajouter une ligne</button>'
-        +'<div class="totals">'
-          +'<div style="display:flex;justify-content:flex-end"><div style="width:260px">'
-            +'<div class="total-row"><span style="color:var(--muted)">Total HT</span><span id="tot-ht">'+eur(totalHT)+'</span></div>'
-            +'<div class="total-row"><span style="color:var(--muted)">TVA <select id="d-tva" class="inp" style="width:70px;padding:2px 6px;display:inline">'+[0,5.5,10,20].map(v=>'<option value="'+v+'"'+(d.tva===v?' selected':'')+'>'+v+' %</option>').join('')+'</select></span><span id="tot-tva">'+eur(tvaAmt)+'</span></div>'
-            +'<div class="total-row total-ttc" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px"><span>Total TTC</span><span id="tot-ttc">'+eur(ttc)+'</span></div>'
-          +'</div></div>'
-        +'</div>'
-      +'</div>'
-      +'<div><div class="section-divider">Notes & conditions</div><textarea id="d-notes" class="inp" rows="3" placeholder="Conditions de paiement, délais, garanties…">'+esc(d.notes||'')+'</textarea></div>'
-    +'</div>'
-    +'<div class="modal-foot">'+foot+'</div>'
-  +'</div></div>';
-}
-
+/* ── Recalcul lignes dans le modal ── */
 function recomputeDevisLines(){
   let ht=0;
   document.querySelectorAll('.dline').forEach(row=>{
@@ -1059,13 +888,74 @@ function recomputeDevisLines(){
   const ttc=ht+tvaAmt;
   const h=document.getElementById('tot-ht');if(h)h.textContent=eur(ht);
   const t=document.getElementById('tot-tva');if(t)t.textContent=eur(tvaAmt);
-  const c=document.getElementById('tot-ttc');if(c)c.textContent=eur(ttc);
+  const tc=document.getElementById('tot-ttc');if(tc)tc.textContent=eur(ttc);
 }
 
+/* ── Modal création / édition devis ── */
+function devisModalHTML(){
+  const d=state.editingDevis;if(!d)return'';
+  const isNew=!d.id;
+  const lignes=d.lignes&&d.lignes.length?d.lignes:[{description:'',quantite:1,prixUnitaire:0,total:0}];
+  const totalHT=lignes.reduce((s,l)=>s+(Number(l.total)||0),0);
+  const tvaPct=d.tva!=null?d.tva:0;
+  const tvaAmt=Math.round(totalHT*tvaPct)/100;
+  const ttc=totalHT+tvaAmt;
+  function lineRow(l,i){
+    return '<tr class="dline">'
+      +'<td><input class="inp" data-field="desc" value="'+esc(l.description||'')+'" placeholder="Description de la prestation"/></td>'
+      +'<td style="width:70px"><input class="inp" data-field="qty" type="number" min="0.5" step="0.5" value="'+(l.quantite||1)+'" style="text-align:center"/></td>'
+      +'<td style="width:110px"><input class="inp" data-field="pu" type="number" min="0" step="10" value="'+(l.prixUnitaire||0)+'"/></td>'
+      +'<td style="width:100px;text-align:right;font-weight:600;color:var(--emerald);padding:0 8px">'+eur(l.total||0)+'</td>'
+      +'<td style="width:32px"><button class="mini-btn" data-act="del-line" data-li="'+i+'" style="color:var(--rose)">'+ic('x',13)+'</button></td>'
+    +'</tr>';
+  }
+  const foot=state.confirmDelDevis
+    ?'<div style="display:flex;align-items:center;gap:8px;flex:1">'
+        +'<button onclick="state.confirmDelDevis=false;render()" style="padding:8px 14px;border-radius:8px;background:#1e1e1e;color:var(--muted);font-size:13px;cursor:pointer;border:1px solid var(--border);font-family:inherit">Annuler</button>'
+        +'<button onclick="deleteDevis(\''+d.id+'\')" style="padding:8px 14px;border-radius:8px;background:var(--rose);color:#fff;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit">Confirmer la suppression</button>'
+      +'</div>'
+    :('<div style="display:flex;gap:8px;flex:1;align-items:center">'
+        +(!isNew?'<button onclick="state.confirmDelDevis=true;render()" style="padding:8px;border-radius:8px;color:var(--rose);background:none;border:none;cursor:pointer;opacity:.7" title="Supprimer">'+ic('trash',17)+'</button>':'')
+      +'</div>'
+      +'<button class="btn-ghost" data-act="close-dv">Annuler</button>'
+      +'<button class="btn-save" data-act="save-dv">'+(isNew?'Créer le devis':'Enregistrer')+'</button>'
+    );
+  return '<div class="overlay" data-act="close-dv-bg"><div class="modal" style="max-width:660px" data-stop>'
+    +'<div class="modal-head"><h2>'+(isNew?'Nouveau devis':esc(d.numero||''))+'</h2><button class="icon-btn" data-act="close-dv">'+ic('x',18)+'</button></div>'
+    +'<div class="modal-body">'
+      +'<div><div class="section-divider">Client</div><div class="form-grid">'
+        +'<label class="field"><span>Nom *</span><input id="d-clientNom" class="inp" value="'+esc(d.clientNom||'')+'" placeholder="Prénom Nom"/></label>'
+        +'<label class="field"><span>Entreprise</span><input id="d-clientEntreprise" class="inp" value="'+esc(d.clientEntreprise||'')+'" placeholder="SARL…"/></label>'
+        +'<label class="field"><span>Email</span><input id="d-clientEmail" class="inp" value="'+esc(d.clientEmail||'')+'" placeholder="contact@…"/></label>'
+        +'<label class="field"><span>Téléphone</span><input id="d-clientTelephone" class="inp" value="'+esc(d.clientTelephone||'')+'" placeholder="06…"/></label>'
+        +'<label class="field col-2"><span>Adresse</span><input id="d-clientAdresse" class="inp" value="'+esc(d.clientAdresse||'')+'" placeholder="12 rue…"/></label>'
+      +'</div></div>'
+      +'<div><div class="section-divider">Devis</div><div class="form-grid">'
+        +'<label class="field"><span>Statut</span><select id="d-statut" class="inp">'+['Brouillon','Envoyé','Accepté','Refusé'].map(s=>'<option'+(d.statut===s?' selected':'')+'>'+s+'</option>').join('')+'</select></label>'
+        +'<label class="field"><span>Date de validité</span><input id="d-validite" type="date" class="inp" value="'+esc(d.dateValidite||'')+'"/></label>'
+      +'</div></div>'
+      +'<div><div class="section-divider">Prestations</div>'
+        +'<div class="lines-table-wrap"><table class="lines-table"><thead><tr>'
+          +'<th>Description</th><th style="width:70px;text-align:center">Qté</th>'
+          +'<th style="width:110px">Prix HT</th><th style="width:100px;text-align:right">Total HT</th><th style="width:32px"></th>'
+        +'</tr></thead><tbody id="lines-body">'+lignes.map((l,i)=>lineRow(l,i)).join('')+'</tbody></table></div>'
+        +'<button class="qbtn call" style="font-size:12px;margin-top:8px" data-act="add-line">'+ic('plus',13)+' Ajouter une prestation</button>'
+        +'<div class="totals" style="margin-top:16px">'
+          +'<div style="display:flex;justify-content:flex-end"><div style="width:260px">'
+            +'<div class="total-row"><span style="color:var(--muted)">Total HT</span><span id="tot-ht">'+eur(totalHT)+'</span></div>'
+            +'<div class="total-row"><span style="color:var(--muted);display:flex;align-items:center;gap:6px">TVA <select id="d-tva" class="inp" style="width:70px;padding:2px 6px;display:inline">'+[0,5.5,10,20].map(v=>'<option value="'+v+'"'+(Number(tvaPct)===v?' selected':'')+'>'+v+' %</option>').join('')+'</select></span><span id="tot-tva">'+eur(tvaAmt)+'</span></div>'
+            +'<div class="total-row total-ttc" style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px"><span>Total TTC</span><span id="tot-ttc">'+eur(ttc)+'</span></div>'
+          +'</div></div>'
+        +'</div>'
+      +'</div>'
+      +'<div><div class="section-divider">Notes & conditions</div>'
+        +'<textarea id="d-notes" class="inp" rows="3" placeholder="Conditions de paiement, délais…">'+esc(d.notes||'')+'</textarea>'
+      +'</div>'
+    +'</div>'
+    +'<div class="modal-foot">'+foot+'</div>'
+  +'</div></div>';
+}
 
-/* ═══════════════════════════════════════════════════════════════
-   AGENT IA
-═══════════════════════════════════════════════════════════════ */
 function agentBlockHTML(){
   const a=state.agent;
   const head='<div class="agent-head"><span class="agent-title">'+ic('zap',14)+' Mentor Controlia'+(a.time?' <span class="agent-time">· '+esc(a.time)+'</span>':'')+'</span></div>';
@@ -1204,8 +1094,8 @@ document.addEventListener('click',e=>{
     /* ── Devis ── */
     case 'new-devis':state.editingDevis={lignes:[],tva:20,statut:'Brouillon'};state.confirmDelDevis=false;render();break;
     case 'open-devis':{const dv=state.devis.find(x=>x.id===id);if(dv){state.editingDevis={...dv,lignes:[...(dv.lignes||[])]};state.confirmDelDevis=false;render();}}break;
-    case 'print-devis':{try{const dv=state.devis.find(x=>x.id===id);if(dv)printDevis(dv);else toast('Devis introuvable','err');}catch(err){toast('Erreur aperçu: '+err.message,'err');console.error('print-devis error:',err);}}break;
-    case 'print-from-modal':{const data=getDevisFormData();const cur=state.editingDevis;printDevis({...cur,...data,numero:cur.numero||'(brouillon)',dateCreation:cur.dateCreation||new Date().toISOString()});}break;
+    case 'preview-devis':{const dv=state.devis.find(x=>x.id===id);if(dv)previewDevis(dv);else toast('Devis introuvable','err');}break;
+
     case 'close-dv':state.editingDevis=null;state.confirmDelDevis=false;render();break;
     case 'close-dv-bg':if(!e.target.closest('[data-stop]')){state.editingDevis=null;state.confirmDelDevis=false;render();}break;
     case 'save-dv':saveDevisFromForm();break;
