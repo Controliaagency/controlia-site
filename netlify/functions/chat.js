@@ -142,11 +142,21 @@ async function extractAndSaveMemories(messages, lastReply) {
     body: JSON.stringify({
       model:      'claude-sonnet-4-6',
       max_tokens: 200,
-      system:     `Tu extrais les informations importantes à mémoriser d'une conversation entre Enzo et son mentor.
-Retourne UNIQUEMENT un JSON array de strings (max 2 items), ou [] si rien d'important.
-Format : ["fait important 1", "fait important 2"]
-Exemples de faits à retenir : préférences d'Enzo, infos sur ses prospects, objections récurrentes, décisions prises, patterns observés.
-Ne retiens PAS les données KPI brutes (elles changent), seulement les insights durables.`,
+      system:     `Tu extrais les faits importants à mémoriser d'une conversation entre Enzo (fondateur de Controlia) et son mentor.
+Retourne UNIQUEMENT un JSON array d'objets (max 2 items), ou [] si rien d'important.
+
+Format STRICT : [{"content": "fait à retenir", "category": "categorie"}]
+
+Catégories disponibles :
+- "objection" : objection récurrente d'un prospect (ex: "Les plombiers disent souvent que c'est trop cher")
+- "prospect" : info sur un prospect spécifique (ex: "Sophie Martin est très intéressée, rappeler jeudi matin")
+- "preference" : préférence ou habitude d'Enzo (ex: "Enzo préfère appeler le matin avant 11h")
+- "decision" : décision ou stratégie prise (ex: "Enzo va se concentrer sur les paysagistes ce mois-ci")
+- "pattern" : pattern observé dans son activité (ex: "Le secteur pisciniste convertit mieux l'été")
+- "general" : tout autre fait durable important
+
+Ne retiens PAS : données KPI brutes, infos temporaires, évidences générales.
+Ne retiens QUE des insights durables et actionnables.`,
       messages: [
         { role: 'user', content: `Message d'Enzo : "${lastUser.content}"\nRéponse du mentor : "${lastReply}"\n\nQuels faits importants et durables faut-il mémoriser ? Réponds avec un JSON array.` }
       ],
@@ -159,8 +169,10 @@ Ne retiens PAS les données KPI brutes (elles changent), seulement les insights 
     const facts = JSON.parse(cleaned);
     if (Array.isArray(facts)) {
       for (const f of facts.slice(0, 2)) {
-        if (typeof f === 'string' && f.length > 10) {
-          await saveMemory(f, 'conversation');
+        if (f && typeof f === 'object' && f.content && f.content.length > 10) {
+          await saveMemory(f.content, f.category || 'general');
+        } else if (typeof f === 'string' && f.length > 10) {
+          await saveMemory(f, 'general');
         }
       }
     }
