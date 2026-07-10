@@ -1204,7 +1204,7 @@ document.addEventListener('click',e=>{
     /* ── Devis ── */
     case 'new-devis':state.editingDevis={lignes:[],tva:20,statut:'Brouillon'};state.confirmDelDevis=false;render();break;
     case 'open-devis':{const dv=state.devis.find(x=>x.id===id);if(dv){state.editingDevis={...dv,lignes:[...(dv.lignes||[])]};state.confirmDelDevis=false;render();}}break;
-    case 'print-devis':{const dv=state.devis.find(x=>x.id===id);if(dv)printDevis(dv);}break;
+    case 'print-devis':{try{const dv=state.devis.find(x=>x.id===id);if(dv)printDevis(dv);else toast('Devis introuvable','err');}catch(err){toast('Erreur aperçu: '+err.message,'err');console.error('print-devis error:',err);}}break;
     case 'print-from-modal':{const data=getDevisFormData();const cur=state.editingDevis;printDevis({...cur,...data,numero:cur.numero||'(brouillon)',dateCreation:cur.dateCreation||new Date().toISOString()});}break;
     case 'close-dv':state.editingDevis=null;state.confirmDelDevis=false;render();break;
     case 'close-dv-bg':if(!e.target.closest('[data-stop]')){state.editingDevis=null;state.confirmDelDevis=false;render();}break;
