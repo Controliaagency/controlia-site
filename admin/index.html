@@ -432,6 +432,7 @@ const I={
   chevron:'<polyline points="9 18 15 12 9 6"/>',
   reset:'<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>',
   zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
 };
 function ic(name,size){size=size||18;return'<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(I[name]||'')+'</svg>';}
 
@@ -779,7 +780,7 @@ function printDevis(d){
       +'<span class="dv-bar-title">'+esc(d.numero)+' — Aperçu</span>'
       +'<div class="dv-bar-btns">'
         +'<button class="dv-close" id="dv-close-btn">✕ Fermer</button>'
-        +'<button class="dv-pdf" id="dv-pdf-btn">⬇ Télécharger PDF</button>'
+        +'<button class="dv-pdf" id="dv-pdf-btn">⬇ Générer le PDF</button>'
       +'</div>'
     +'</div>'
     +'<div class="dv-doc" id="dv-doc-inner">'+docHTML+'</div>';
@@ -800,7 +801,7 @@ function printDevis(d){
       html2canvas:{scale:2,useCORS:true,logging:false},
       jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
     }).from(el).save().then(()=>{
-      btn.disabled=false;btn.innerHTML='⬇ Télécharger PDF';
+      btn.disabled=false;btn.innerHTML='⬇ Générer le PDF';
     });
   };
 }
@@ -933,7 +934,7 @@ function viewDevis(){
           +'<td style="font-weight:600;color:var(--emerald)">'+eur(ttc)+'</td>'
           +'<td>'+chipDevis(d.statut)+'</td>'
           +'<td style="display:flex;gap:4px;justify-content:flex-end">'
-          +'<button class="mini-btn" data-act="print-devis" data-id="'+d.id+'" title="Imprimer">'+ic('printer',15)+'</button>'
+          +'<button class="mini-btn" data-act="print-devis" data-id="'+d.id+'" title="Aperçu & PDF" style="color:#3b82f6">'+ic('eye',15)+'</button>'
           +'<button class="mini-btn" data-act="open-devis" data-id="'+d.id+'" title="Modifier">'+ic('filetext',15)+'</button>'
           +'</td></tr>';}).join('')
     +'</tbody></table></div>')
