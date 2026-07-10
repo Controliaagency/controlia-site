@@ -271,7 +271,7 @@ select.inp option{background:#1a1a1a}
   /* Fix débordement horizontal (cause principale des onglets inaccessibles) */
   html,body{overflow-x:hidden;width:100%;max-width:100vw}
   html{overflow-x:hidden}
-  #app,.app,.main,.content{overflow-x:hidden;max-width:100%}
+  .app,.main,.content{overflow-x:hidden;max-width:100%}
 
   /* Tous les grids inline → 1 colonne */
   .content .grid{grid-template-columns:1fr!important}
@@ -365,6 +365,7 @@ select.inp option{background:#1a1a1a}
 </head>
 <body>
 <div id="app"><div class="loader"><div class="spinner"></div>Chargement…</div></div>
+<nav id="botnav-fixed" class="botnav"></nav>
 <div id="print-zone"></div>
 
 <script>
@@ -1096,7 +1097,9 @@ function render(){
   const botnav='<nav class="botnav">'+NAV.map(n=>{const active=state.view===n.key,alert=n.key==='relances'&&alertCount>0;
     return'<button class="'+(active?'active':'')+'" data-act="goto" data-view="'+n.key+'">'+ic(n.icon,19)+'<span>'+n.label.split(' ')[0]+'</span>'+(alert?'<span class="bdot"></span>':'')+'</button>';}).join('')+'</nav>';
 
-  document.getElementById("app").innerHTML="<div class=\"app\">"+sidebar+'<div class="main">'+topbar+'<main class="content">'+body+'</main></div></div>'+botnav+modalHTML()+devisModalHTML();
+  document.getElementById("app").innerHTML="<div class=\"app\">"+sidebar+'<div class="main">'+topbar+'<main class="content">'+body+'</main></div></div>'+modalHTML()+devisModalHTML();
+  const _bn=document.getElementById('botnav-fixed');
+  if(_bn)_bn.innerHTML=NAV.map(n=>{const active=state.view===n.key,alert=n.key==='relances'&&alertCount>0;return'<button class="'+(active?'active':'')+'" data-act="goto" data-view="'+n.key+'">'+ic(n.icon,19)+'<span>'+n.label.split(' ')[0]+'</span>'+(alert?'<span class="bdot"></span>':'')+'</button>';}).join('');
 }
 
 /* ═══════════════════════════════════════════════════════════════
